@@ -1,0 +1,443 @@
+import React, { useRef, useState, useEffect } from 'react';
+import { Paper, Text, Title, Button, Group, Badge, Image, Box, Transition } from '@mantine/core';
+import { IconExternalLink, IconBrandGithub, IconInfoCircle } from '@tabler/icons-react';
+import { gsap } from 'gsap';
+import { useColorScheme } from '../../theme/ThemeProvider';
+import { useAnimationContext } from '../../context/AnimationContext';
+
+const ProjectCard = ({ 
+  title, 
+  description, 
+  image, 
+  technologies, 
+  githubUrl, 
+  liveUrl,
+  featured = false,
+  onViewDetails,
+  projectId
+}) => {
+  const cardRef = useRef(null);
+  const shineRef = useRef(null);
+  const contentRef = useRef(null);
+  const imageRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const { colorScheme, quantumColors } = useColorScheme();
+  const { reducedMotion } = useAnimationContext();
+  const isDark = colorScheme === 'dark';
+  
+  // Card flip state
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  
+  // Handle hover effect
+  const handleMouseMove = (e) => {
+    if (reducedMotion || !cardRef.current) return;
+    
+    const card = cardRef.current;
+    const shine = shineRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Calculate rotation based on mouse position
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / 20) * -1; // Reversed for natural feel
+    const rotateY = (x - centerX) / 20;
+    
+    // Apply transform
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    
+    // Add highlight effect
+    if (shine) {
+      shine.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%)`;
+    }
+  };
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    
+    // Animate badges
+    if (contentRef.current && !reducedMotion) {
+      const badges = contentRef.current.querySelectorAll('.project-badge');
+      gsap.fromTo(
+        badges, 
+        { y: 0, opacity: 0.7 }, 
+        { y: -5, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" }
+      );
+    }
+    
+    // Subtle image zoom
+    if (imageRef.current && !reducedMotion) {
+      gsap.to(imageRef.current, { scale: 1.05, duration: 0.5, ease: "power2.out" });
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    
+    if (!cardRef.current) return;
+    
+    // Reset transform
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+    
+    // Reset highlight effect
+    if (shineRef.current) {
+      shineRef.current.style.backgroundImage = 'none';
+    }
+    
+    // Reset badge animation
+    if (contentRef.current && !reducedMotion) {
+      const badges = contentRef.current.querySelectorAll('.project-badge');
+      gsap.to(badges, { y: 0, opacity: 0.7, duration: 0.2, ease: "power2.in" });
+    }
+    
+    // Reset image zoom
+    if (imageRef.current && !reducedMotion) {
+      gsap.to(imageRef.current, { scale: 1, duration: 0.3, ease: "power2.in" });
+    }
+  };
+  
+  // Handle flip effect
+  const handleFlip = (e) => {
+    e.stopPropagation();
+    setIsFlipped(!isFlipped);
+    
+    // Add delay to show/hide content between flips
+    if (!isFlipped) {
+      setTimeout(() => setShowDetails(true), 150);
+    } else {
+      setShowDetails(false);
+    }
+  };
+  
+  return (
+    <Paper
+      ref={cardRef}
+      p={0}
+      radius="md"
+      shadow="md"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={isFlipped ? handleFlip : undefined}
+      style={{
+        backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+        transition: 'transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease',
+        transform: 'perspective(1000px)',
+        position: 'relative',
+        overflow: 'hidden',
+        border: featured 
+          ? `2px solid ${isDark ? 'rgba(155, 0, 255, 0.5)' : 'rgba(155, 0, 255, 0.3)'}`
+          : `1px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: isFlipped ? 'pointer' : 'default',
+        transformStyle: 'preserve-3d',
+        transform: isFlipped ? 'perspective(1000px) rotateY(180deg)' : 'perspective(1000px) rotateY(0)',
+        transition: 'transform 0.6s ease, box-shadow 0.3s ease',
+        boxShadow: isHovered 
+          ? '0 10px 25px rgba(155, 0, 255, 0.15)' 
+          : '0 4px 12px rgba(0, 0, 0, 0.1)'
+      }}
+    >
+      {/* Shine effect overlay */}
+      <Box 
+        ref={shineRef} 
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: 'none',
+          zIndex: 1
+        }} 
+      />
+      
+      {/* Glowing border effect */}
+      <Box 
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 0,
+          opacity: featured ? (isHovered ? 0.7 : 0.5) : (isHovered ? 0.4 : 0),
+          background: `linear-gradient(45deg, ${quantumColors.secondary.raw || 'rgba(155, 0, 255, 0.3)'}, ${quantumColors.accent.raw || 'rgba(0, 245, 255, 0.3)'})`,
+          filter: 'blur(20px)',
+          borderRadius: 'md',
+          transform: 'translateZ(-10px)',
+          transition: 'opacity 0.3s ease'
+        }} 
+      />
+
+      {/* Front side of card */}
+      <Box 
+        style={{
+          backfaceVisibility: 'hidden',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: isFlipped ? 'none' : 'flex',
+          flexDirection: 'column',
+          padding: 0,
+          height: '100%',
+          transform: 'rotateY(0deg)'
+        }}
+      >
+        {image && (
+          <Box 
+            sx={{
+              overflow: 'hidden', 
+              borderTopLeftRadius: 'md', 
+              borderTopRightRadius: 'md',
+              height: '180px',
+              width: '100%'
+            }}
+          >
+            <Image
+              ref={imageRef}
+              src={image}
+              height={180}
+              alt={title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.5s ease',
+                transform: 'scale(1)'
+              }}
+            />
+          </Box>
+        )}
+
+        <Box 
+          ref={contentRef}
+          style={{ 
+            position: 'relative', 
+            zIndex: 2, 
+            flex: 1, 
+            display: 'flex', 
+            flexDirection: 'column',
+            padding: '16px'
+          }}
+        >
+          {featured && (
+            <Badge 
+              color="grape" 
+              variant="filled" 
+              mb="xs"
+              sx={{
+                background: 'linear-gradient(45deg, #9B00FF, #6200EE)',
+                boxShadow: '0 2px 8px rgba(155, 0, 255, 0.3)'
+              }}
+            >
+              Featured Project
+            </Badge>
+          )}
+
+          <Title order={3} mb="xs">{title}</Title>
+          <Text size="sm" c="dimmed" mb="md" style={{ flex: 1 }}>{description}</Text>
+
+          <Group gap="xs" mb="md">
+            {technologies.map((tech, index) => (
+              <Badge 
+                key={index} 
+                className="project-badge"
+                variant="outline" 
+                color="teal"
+                sx={{
+                  borderColor: '#00F5FF',
+                  color: '#00F5FF',
+                  background: 'rgba(0, 245, 255, 0.05)',
+                  transition: 'transform 0.3s ease, opacity 0.3s ease',
+                  opacity: 0.7
+                }}
+              >
+                {tech}
+              </Badge>
+            ))}
+          </Group>
+
+          <Group mt="auto">
+            {githubUrl && (
+              <Button 
+                component="a"
+                href={githubUrl}
+                target="_blank"
+                variant="outline"
+                leftSection={<IconBrandGithub size={16} />}
+                sx={{
+                  borderColor: 'rgba(155, 0, 255, 0.5)',
+                  color: '#9B00FF',
+                  '&:hover': {
+                    background: 'rgba(155, 0, 255, 0.1)',
+                    borderColor: '#9B00FF',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                GitHub
+              </Button>
+            )}
+            
+            {liveUrl && (
+              <Button
+                component="a"
+                href={liveUrl}
+                target="_blank"
+                leftSection={<IconExternalLink size={16} />}
+                sx={{
+                  background: 'linear-gradient(45deg, #6200EE, #9B00FF)',
+                  boxShadow: '0 3px 10px rgba(155, 0, 255, 0.3)',
+                  '&:hover': {
+                    boxShadow: '0 5px 15px rgba(155, 0, 255, 0.4)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Live Demo
+              </Button>
+            )}
+            
+            <Button
+              variant="subtle"
+              rightSection={<IconInfoCircle size={16} />}
+              onClick={handleFlip}
+              ml="auto"
+              sx={{
+                color: isDark ? '#00F5FF' : '#9B00FF',
+                '&:hover': {
+                  background: isDark ? 'rgba(0, 245, 255, 0.1)' : 'rgba(155, 0, 255, 0.1)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Details
+            </Button>
+          </Group>
+          
+          {/* View details button (visible on hover) */}
+          <Transition mounted={isHovered} transition="fade" duration={200}>
+            {(styles) => (
+              <Button
+                style={{
+                  ...styles,
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
+                  boxShadow: '0 5px 15px rgba(155, 0, 255, 0.5)',
+                  zIndex: 10
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onViewDetails) onViewDetails(projectId);
+                }}
+              >
+                View Project
+              </Button>
+            )}
+          </Transition>
+          
+          {/* Hover overlay */}
+          <Transition mounted={isHovered} transition="fade" duration={200}>
+            {(styles) => (
+              <Box
+                style={{
+                  ...styles,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: isDark 
+                    ? 'rgba(28, 29, 34, 0.7)' 
+                    : 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: 'blur(3px)',
+                  zIndex: 5
+                }}
+              />
+            )}
+          </Transition>
+        </Box>
+      </Box>
+      
+      {/* Back side of card */}
+      <Box 
+        style={{
+          backfaceVisibility: 'hidden',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: isFlipped ? 'flex' : 'none',
+          flexDirection: 'column',
+          padding: '20px',
+          height: '100%',
+          transform: 'rotateY(180deg)',
+          background: isDark 
+            ? 'linear-gradient(145deg, rgba(28, 29, 34, 0.9), rgba(20, 21, 25, 0.9))' 
+            : 'linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9))',
+          borderRadius: 'md'
+        }}
+      >
+        {showDetails && (
+          <>
+            <Title order={4} mb="md" style={{ textAlign: 'center' }}>Project Details</Title>
+            
+            <Text mb="md">
+              <Text span weight={700}>Title:</Text> {title}
+            </Text>
+            
+            <Text mb="md">
+              <Text span weight={700}>Description:</Text> {description}
+            </Text>
+            
+            <Text mb="xs" weight={700}>Technologies:</Text>
+            <Group gap="xs" mb="md">
+              {technologies.map((tech, index) => (
+                <Badge 
+                  key={index} 
+                  variant="filled" 
+                  color="grape"
+                >
+                  {tech}
+                </Badge>
+              ))}
+            </Group>
+            
+            <Group position="center" mt="auto">
+              <Button
+                variant="subtle"
+                onClick={handleFlip}
+                sx={{
+                  background: isDark ? 'rgba(0, 245, 255, 0.1)' : 'rgba(155, 0, 255, 0.1)',
+                  color: isDark ? '#00F5FF' : '#9B00FF',
+                  '&:hover': {
+                    background: isDark ? 'rgba(0, 245, 255, 0.2)' : 'rgba(155, 0, 255, 0.2)',
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Back to Card
+              </Button>
+            </Group>
+          </>
+        )}
+      </Box>
+    </Paper>
+  );
+};
+
+export default ProjectCard;

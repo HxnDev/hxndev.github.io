@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Title, Text, Group, Button, Grid } from '@mantine/core';
 import HeroSection from '../components/home/HeroSection';
-import ProjectCard from '../components/ProjectCard';
+import ProjectCard from '../components/projects/ProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
 
 const Home = () => {
