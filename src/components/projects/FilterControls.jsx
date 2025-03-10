@@ -6,20 +6,20 @@ import { useColorScheme } from '../../theme/ThemeProvider';
 import { useAnimationContext } from '../../context/AnimationContext';
 
 const FilterControls = ({ 
-  categories, 
-  activeCategory, 
+  categories = [], 
+  activeCategory = 'all', 
   setActiveCategory, 
-  searchQuery,
+  searchQuery = '',
   setSearchQuery,
   onReset
 }) => {
   const [mounted, setMounted] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const { colorScheme, quantumColors } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const { reducedMotion } = useAnimationContext();
   const isDark = colorScheme === 'dark';
 
-  // Animate on mount
+  // Animate on mount - with defensive coding
   useEffect(() => {
     if (reducedMotion) {
       setMounted(true);
@@ -31,16 +31,22 @@ const FilterControls = ({
     
     // Use setTimeout to ensure DOM is ready
     const timeoutId = setTimeout(() => {
-      const filterControls = document.querySelectorAll('.filter-control');
-      
-      if (filterControls && filterControls.length > 0) {
-        const timeline = gsap.timeline();
+      // Handle with care - elements might not exist yet
+      try {
+        const filterControls = document.querySelectorAll('.filter-control');
         
-        timeline.fromTo(
-          Array.from(filterControls), // Convert NodeList to Array
-          { y: -20, opacity: 0 },
-          { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
-        );
+        if (filterControls && filterControls.length > 0) {
+          // Convert NodeList to Array
+          const controlsArray = Array.from(filterControls);
+          
+          gsap.fromTo(
+            controlsArray,
+            { y: -20, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
+          );
+        }
+      } catch (error) {
+        console.error('Animation error:', error);
       }
     }, 100);
     
@@ -49,12 +55,18 @@ const FilterControls = ({
 
   // Handle search input clearing
   const handleClearSearch = () => {
-    setSearchQuery('');
+    if (setSearchQuery) {
+      setSearchQuery('');
+    }
     
     // Focus the input after clearing
     setTimeout(() => {
-      const searchInput = document.getElementById('project-search-input');
-      if (searchInput) searchInput.focus();
+      try {
+        const searchInput = document.getElementById('project-search-input');
+        if (searchInput) searchInput.focus();
+      } catch (error) {
+        console.error('Focus error:', error);
+      }
     }, 10);
   };
 
@@ -81,8 +93,8 @@ const FilterControls = ({
             id="project-search-input"
             className="filter-control"
             placeholder="Search projects..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.currentTarget.value)}
+            value={searchQuery || ''}
+            onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
             icon={<IconSearch size={16} />}
             rightSection={
               searchQuery ? (
@@ -116,7 +128,7 @@ const FilterControls = ({
                 key={category.value}
                 variant={activeCategory === category.value ? "filled" : "outline"}
                 color={activeCategory === category.value ? "grape" : "gray"}
-                onClick={() => setActiveCategory(category.value)}
+                onClick={() => setActiveCategory && setActiveCategory(category.value)}
                 size='sm'
                 sx={{
                   position: 'relative',
@@ -183,8 +195,8 @@ const FilterControls = ({
               id="project-search-input-mobile"
               className="filter-control"
               placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              value={searchQuery || ''}
+              onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
               icon={<IconSearch size={16} />}
               rightSection={
                 searchQuery ? (
@@ -213,7 +225,7 @@ const FilterControls = ({
                   key={category.value}
                   variant={activeCategory === category.value ? "filled" : "outline"}
                   color={activeCategory === category.value ? "grape" : "gray"}
-                  onClick={() => setActiveCategory(category.value)}
+                  onClick={() => setActiveCategory && setActiveCategory(category.value)}
                   size='sm'
                   sx={{
                     position: 'relative',

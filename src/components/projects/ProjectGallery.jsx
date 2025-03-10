@@ -13,51 +13,7 @@ const ProjectGallery = ({
 }) => {
   const galleryRef = useRef(null);
   const { reducedMotion } = useAnimationContext();
-  
-  // Animate cards when filtered projects change
-  useEffect(() => {
-    if (!galleryRef.current || reducedMotion) return;
-    
-    // Wait a short time for the DOM to update
-    const timeoutId = setTimeout(() => {
-      const cards = galleryRef.current.querySelectorAll('.project-card-wrapper');
-      
-      if (cards && cards.length > 0) {
-        gsap.fromTo(
-          Array.from(cards), // Convert NodeList to Array for GSAP
-          { 
-            opacity: 0, 
-            y: 30, 
-            scale: 0.95 
-          },
-          { 
-            opacity: 1, 
-            y: 0, 
-            scale: 1, 
-            stagger: 0.1, 
-            duration: 0.6,
-            ease: 'power3.out',
-            clearProps: 'all'
-          }
-        );
-      }
-    }, 100);
-    
-    return () => clearTimeout(timeoutId);
-  }, [filteredProjects, reducedMotion]);
-
-  // Highlight search matches
-  const highlightMatches = (text, query) => {
-    if (!query || query.length < 3) return text;
-    
-    const parts = text.split(new RegExp(`(${query})`, 'gi'));
-    
-    return parts.map((part, index) => 
-      part.toLowerCase() === query.toLowerCase() 
-        ? <Text key={index} span weight={700} color="grape" sx={{ background: 'rgba(155, 0, 255, 0.1)' }}>{part}</Text>
-        : part
-    );
-  };
+  const [animationComplete, setAnimationComplete] = useState(false);
   
   // Handle masonry layout
   const [columns, setColumns] = useState(3);
@@ -78,6 +34,69 @@ const ProjectGallery = ({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  
+  // Animate cards when filtered projects change
+  useEffect(() => {
+    if (!galleryRef.current || reducedMotion) {
+      setAnimationComplete(true);
+      return;
+    }
+    
+    // Set animation as not complete at start
+    setAnimationComplete(false);
+    
+    // Clear any existing animations
+    const cards = galleryRef.current.querySelectorAll('.project-card-wrapper');
+    if (cards.length > 0) {
+      gsap.killTweensOf(cards);
+    }
+    
+    // Wait a short time for the DOM to update
+    const timeoutId = setTimeout(() => {
+      const updatedCards = galleryRef.current?.querySelectorAll('.project-card-wrapper');
+      
+      if (updatedCards && updatedCards.length > 0) {
+        // Convert NodeList to Array for GSAP
+        const cardsArray = Array.from(updatedCards);
+        
+        gsap.fromTo(
+          cardsArray,
+          { 
+            opacity: 0, 
+            y: 30, 
+            scale: 0.95 
+          },
+          { 
+            opacity: 1, 
+            y: 0, 
+            scale: 1, 
+            stagger: 0.1, 
+            duration: 0.6,
+            ease: 'power3.out',
+            onComplete: () => setAnimationComplete(true)
+          }
+        );
+      } else {
+        // If no cards found, still mark animation as complete
+        setAnimationComplete(true);
+      }
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }, [filteredProjects, reducedMotion]);
+
+  // Highlight search matches
+  const highlightMatches = (text, query) => {
+    if (!query || query.length < 3 || typeof text !== 'string') return text;
+    
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    
+    return parts.map((part, index) => 
+      part.toLowerCase() === query?.toLowerCase() 
+        ? <Text key={index} span weight={700} color="grape" sx={{ background: 'rgba(155, 0, 255, 0.1)' }}>{part}</Text>
+        : part
+    );
+  };
   
   return (
     <Box ref={galleryRef}>
@@ -102,8 +121,8 @@ const ProjectGallery = ({
                   key={project.id || index}
                   className="project-card-wrapper"
                   sx={{
-                    opacity: 0, // Initial state for animation
-                    transform: 'translateY(30px) scale(0.95)', // Initial state for animation
+                    opacity: animationComplete ? 1 : 0,
+                    transform: animationComplete ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
                     transition: 'all 0.3s ease'
                   }}
                 >

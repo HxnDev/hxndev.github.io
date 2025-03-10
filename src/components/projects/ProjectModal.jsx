@@ -33,7 +33,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   const contentRef = useRef(null);
   const overlayRef = useRef(null);
   const [activeTab, setActiveTab] = useState('overview');
-  const { colorScheme, quantumColors } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const { reducedMotion } = useAnimationContext();
   const isDark = colorScheme === 'dark';
   
@@ -52,52 +52,66 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   
   // Handle animation on open/close
   useEffect(() => {
-    if (!modalRef.current || !contentRef.current || !overlayRef.current) return;
+    if (!isOpen || reducedMotion) return;
+
+    // Safe check for refs
+    if (!modalRef.current || !overlayRef.current) return;
     
-    if (isOpen) {
-      // Reset position for animation
-      gsap.set(modalRef.current, { y: 50, opacity: 0 });
-      gsap.set(overlayRef.current, { opacity: 0 });
+    // Reset position for animation
+    gsap.set(modalRef.current, { y: 50, opacity: 0 });
+    gsap.set(overlayRef.current, { opacity: 0 });
+    
+    // Create timeline for entrance animation
+    const timeline = gsap.timeline({ 
+      defaults: { duration: 0.5, ease: 'power3.out' } 
+    });
+    
+    timeline
+      .to(overlayRef.current, { opacity: 1 }, 0)
+      .to(modalRef.current, { y: 0, opacity: 1 }, 0.1);
       
-      // Create timeline for entrance animation
-      const timeline = gsap.timeline({ 
-        defaults: { duration: reducedMotion ? 0.3 : 0.5, ease: 'power3.out' } 
-      });
-      
-      timeline
-        .to(overlayRef.current, { opacity: 1 }, 0)
-        .to(modalRef.current, { y: 0, opacity: 1 }, 0.1);
-        
-      // Animate content elements
-      if (!reducedMotion && contentRef.current) {
-        const elements = contentRef.current.querySelectorAll('.animate-item');
-        
+    // Animate content elements if they exist
+    if (contentRef.current) {
+      const elements = contentRef.current.querySelectorAll('.animate-item');
+      if (elements.length > 0) {
         gsap.fromTo(
           elements,
           { y: 20, opacity: 0 },
           { y: 0, opacity: 1, stagger: 0.1, delay: 0.3, duration: 0.5 }
         );
       }
-    } else {
-      // Exit animation
-      gsap.to(modalRef.current, { 
-        y: 20, 
-        opacity: 0, 
-        duration: 0.3, 
-        ease: 'power3.in' 
-      });
-      gsap.to(overlayRef.current, { 
-        opacity: 0, 
-        duration: 0.3, 
-        ease: 'power3.in' 
-      });
     }
+    
+    return () => {
+      // Cleanup timeline
+      timeline.kill();
+    };
+  }, [isOpen, reducedMotion]);
+  
+  // Handle exit animation
+  useEffect(() => {
+    if (isOpen || reducedMotion) return;
+    
+    // Safe check for refs
+    if (!modalRef.current || !overlayRef.current) return;
+    
+    gsap.to(modalRef.current, { 
+      y: 20, 
+      opacity: 0, 
+      duration: 0.3, 
+      ease: 'power3.in' 
+    });
+    gsap.to(overlayRef.current, { 
+      opacity: 0, 
+      duration: 0.3, 
+      ease: 'power3.in' 
+    });
   }, [isOpen, reducedMotion]);
   
   // Close modal on escape key
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape' && isOpen && onClose) {
         onClose();
       }
     };
@@ -108,12 +122,20 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   
   // Handle click outside to close
   const handleOverlayClick = (e) => {
-    if (e.target === overlayRef.current) {
+    if (e.target === overlayRef.current && onClose) {
       onClose();
     }
   };
   
-  if (!project) return null;
+  // If no project data or not open, return null
+  if (!project || !isOpen) return null;
+
+  // Handle image loading errors
+  const handleImageError = (e) => {
+    if (project.fallbackImage) {
+      e.target.src = project.fallbackImage;
+    }
+  };
   
   return (
     <Transition
@@ -188,9 +210,10 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               position: 'relative'
             }}>
               <Image
-                src={project.image || 'https://placehold.co/900x400/9B00FF/FFFFFF?text=Project+Image'}
+                src={project.image || project.fallbackImage}
                 alt={project.title}
                 height={300}
+                onError={handleImageError}
                 style={{
                   width: '100%',
                   objectFit: 'cover'
@@ -282,7 +305,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       </Text>
                     )}
                     
-                    {project.features && (
+                    {project.features && project.features.length > 0 && (
                       <>
                         <Title order={4} className="animate-item" mb="md">Key Features</Title>
                         <List
@@ -341,7 +364,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                           </>
                         )}
                         
-                        {project.technicalDetails.challenges && (
+                        {project.technicalDetails.challenges && project.technicalDetails.challenges.length > 0 && (
                           <>
                             <Title order={4} className="animate-item" mb="md">Challenges & Solutions</Title>
                             <List spacing="sm" mb="lg">

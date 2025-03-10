@@ -5,11 +5,13 @@ import { gsap } from 'gsap';
 import { useColorScheme } from '../../theme/ThemeProvider';
 import { useAnimationContext } from '../../context/AnimationContext';
 
-const ProjectCard = ({ 
+// Export component to avoid circular dependency issues
+export const ProjectCard = ({ 
   title, 
   description, 
-  image, 
-  technologies, 
+  image,
+  fallbackImage, 
+  technologies = [], 
   githubUrl, 
   liveUrl,
   featured = false,
@@ -20,6 +22,7 @@ const ProjectCard = ({
   const shineRef = useRef(null);
   const contentRef = useRef(null);
   const imageRef = useRef(null);
+  const badgesRef = useRef([]);
   const [isHovered, setIsHovered] = useState(false);
   const { colorScheme, quantumColors } = useColorScheme();
   const { reducedMotion } = useAnimationContext();
@@ -28,6 +31,11 @@ const ProjectCard = ({
   // Card flip state
   const [isFlipped, setIsFlipped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+
+  // Clean up badges ref array when technologies change
+  useEffect(() => {
+    badgesRef.current = badgesRef.current.slice(0, technologies.length);
+  }, [technologies]);
   
   // Handle hover effect
   const handleMouseMove = (e) => {
@@ -57,19 +65,32 @@ const ProjectCard = ({
   const handleMouseEnter = () => {
     setIsHovered(true);
     
-    // Animate badges
-    if (contentRef.current && !reducedMotion) {
-      const badges = contentRef.current.querySelectorAll('.project-badge');
-      gsap.fromTo(
-        badges, 
-        { y: 0, opacity: 0.7 }, 
-        { y: -5, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" }
-      );
+    // Animate badges - safely check if badges exist and are in the DOM
+    if (contentRef.current && badgesRef.current.length > 0) {
+      badgesRef.current.forEach((badge, index) => {
+        if (badge) {
+          gsap.fromTo(
+            badge, 
+            { y: 0, opacity: 0.7 }, 
+            { 
+              y: -5, 
+              opacity: 1, 
+              duration: 0.4, 
+              delay: index * 0.05, 
+              ease: "power2.out" 
+            }
+          );
+        }
+      });
     }
     
     // Subtle image zoom
     if (imageRef.current && !reducedMotion) {
-      gsap.to(imageRef.current, { scale: 1.05, duration: 0.5, ease: "power2.out" });
+      gsap.to(imageRef.current, { 
+        scale: 1.05, 
+        duration: 0.5, 
+        ease: "power2.out" 
+      });
     }
   };
   
@@ -86,15 +107,27 @@ const ProjectCard = ({
       shineRef.current.style.backgroundImage = 'none';
     }
     
-    // Reset badge animation
-    if (contentRef.current && !reducedMotion) {
-      const badges = contentRef.current.querySelectorAll('.project-badge');
-      gsap.to(badges, { y: 0, opacity: 0.7, duration: 0.2, ease: "power2.in" });
+    // Reset badge animation - safely check badges
+    if (badgesRef.current.length > 0) {
+      badgesRef.current.forEach(badge => {
+        if (badge) {
+          gsap.to(badge, { 
+            y: 0, 
+            opacity: 0.7, 
+            duration: 0.2, 
+            ease: "power2.in" 
+          });
+        }
+      });
     }
     
     // Reset image zoom
     if (imageRef.current && !reducedMotion) {
-      gsap.to(imageRef.current, { scale: 1, duration: 0.3, ease: "power2.in" });
+      gsap.to(imageRef.current, { 
+        scale: 1, 
+        duration: 0.3, 
+        ease: "power2.in" 
+      });
     }
   };
   
@@ -108,6 +141,13 @@ const ProjectCard = ({
       setTimeout(() => setShowDetails(true), 150);
     } else {
       setShowDetails(false);
+    }
+  };
+
+  // Safely handle image errors
+  const handleImageError = (e) => {
+    if (fallbackImage) {
+      e.target.src = fallbackImage;
     }
   };
   
@@ -166,7 +206,7 @@ const ProjectCard = ({
           bottom: 0,
           zIndex: 0,
           opacity: featured ? (isHovered ? 0.7 : 0.5) : (isHovered ? 0.4 : 0),
-          background: `linear-gradient(45deg, ${quantumColors.secondary.raw || 'rgba(155, 0, 255, 0.3)'}, ${quantumColors.accent.raw || 'rgba(0, 245, 255, 0.3)'})`,
+          background: `linear-gradient(45deg, ${isDark ? 'rgba(155, 0, 255, 0.3)' : 'rgba(155, 0, 255, 0.3)'}, ${isDark ? 'rgba(0, 245, 255, 0.3)' : 'rgba(0, 245, 255, 0.3)'})`,
           filter: 'blur(20px)',
           borderRadius: 'md',
           transform: 'translateZ(-10px)',
@@ -205,6 +245,7 @@ const ProjectCard = ({
               src={image}
               height={180}
               alt={title}
+              onError={handleImageError}
               style={{
                 width: '100%',
                 height: '100%',
@@ -247,8 +288,8 @@ const ProjectCard = ({
           <Group gap="xs" mb="md">
             {technologies.map((tech, index) => (
               <Badge 
-                key={index} 
-                className="project-badge"
+                key={index}
+                ref={el => badgesRef.current[index] = el}
                 variant="outline" 
                 color="teal"
                 sx={{

@@ -3,55 +3,23 @@ import { Container, Title, Text, Group, Button, Grid, Loader, Box } from '@manti
 import HeroSection from '../components/home/HeroSection';
 import ProjectCard from '../components/projects/ProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
-import { useGitHubProjects } from '../hooks/useGitHubProjects';
+import { useGitHubProjects } from '../hooks/useGithubProjects';
 
 const Home = () => {
   const { 
-    projects: githubProjects, 
-    loading: githubLoading, 
-    error: githubError 
-  } = useGitHubProjects('HxnDev');
+    projects: allProjects, 
+    loading: projectsLoading, 
+    error: projectsError 
+  } = useGitHubProjects();
   
-  // Get featured projects only
-  const featuredProjects = githubLoading ? [] : 
-    githubProjects
+  // Get featured projects only - with defensive coding
+  const featuredProjects = React.useMemo(() => {
+    if (!allProjects || allProjects.length === 0) return [];
+    
+    return allProjects
       .filter(project => project.featured)
       .slice(0, 3); // Get only the first 3 featured projects
-  
-  // Fallback projects if GitHub API fails
-  const fallbackProjects = [
-    {
-      title: 'AI Job Match Analyzer',
-      description: 'A powerful tool that helps job seekers analyze their resumes against job descriptions and generate AI-powered cover letters.',
-      image: 'https://placehold.co/600x400/9B00FF/FFFFFF?text=AI+Job+Analyzer',
-      technologies: ['React', 'Flask', 'Python', 'AI'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      featured: true
-    },
-    {
-      title: 'Portfolio Website',
-      description: 'An interactive portfolio website built with React, featuring advanced animations and a responsive design.',
-      image: 'https://placehold.co/600x400/00F5FF/FFFFFF?text=Portfolio',
-      technologies: ['React', 'Mantine UI', 'GSAP', 'JavaScript'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      featured: true
-    },
-    {
-      title: 'Machine Learning Project',
-      description: 'An intelligent system that uses machine learning algorithms to process natural language and generate insights.',
-      image: 'https://placehold.co/600x400/6200EE/FFFFFF?text=ML+Project',
-      technologies: ['Python', 'TensorFlow', 'NLP', 'Data Science'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      featured: true
-    }
-  ];
-  
-  // Decide which projects to display
-  const projectsToShow = githubError || featuredProjects.length === 0 ? 
-    fallbackProjects : featuredProjects;
+  }, [allProjects]);
 
   return (
     <div>
@@ -76,7 +44,7 @@ const Home = () => {
               transform: 'translateX(-50%)',
               width: '80px',
               height: '4px',
-              background: theme.fn.linearGradient(45, '#6200EE', '#00F5FF'),
+              background: 'linear-gradient(45deg, #6200EE, #00F5FF)',
               borderRadius: '2px'
             }
           })}
@@ -84,18 +52,33 @@ const Home = () => {
           Featured Projects
         </Title>
         
-        {githubLoading ? (
+        {projectsLoading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', flexDirection: 'column', gap: '1rem' }}>
             <Loader color="grape" size="lg" />
             <Text align="center">Loading projects...</Text>
           </Box>
+        ) : projectsError ? (
+          <Box sx={{ textAlign: 'center', padding: '40px 0' }}>
+            <Text color="red" mb="lg">
+              There was an error loading projects. Please try again later.
+            </Text>
+            <Button variant="outline" color="grape" onClick={() => window.location.reload()}>
+              Retry
+            </Button>
+          </Box>
         ) : (
           <Grid>
-            {projectsToShow.map((project, index) => (
-              <Grid.Col key={index} md={6} lg={4}>
-                <ProjectCard {...project} />
+            {featuredProjects.length > 0 ? (
+              featuredProjects.map((project, index) => (
+                <Grid.Col key={project.id || index} md={6} lg={4}>
+                  <ProjectCard {...project} />
+                </Grid.Col>
+              ))
+            ) : (
+              <Grid.Col span={12}>
+                <Text align="center" c="dimmed">No featured projects found.</Text>
               </Grid.Col>
-            ))}
+            )}
           </Grid>
         )}
         
@@ -120,58 +103,9 @@ const Home = () => {
         </Box>
       </Container>
       
-      {/* Enhanced Sponsorship Section */}
+      {/* Sponsorship Section */}
       <Container size="lg" style={{ padding: '20px 0 80px 0' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(155, 0, 255, 0.1), rgba(0, 245, 255, 0.1))',
-          borderRadius: '12px',
-          padding: '40px',
-          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-          <Title order={2} align="center" mb="md">Support My Work</Title>
-          
-          <Text align="center" mb="xl" maw={600} mx="auto">
-            If you find my projects helpful, consider supporting their continued development and maintenance.
-          </Text>
-          
-          <Group position="center">
-            <Button 
-              component="a"
-              href="https://github.com/sponsors/HxnDev"
-              target="_blank"
-              color="pink"
-              variant="filled"
-              size="md"
-              styles={{
-                root: {
-                  background: 'linear-gradient(45deg, #FF3864, #9B00FF)',
-                  boxShadow: '0 4px 12px rgba(155, 0, 255, 0.3)',
-                }
-              }}
-            >
-              Sponsor on GitHub
-            </Button>
-            
-            <Button
-              component="a"
-              href="https://www.buymeacoffee.com/hassanshahzad"
-              target="_blank"
-              variant="filled"
-              color="yellow"
-              size="md"
-              styles={{
-                root: {
-                  background: 'linear-gradient(45deg, #FFCC33, #FF9500)',
-                  boxShadow: '0 4px 12px rgba(255, 149, 0, 0.3)',
-                }
-              }}
-            >
-              Buy Me a Coffee
-            </Button>
-          </Group>
-        </div>
+        <SponsorshipSection />
       </Container>
     </div>
   );

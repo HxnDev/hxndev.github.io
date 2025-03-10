@@ -9,8 +9,10 @@ export const useProjectDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState('gallery'); // 'gallery' or 'detail'
   
-  // Open project detail modal
+  // Open project detail modal - safely find project
   const openProjectModal = (projectId, projects) => {
+    if (!projectId || !projects || !Array.isArray(projects)) return;
+    
     const project = projects.find(p => p.id === projectId || p.title === projectId);
     if (project) {
       setSelectedProject(project);
@@ -29,6 +31,8 @@ export const useProjectDetail = () => {
   
   // View project details in full page
   const viewProjectDetails = (projectId, projects) => {
+    if (!projectId || !projects || !Array.isArray(projects)) return;
+    
     const project = projects.find(p => p.id === projectId || p.title === projectId);
     if (project) {
       setSelectedProject(project);
@@ -62,3 +66,5 @@ export const useProjectDetail = () => {
     returnToGallery
   };
 };
+
+export default useProjectDetail;

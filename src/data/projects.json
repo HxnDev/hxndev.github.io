@@ -1,0 +1,412 @@
+{
+    "projects": [
+      {
+        "id": "virtual-mouse-opencv",
+        "title": "Virtual Mouse using OpenCV",
+        "description": "A computer vision project that allows controlling the mouse cursor using hand gestures detected by a webcam.",
+        "longDescription": "This project utilizes OpenCV and Python to create a virtual mouse system controlled by hand gestures. The application tracks hand movements using a webcam and translates them into mouse cursor movements on screen. It includes gesture recognition for click, scroll, and drag operations.",
+        "image": "/hxndev.github.io/images/projects/virtual-mouse.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Virtual+Mouse",
+        "technologies": ["Python", "OpenCV", "Computer Vision", "MediaPipe"],
+        "githubUrl": "https://github.com/HxnDev/Virtual-Mouse-using-OpenCV",
+        "liveUrl": null,
+        "featured": true,
+        "category": "ai",
+        "date": "Jan 2023",
+        "features": [
+          "Real-time hand gesture tracking",
+          "Mouse cursor control with hand movements",
+          "Click, scroll, and drag gesture recognition",
+          "Customizable sensitivity and gestures"
+        ],
+        "technicalDetails": {
+          "description": "This system uses a combination of computer vision techniques for precise hand tracking and gesture recognition.",
+          "architecture": "The application uses MediaPipe for hand landmark detection and OpenCV for image processing. Hand landmarks are mapped to screen coordinates using a custom calibration system.",
+          "challenges": [
+            {
+              "challenge": "Achieving stable cursor movement with natural hand tremors",
+              "solution": "Implemented adaptive smoothing algorithms and movement thresholds to filter out micro-movements."
+            },
+            {
+              "challenge": "Distinguishing between intentional gestures and passive hand movements",
+              "solution": "Created a state machine approach for gesture recognition with temporal analysis to confirm intentional gestures."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Hand+Detection",
+            "caption": "Hand landmark detection in action"
+          },
+          {
+            "image": "https://placehold.co/600x400/6200EE/FFFFFF?text=Gesture+Recognition",
+            "caption": "Gesture recognition interface"
+          }
+        ]
+      },
+      {
+        "id": "ai-tic-tac-toe",
+        "title": "AI-Based Tic-Tac-Toe Game",
+        "description": "An unbeatable Tic-Tac-Toe AI opponent using the Minimax algorithm with alpha-beta pruning.",
+        "longDescription": "This implementation features an AI opponent that uses the Minimax algorithm with alpha-beta pruning to make optimal moves in the classic Tic-Tac-Toe game. The AI analyzes all possible game states to determine the best move, making it effectively unbeatable.",
+        "image": "/hxndev.github.io/images/projects/tictactoe.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Tic+Tac+Toe+AI",
+        "technologies": ["Python", "Minimax Algorithm", "Alpha-Beta Pruning", "Game Theory"],
+        "githubUrl": "https://github.com/HxnDev/AI-Based-Tic-Tac-Toe-Game-using-Minimax",
+        "liveUrl": null,
+        "featured": true,
+        "category": "ai",
+        "date": "Feb 2023",
+        "features": [
+          "Unbeatable AI using Minimax algorithm",
+          "Performance optimization with alpha-beta pruning",
+          "Clean and intuitive user interface",
+          "Game state visualization"
+        ],
+        "technicalDetails": {
+          "description": "This implementation demonstrates fundamental AI concepts through game theory application.",
+          "architecture": "The game uses a tree-based search algorithm to evaluate all possible future game states and select optimal moves.",
+          "challenges": [
+            {
+              "challenge": "Optimizing the algorithm for better performance",
+              "solution": "Implemented alpha-beta pruning to reduce the number of nodes evaluated by the minimax algorithm."
+            },
+            {
+              "challenge": "Creating balanced difficulty levels",
+              "solution": "Added a randomized decision factor at specific depths to make the AI occasionally choose suboptimal moves for easier difficulty settings."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/6200EE/FFFFFF?text=Game+Board",
+            "caption": "Game board interface"
+          },
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=AI+Moves",
+            "caption": "AI move calculation visualization"
+          }
+        ]
+      },
+      {
+        "id": "iris-entropy-calculation",
+        "title": "IRIS Dataset Entropy Calculation",
+        "description": "A data science project that calculates entropy and information gain for the classic IRIS dataset.",
+        "longDescription": "This project implements decision tree algorithms from scratch to calculate entropy and information gain for the classic IRIS dataset. It demonstrates core concepts in data mining and machine learning by showing how information theory can be used for feature selection and classification.",
+        "image": "/hxndev.github.io/images/projects/iris.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=IRIS+Entropy",
+        "technologies": ["Python", "Machine Learning", "Information Theory", "Data Mining"],
+        "githubUrl": "https://github.com/HxnDev/Calculating-Entropy-of-IRIS-Dataset",
+        "liveUrl": null,
+        "featured": false,
+        "category": "data",
+        "date": "Mar 2023",
+        "features": [
+          "Custom implementation of entropy calculation",
+          "Information gain computation for feature selection",
+          "Visualization of decision boundaries",
+          "Benchmarking against scikit-learn implementations"
+        ],
+        "technicalDetails": {
+          "description": "This project demonstrates foundational concepts in information theory as applied to machine learning.",
+          "architecture": "The implementation uses numpy for numerical computations and matplotlib for visualizing entropy distribution across features.",
+          "challenges": [
+            {
+              "challenge": "Handling continuous variables in entropy calculations",
+              "solution": "Implemented dynamic binning strategies to discretize continuous variables while preserving information content."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Entropy+Graph",
+            "caption": "Entropy visualization across features"
+          }
+        ]
+      },
+      {
+        "id": "solar-system-opengl",
+        "title": "3D Solar System Scene using OpenGL",
+        "description": "An interactive 3D simulation of the solar system with realistic planet movements using OpenGL.",
+        "longDescription": "This project creates a visually stunning and physically accurate representation of our solar system using OpenGL. Planets orbit the sun following accurate orbital periods and rotations, with realistic texturing and lighting effects.",
+        "image": "/hxndev.github.io/images/projects/solar-system.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Solar+System+3D",
+        "technologies": ["C++", "OpenGL", "3D Graphics", "Physics Simulation"],
+        "githubUrl": "https://github.com/HxnDev/3D-Solar-System-Scene-using-OpenGL",
+        "liveUrl": null,
+        "featured": true,
+        "category": "other",
+        "date": "Apr 2023",
+        "features": [
+          "Realistic planetary orbits and rotations",
+          "High-resolution planet textures",
+          "Interactive camera controls",
+          "Dynamic lighting from the sun"
+        ],
+        "technicalDetails": {
+          "description": "This project demonstrates 3D graphics programming and physics simulation techniques.",
+          "architecture": "The application uses modern OpenGL with custom shaders for realistic planet rendering, with a physics engine for orbital calculations.",
+          "challenges": [
+            {
+              "challenge": "Maintaining accurate scale while keeping visualization useful",
+              "solution": "Implemented a dynamic scaling system that preserves relative planet sizes while adjusting distances for better visualization."
+            },
+            {
+              "challenge": "Optimizing rendering for multiple detailed planet models",
+              "solution": "Created level-of-detail systems and texture streaming to maintain high performance even with detailed planet models."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/FF3864/FFFFFF?text=Solar+System",
+            "caption": "Complete solar system view"
+          },
+          {
+            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Earth+View",
+            "caption": "Detailed Earth rendering"
+          }
+        ]
+      },
+      {
+        "id": "internet-speed-calculator",
+        "title": "Internet Speed Calculator",
+        "description": "A tool for measuring and analyzing internet connection speed with historical tracking.",
+        "longDescription": "This application provides accurate measurements of download and upload speeds, ping, and jitter. It stores historical data to track performance over time and identify patterns in connection quality.",
+        "image": "/hxndev.github.io/images/projects/internet-speed.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Speed+Test",
+        "technologies": ["Python", "Networking", "Data Visualization", "Tkinter"],
+        "githubUrl": "https://github.com/HxnDev/Internet-Speed-Calculator",
+        "liveUrl": null,
+        "featured": false,
+        "category": "other",
+        "date": "May 2023",
+        "features": [
+          "Accurate download and upload speed measurement",
+          "Ping and jitter analysis",
+          "Historical data tracking",
+          "Performance visualization over time"
+        ],
+        "technicalDetails": {
+          "description": "This tool uses multiple connection testing methodologies to provide accurate speed measurements.",
+          "architecture": "The application establishes multiple concurrent connections to testing servers for bandwidth measurement while monitoring round-trip time for latency calculations.",
+          "challenges": [
+            {
+              "challenge": "Ensuring accuracy across different network conditions",
+              "solution": "Implemented adaptive testing algorithms that adjust packet sizes and testing intervals based on current network conditions."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Speed+Test+UI",
+            "caption": "Speed testing interface"
+          }
+        ]
+      },
+      {
+        "id": "canon-war-game",
+        "title": "Canon War Game in Assembly",
+        "description": "A retro-style war game implemented entirely in x86 Assembly language.",
+        "longDescription": "This project demonstrates low-level programming principles by implementing a complete game in Assembly language. Players control canons to destroy enemy targets while managing ammunition and avoiding counter-attacks.",
+        "image": "/hxndev.github.io/images/projects/canon-war.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Canon+War+Game",
+        "technologies": ["x86 Assembly", "Low-level Programming", "Game Development"],
+        "githubUrl": "https://github.com/HxnDev/Canon-War-Game-using-Assembly-Language",
+        "liveUrl": null,
+        "featured": false,
+        "category": "other",
+        "date": "Jun 2023",
+        "features": [
+          "Fully implemented in x86 Assembly",
+          "Pixel-based graphics rendering",
+          "Keyboard input handling",
+          "Physics simulation for projectile motion"
+        ],
+        "technicalDetails": {
+          "description": "This project showcases advanced assembly programming techniques for game development.",
+          "architecture": "The game uses direct memory manipulation for graphics and custom interrupt handlers for input processing.",
+          "challenges": [
+            {
+              "challenge": "Implementing smooth animation in Assembly",
+              "solution": "Created a double-buffering system and optimized drawing routines to maintain consistent frame rates."
+            },
+            {
+              "challenge": "Managing game state without high-level constructs",
+              "solution": "Designed a memory-efficient state management system using fixed-offset memory blocks and bit manipulation."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/FF3864/FFFFFF?text=Game+Screen",
+            "caption": "Main game screen"
+          }
+        ]
+      },
+      {
+        "id": "bubble-pop-screensaver",
+        "title": "Bubble Pop Screen Saver & Game",
+        "description": "A dual-purpose application functioning as both a relaxing screensaver and an interactive bubble-popping game.",
+        "longDescription": "This project combines a visually appealing bubble animation screensaver with interactive gameplay. In screensaver mode, colorful bubbles float and interact with realistic physics, while game mode challenges players to pop bubbles for points within time constraints.",
+        "image": "/hxndev.github.io/images/projects/bubble-pop.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Bubble+Pop",
+        "technologies": ["C++", "Graphics Programming", "Game Development", "Physics Simulation"],
+        "githubUrl": "https://github.com/HxnDev/Bubble-Pop-Screen-Saver-And-Game",
+        "liveUrl": null,
+        "featured": false,
+        "category": "other",
+        "date": "Jul 2023",
+        "features": [
+          "Dual-mode: screensaver and game",
+          "Realistic bubble physics with collision detection",
+          "Customizable bubble colors and sizes",
+          "Scoring system with difficulty progression"
+        ],
+        "technicalDetails": {
+          "description": "This application demonstrates graphics programming and physics simulation techniques.",
+          "architecture": "The program uses a unified core engine for both modes, with state transitions handling the switch between passive animation and interactive gameplay.",
+          "challenges": [
+            {
+              "challenge": "Creating realistic bubble physics",
+              "solution": "Implemented a custom physics engine with surface tension simulation and realistic collision responses."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Bubble+Animation",
+            "caption": "Screensaver mode"
+          },
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Game+Mode",
+            "caption": "Interactive game mode"
+          }
+        ]
+      },
+      {
+        "id": "analog-clock",
+        "title": "Analog Clock",
+        "description": "A realistic analog clock implementation with smooth animation and customizable themes.",
+        "longDescription": "This project creates a visually accurate analog clock with smooth second, minute, and hour hand movements. It features multiple themes, a customizable interface, and accurate timekeeping synchronized with system time.",
+        "image": "/hxndev.github.io/images/projects/analog-clock.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Analog+Clock",
+        "technologies": ["JavaScript", "HTML Canvas", "CSS", "Animation"],
+        "githubUrl": "https://github.com/HxnDev/Analog-Clock",
+        "liveUrl": "https://hxndev.github.io/Analog-Clock/",
+        "featured": false,
+        "category": "web",
+        "date": "Aug 2023",
+        "features": [
+          "Realistic analog clock design",
+          "Smooth hand animations",
+          "Multiple theme options",
+          "Accurate time synchronization"
+        ],
+        "technicalDetails": {
+          "description": "This project demonstrates animation techniques and time manipulation in web development.",
+          "architecture": "The clock uses HTML Canvas for rendering, with JavaScript handling time calculations and animation frames.",
+          "challenges": [
+            {
+              "challenge": "Creating smooth hand movements",
+              "solution": "Implemented continuous rotation calculations rather than discrete second updates, providing a more natural movement effect."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/6200EE/FFFFFF?text=Classic+Theme",
+            "caption": "Classic clock theme"
+          },
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Modern+Theme",
+            "caption": "Modern dark theme"
+          }
+        ]
+      },
+      {
+        "id": "child-process-utils",
+        "title": "Unix Command Utilities",
+        "description": "Implementation of Unix command pipelines with ls, sort, and wc commands using child processes.",
+        "longDescription": "This project demonstrates inter-process communication by implementing core Unix commands (ls, sort, and wc) that can be piped together. It showcases low-level process management, file descriptors, and signal handling.",
+        "image": "/hxndev.github.io/images/projects/unix-commands.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Unix+Commands",
+        "technologies": ["C", "Unix", "Systems Programming", "IPC"],
+        "githubUrl": "https://github.com/HxnDev/ls-sort-and-wc-using-child-processes",
+        "liveUrl": null,
+        "featured": false,
+        "category": "other",
+        "date": "Sep 2023",
+        "features": [
+          "Implementation of ls, sort, and wc commands",
+          "Support for command pipelining",
+          "File descriptor management",
+          "Signal handling for process control"
+        ],
+        "technicalDetails": {
+          "description": "This project demonstrates systems programming concepts and process management techniques.",
+          "architecture": "The implementation uses fork() and exec() for process creation, with pipes for inter-process communication.",
+          "challenges": [
+            {
+              "challenge": "Managing file descriptors across process boundaries",
+              "solution": "Implemented a descriptor tracking system to ensure proper duplication and closing of file handles during process creation."
+            },
+            {
+              "challenge": "Handling arbitrary command pipelines",
+              "solution": "Created a parser and execution engine that can handle variable-length command chains with proper resource cleanup."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Command+Pipeline",
+            "caption": "Command pipeline execution"
+          }
+        ]
+      },
+      {
+        "id": "portfolio-website",
+        "title": "Portfolio Website",
+        "description": "A modern, animated portfolio website showcasing my projects and skills using React and GSAP.",
+        "longDescription": "This portfolio website features modern design principles with interactive animations, responsive layouts, and dynamic content. It showcases projects, skills, and professional experience with a focus on performance and user experience.",
+        "image": "/hxndev.github.io/images/projects/portfolio.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Portfolio+Website",
+        "technologies": ["React", "GSAP", "Mantine UI", "JavaScript"],
+        "githubUrl": "https://github.com/HxnDev/hxndev.github.io",
+        "liveUrl": "https://hxndev.github.io",
+        "featured": true,
+        "category": "web",
+        "date": "Oct 2023",
+        "features": [
+          "Interactive animations with GSAP",
+          "Responsive design for all devices",
+          "Dynamic project showcasing",
+          "Dark/light theme support"
+        ],
+        "technicalDetails": {
+          "description": "This website demonstrates modern frontend development practices and animation techniques.",
+          "architecture": "The site uses React for component-based structure, with GSAP for animations and Mantine UI for consistent styling.",
+          "challenges": [
+            {
+              "challenge": "Creating smooth transitions between sections",
+              "solution": "Implemented a custom animation system with GSAP timelines for coordinated entrance and exit animations."
+            },
+            {
+              "challenge": "Optimizing performance with complex animations",
+              "solution": "Used animation batching, requestAnimationFrame timing, and progressive enhancement to maintain smooth performance across devices."
+            }
+          ]
+        },
+        "screenshots": [
+          {
+            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Home+Page",
+            "caption": "Portfolio home page"
+          },
+          {
+            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Projects+Gallery",
+            "caption": "Projects showcase section"
+          }
+        ]
+      }
+    ]
+  }

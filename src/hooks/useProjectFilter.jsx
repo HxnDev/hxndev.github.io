@@ -4,10 +4,16 @@ export const useProjectFilter = (initialProjects = []) => {
   // Create state variables
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredProjects, setFilteredProjects] = useState(initialProjects);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   
   // Use useMemo for categories to avoid recalculations
   const categories = useMemo(() => {
+    // Return empty array before projects are loaded
+    if (!initialProjects || initialProjects.length === 0) {
+      return [{ value: 'all', label: 'All Categories' }];
+    }
+    
+    // Get unique categories
     const uniqueCategories = Array.from(
       new Set(
         initialProjects
@@ -27,6 +33,12 @@ export const useProjectFilter = (initialProjects = []) => {
   
   // Filter projects when category or search changes
   useEffect(() => {
+    // Return early if no projects
+    if (!initialProjects || initialProjects.length === 0) {
+      setFilteredProjects([]);
+      return;
+    }
+    
     // Start with a fresh copy of initialProjects every time
     let result = [...initialProjects];
     
@@ -36,11 +48,11 @@ export const useProjectFilter = (initialProjects = []) => {
     }
     
     // Filter by search query (if not empty)
-    if (searchQuery.trim() !== '') {
+    if (searchQuery && searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
       result = result.filter(project => 
-        project.title.toLowerCase().includes(query) || 
-        project.description.toLowerCase().includes(query) ||
+        (project.title && project.title.toLowerCase().includes(query)) || 
+        (project.description && project.description.toLowerCase().includes(query)) ||
         (project.technologies && 
           project.technologies.some(tech => 
             tech.toLowerCase().includes(query)
@@ -68,3 +80,5 @@ export const useProjectFilter = (initialProjects = []) => {
     resetFilters
   };
 };
+
+export default useProjectFilter;
