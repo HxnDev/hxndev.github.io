@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Group, Button, TextInput, Box, Transition } from '@mantine/core';
+import React, { useState } from 'react';
+import { Group, Button, TextInput, Box, Transition, Paper } from '@mantine/core';
 import { IconSearch, IconFilter, IconX } from '@tabler/icons-react';
-import { gsap } from 'gsap';
-import { useColorScheme } from '../../theme/ThemeProvider';
-import { useAnimationContext } from '../../context/AnimationContext';
 
 const FilterControls = ({ 
   categories = [], 
@@ -13,45 +10,7 @@ const FilterControls = ({
   setSearchQuery,
   onReset
 }) => {
-  const [mounted, setMounted] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const { colorScheme } = useColorScheme();
-  const { reducedMotion } = useAnimationContext();
-  const isDark = colorScheme === 'dark';
-
-  // Animate on mount - with defensive coding
-  useEffect(() => {
-    if (reducedMotion) {
-      setMounted(true);
-      return;
-    }
-    
-    // Set mounted immediately to prevent additional renders
-    setMounted(true);
-    
-    // Use setTimeout to ensure DOM is ready
-    const timeoutId = setTimeout(() => {
-      // Handle with care - elements might not exist yet
-      try {
-        const filterControls = document.querySelectorAll('.filter-control');
-        
-        if (filterControls && filterControls.length > 0) {
-          // Convert NodeList to Array
-          const controlsArray = Array.from(filterControls);
-          
-          gsap.fromTo(
-            controlsArray,
-            { y: -20, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
-          );
-        }
-      } catch (error) {
-        console.error('Animation error:', error);
-      }
-    }, 100);
-    
-    return () => clearTimeout(timeoutId);
-  }, [reducedMotion]);
 
   // Handle search input clearing
   const handleClearSearch = () => {
@@ -71,12 +30,22 @@ const FilterControls = ({
   };
 
   return (
-    <Box mb="xl">
+    <Paper 
+      withBorder 
+      radius="md" 
+      p="md" 
+      mb="xl"
+      style={{
+        background: 'rgba(28, 29, 34, 0.8)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(155, 0, 255, 0.15)'
+      }}
+    >
       {/* Mobile filter toggle */}
-      <Box className="filter-control filter-mobile-toggle" sx={{ display: { xs: 'block', sm: 'none' }, marginBottom: '1rem' }}>
+      <Box className="filter-mobile-toggle" sx={{ display: { xs: 'block', sm: 'none' }, marginBottom: '1rem' }}>
         <Button
           fullWidth
-          leftSection={<IconFilter size={16} />}
+          leftIcon={<IconFilter size={16} />}
           onClick={() => setShowMobileFilters(!showMobileFilters)}
           variant={showMobileFilters ? "filled" : "outline"}
           color="grape"
@@ -91,7 +60,6 @@ const FilterControls = ({
           {/* Search input */}
           <TextInput
             id="project-search-input"
-            className="filter-control"
             placeholder="Search projects..."
             value={searchQuery || ''}
             onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
@@ -102,7 +70,7 @@ const FilterControls = ({
                   sx={{
                     cursor: 'pointer',
                     color: 'gray',
-                    '&:hover': { color: isDark ? '#00F5FF' : '#9B00FF' }
+                    '&:hover': { color: '#00F5FF' }
                   }}
                   onClick={handleClearSearch}
                 >
@@ -117,12 +85,15 @@ const FilterControls = ({
                 width: '300px',
                 transform: 'translateY(-2px)',
                 boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
+              },
+              input: {
+                backgroundColor: 'rgba(40, 40, 45, 0.8)'
               }
             }}
           />
           
           {/* Category buttons */}
-          <Group className="filter-control filter-categories" spacing="xs">
+          <Group spacing="xs">
             {categories.map((category) => (
               <Button
                 key={category.value}
@@ -149,10 +120,7 @@ const FilterControls = ({
                       left: 0,
                       width: '100%',
                       height: '2px',
-                      background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
-                      animation: mounted && !reducedMotion 
-                        ? 'slideIn 0.3s ease-out forwards' 
-                        : 'none'
+                      background: 'linear-gradient(45deg, #9B00FF, #00F5FF)'
                     }}
                   />
                 )}
@@ -193,7 +161,6 @@ const FilterControls = ({
           <Box sx={{ display: { xs: 'block', sm: 'none' } }} style={styles}>
             <TextInput
               id="project-search-input-mobile"
-              className="filter-control"
               placeholder="Search projects..."
               value={searchQuery || ''}
               onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
@@ -204,7 +171,7 @@ const FilterControls = ({
                     sx={{
                       cursor: 'pointer',
                       color: 'gray',
-                      '&:hover': { color: isDark ? '#00F5FF' : '#9B00FF' }
+                      '&:hover': { color: '#00F5FF' }
                     }}
                     onClick={handleClearSearch}
                   >
@@ -215,11 +182,14 @@ const FilterControls = ({
               mb="md"
               sx={{
                 width: '100%',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                input: {
+                  backgroundColor: 'rgba(40, 40, 45, 0.8)'
+                }
               }}
             />
             
-            <Group className="filter-control filter-categories-mobile" spacing="xs" mb="md" position="center">
+            <Group spacing="xs" mb="md" position="center" style={{ flexWrap: 'wrap' }}>
               {categories.map((category) => (
                 <Button
                   key={category.value}
@@ -243,10 +213,7 @@ const FilterControls = ({
                         left: 0,
                         width: '100%',
                         height: '2px',
-                        background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
-                        animation: mounted && !reducedMotion 
-                          ? 'slideIn 0.3s ease-out forwards' 
-                          : 'none'
+                        background: 'linear-gradient(45deg, #9B00FF, #00F5FF)'
                       }}
                     />
                   )}
@@ -274,17 +241,7 @@ const FilterControls = ({
           </Box>
         )}
       </Transition>
-      
-      {/* Add keyframes for animations */}
-      <style>
-        {`
-          @keyframes slideIn {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-          }
-        `}
-      </style>
-    </Box>
+    </Paper>
   );
 };
 

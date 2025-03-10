@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import projectsData from '../data/projects.json';
 
 /**
- * Custom hook to load project data from local JSON instead of GitHub API
+ * Custom hook to load project data from local JSON
  * @returns {Object} - Project data, loading state, and error
  */
 export const useGetProjects = () => {
@@ -14,9 +14,6 @@ export const useGetProjects = () => {
     try {
       // Make sure projectsData.projects exists and is an array
       if (projectsData && Array.isArray(projectsData.projects)) {
-        console.log('Loading projects data:', projectsData);
-        console.log('Projects array:', projectsData.projects);
-        
         // Process projects - ensure all necessary fields exist
         const processedProjects = projectsData.projects.map(project => {
           // Fix image paths if necessary - only if they don't start with http
@@ -41,7 +38,7 @@ export const useGetProjects = () => {
         
         setProjects(processedProjects);
       } else {
-        console.error('Invalid projects data structure:', projectsData);
+        console.error('Invalid projects data structure');
         setError('Projects data has invalid structure');
       }
       setLoading(false);

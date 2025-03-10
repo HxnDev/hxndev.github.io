@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Text, Group, Button, Grid, Loader, Box } from '@mantine/core';
 import HeroSection from '../components/home/HeroSection';
-import SimpleFixProjectCard from '../components/projects/SimpleFixProjectCard';
+import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
 import { useGetProjects } from '../hooks/useGetProjects';
 
@@ -12,18 +12,17 @@ const Home = () => {
     error: projectsError 
   } = useGetProjects();
   
-  // Get featured projects only - with defensive coding
+  // Get featured projects only
   const featuredProjects = React.useMemo(() => {
     if (!allProjects || allProjects.length === 0) return [];
-    
-    // For debugging
-    console.log("All projects in Home:", allProjects);
-    console.log("Featured projects:", allProjects.filter(project => project.featured));
-    
     return allProjects
       .filter(project => project.featured === true)
       .slice(0, 3); // Get only the first 3 featured projects
   }, [allProjects]);
+
+  const handleViewDetails = (projectId) => {
+    window.location.href = `/hxndev.github.io/projects?project=${projectId}`;
+  };
 
   return (
     <div>
@@ -75,11 +74,11 @@ const Home = () => {
             {featuredProjects && featuredProjects.length > 0 ? (
               featuredProjects.map((project, index) => (
                 <Grid.Col key={project.id || index} md={6} lg={4}>
-                  <SimpleFixProjectCard 
+                  <EnhancedProjectCard 
                     {...project} 
                     // Fix potential image path issues
                     image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
-                    onViewDetails={() => console.log("View project:", project.id)}
+                    onViewDetails={handleViewDetails}
                     projectId={project.id}
                   />
                 </Grid.Col>

@@ -10,7 +10,7 @@ import { useAnimationContext } from '../context/AnimationContext';
 
 // Components
 import FilterControls from '../components/projects/FilterControls';
-import SimpleFixProjectCard from '../components/projects/SimpleFixProjectCard';
+import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
 import ProjectDetail from '../components/projects/ProjectDetail';
 import ProjectModal from '../components/projects/ProjectModal';
 
@@ -26,18 +26,20 @@ const Projects = () => {
     error: projectsError 
   } = useGetProjects();
   
-  // For debugging
-  useEffect(() => {
-    console.log("Projects data in Projects component:", projectsData);
-  }, [projectsData]);
-  
   // Initialize project data and hooks
   useEffect(() => {
     // Simplified loading logic to avoid extra state updates
     if (!projectsLoading) {
       setIsLoading(false);
     }
-  }, [projectsLoading]);
+    
+    // Check for direct project link in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('project');
+    if (projectId && projectsData && projectsData.length > 0) {
+      handleViewDetails(projectId);
+    }
+  }, [projectsLoading, projectsData]);
   
   // Project filtering hook
   const {
@@ -63,8 +65,6 @@ const Projects = () => {
   
   // Handle view project details
   const handleViewDetails = (projectId, action = 'modal') => {
-    console.log("View details called with:", projectId, action);
-    
     if (action === 'reset') {
       resetFilters();
       return;
@@ -117,7 +117,7 @@ const Projects = () => {
               </Box>
             ) : (
               <>
-                {/* Debugging info */}
+                {/* Debugging info - only in development */}
                 {process.env.NODE_ENV === 'development' && (
                   <Box mb={20} p={10} style={{ background: 'rgba(155, 0, 255, 0.1)', borderRadius: '5px' }}>
                     <Text size="sm">Total projects: {projectsData ? projectsData.length : 0}</Text>
@@ -126,26 +126,56 @@ const Projects = () => {
                   </Box>
                 )}
                 
-                {/* Project Gallery - Using SimpleFixProjectCard */}
-                <SimpleGrid 
-                  cols={3} 
-                  spacing="lg"
-                  breakpoints={[
-                    { maxWidth: 992, cols: 2, spacing: 'md' },
-                    { maxWidth: 768, cols: 1, spacing: 'sm' },
-                  ]}
-                >
-                  {filteredProjects.map((project, index) => (
-                    <SimpleFixProjectCard
-                      key={project.id || index}
-                      {...project}
-                      // Fix potential image path issues
-                      image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
-                      onViewDetails={handleViewDetails}
-                      projectId={project.id}
-                    />
-                  ))}
-                </SimpleGrid>
+                {/* Project Gallery */}
+                {filteredProjects.length > 0 ? (
+                  <SimpleGrid 
+                    cols={3} 
+                    spacing="lg"
+                    breakpoints={[
+                      { maxWidth: 992, cols: 2, spacing: 'md' },
+                      { maxWidth: 768, cols: 1, spacing: 'sm' },
+                    ]}
+                  >
+                    {filteredProjects.map((project, index) => (
+                      <div key={project.id || index} style={{ 
+                        animation: `fadeInUp 0.5s ease forwards ${0.1 + (index % 9) * 0.05}s`,
+                        opacity: 0
+                      }}>
+                        <EnhancedProjectCard
+                          {...project}
+                          // Fix potential image path issues
+                          image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
+                          onViewDetails={handleViewDetails}
+                          projectId={project.id}
+                        />
+                      </div>
+                    ))}
+                  </SimpleGrid>
+                ) : (
+                  <Box 
+                    sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      height: '300px', 
+                      flexDirection: 'column',
+                      gap: '1rem',
+                      background: 'rgba(155, 0, 255, 0.05)',
+                      borderRadius: '8px',
+                      border: '1px dashed rgba(155, 0, 255, 0.3)'
+                    }}
+                  >
+                    <IconAlertCircle size={48} style={{ opacity: 0.5 }} />
+                    <Text align="center" size="lg">No projects found with the current filters</Text>
+                    <Button 
+                      onClick={resetFilters} 
+                      variant="gradient" 
+                      gradient={{ from: '#9B00FF', to: '#00F5FF' }}
+                    >
+                      Reset Filters
+                    </Button>
+                  </Box>
+                )}
               </>
             )}
           </Box>
@@ -206,6 +236,20 @@ const Projects = () => {
           </Box>
         </Box>
       )}
+      
+      {/* Animation keyframes */}
+      <style jsx="true">{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </Container>
   );
 };
