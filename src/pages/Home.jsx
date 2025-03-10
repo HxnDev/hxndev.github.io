@@ -3,14 +3,14 @@ import { Container, Title, Text, Group, Button, Grid, Loader, Box } from '@manti
 import HeroSection from '../components/home/HeroSection';
 import ProjectCard from '../components/projects/ProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
-import { useGitHubProjects } from '../hooks/useGithubProjects';
+import { useGetProjects } from '../hooks/useGetProjects';
 
 const Home = () => {
   const { 
     projects: allProjects, 
     loading: projectsLoading, 
     error: projectsError 
-  } = useGitHubProjects();
+  } = useGetProjects();
   
   // Get featured projects only - with defensive coding
   const featuredProjects = React.useMemo(() => {

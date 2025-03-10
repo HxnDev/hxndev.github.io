@@ -5,7 +5,7 @@ import { IconAlertCircle, IconRocket } from '@tabler/icons-react';
 // Custom hooks
 import { useProjectFilter } from '../hooks/useProjectFilter';
 import { useProjectDetail } from '../hooks/useProjectDetail';
-import { useGitHubProjects } from '../hooks/useGithubProjects';
+import { useGetProjects } from '../hooks/useGetProjects';
 import { useAnimationContext } from '../context/AnimationContext';
 
 // Components
@@ -24,7 +24,7 @@ const Projects = () => {
     projects: projectsData, 
     loading: projectsLoading, 
     error: projectsError 
-  } = useGitHubProjects();
+  } = useGetProjects();
   
   // Initialize project data and hooks
   useEffect(() => {
