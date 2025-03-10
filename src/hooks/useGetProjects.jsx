@@ -26,6 +26,11 @@ export const useGetProjects = () => {
             imagePath = imagePath.substring(1);
           }
           
+          // If imagePath still has /public/ prefix, remove it
+          if (imagePath && imagePath.includes('/public/')) {
+            imagePath = imagePath.replace('/public/', '/');
+          }
+          
           return {
             ...project,
             image: imagePath,

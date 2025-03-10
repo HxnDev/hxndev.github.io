@@ -24,11 +24,16 @@ const Header = () => {
       titleRef.current.style.opacity = '0';
       titleRef.current.style.transform = 'translateY(-20px)';
       
-      // Animate in after a slight delay
-      setTimeout(() => {
-        titleRef.current.style.opacity = '1';
-        titleRef.current.style.transform = 'translateY(0)';
+      // Animate in after a slight delay - FIXED: Added safety check
+      const timeoutId = setTimeout(() => {
+        if (titleRef.current) {
+          titleRef.current.style.opacity = '1';
+          titleRef.current.style.transform = 'translateY(0)';
+        }
       }, 300);
+      
+      // Cleanup on unmount
+      return () => clearTimeout(timeoutId);
     }
   }, []);
 

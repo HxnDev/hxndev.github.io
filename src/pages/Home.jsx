@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Text, Group, Button, Grid, Loader, Box } from '@mantine/core';
 import HeroSection from '../components/home/HeroSection';
-import ProjectCard from '../components/projects/ProjectCard';
+import SimpleFixProjectCard from '../components/projects/SimpleFixProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
 import { useGetProjects } from '../hooks/useGetProjects';
 
@@ -75,8 +75,10 @@ const Home = () => {
             {featuredProjects && featuredProjects.length > 0 ? (
               featuredProjects.map((project, index) => (
                 <Grid.Col key={project.id || index} md={6} lg={4}>
-                  <ProjectCard 
+                  <SimpleFixProjectCard 
                     {...project} 
+                    // Fix potential image path issues
+                    image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
                     onViewDetails={() => console.log("View project:", project.id)}
                     projectId={project.id}
                   />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Title, Text, Container, Box, Alert, Button, Loader } from '@mantine/core';
+import { Title, Text, Container, Box, Alert, Button, Loader, SimpleGrid } from '@mantine/core';
 import { IconAlertCircle, IconRocket } from '@tabler/icons-react';
 
 // Custom hooks
@@ -10,7 +10,7 @@ import { useAnimationContext } from '../context/AnimationContext';
 
 // Components
 import FilterControls from '../components/projects/FilterControls';
-import ProjectGallery from '../components/projects/ProjectGallery';
+import SimpleFixProjectCard from '../components/projects/SimpleFixProjectCard';
 import ProjectDetail from '../components/projects/ProjectDetail';
 import ProjectModal from '../components/projects/ProjectModal';
 
@@ -126,12 +126,26 @@ const Projects = () => {
                   </Box>
                 )}
                 
-                <ProjectGallery
-                  projects={projectsData}
-                  filteredProjects={filteredProjects}
-                  searchQuery={searchQuery}
-                  onViewDetails={handleViewDetails}
-                />
+                {/* Project Gallery - Using SimpleFixProjectCard */}
+                <SimpleGrid 
+                  cols={3} 
+                  spacing="lg"
+                  breakpoints={[
+                    { maxWidth: 992, cols: 2, spacing: 'md' },
+                    { maxWidth: 768, cols: 1, spacing: 'sm' },
+                  ]}
+                >
+                  {filteredProjects.map((project, index) => (
+                    <SimpleFixProjectCard
+                      key={project.id || index}
+                      {...project}
+                      // Fix potential image path issues
+                      image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
+                      onViewDetails={handleViewDetails}
+                      projectId={project.id}
+                    />
+                  ))}
+                </SimpleGrid>
               </>
             )}
           </Box>

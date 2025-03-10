@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Paper, Text, Title, Button, Group, Badge, Box, Transition } from '@mantine/core';
+import { Paper, Text, Title, Button, Group, Badge, Image, Box, Transition } from '@mantine/core';
 import { IconExternalLink, IconBrandGithub, IconInfoCircle } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 import { useColorScheme } from '../../theme/ThemeProvider';
 import { useAnimationContext } from '../../context/AnimationContext';
-import ProjectImageFix from '../ProjectImageFix';
 
 // Export component to avoid circular dependency issues
 export const ProjectCard = ({ 
@@ -28,6 +27,8 @@ export const ProjectCard = ({
   const { colorScheme, quantumColors } = useColorScheme();
   const { reducedMotion } = useAnimationContext();
   const isDark = colorScheme === 'dark';
+  const [imageSrc, setImageSrc] = useState(fallbackImage || "https://placehold.co/600x400/9B00FF/FFFFFF?text=Loading");
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   // Card flip state
   const [isFlipped, setIsFlipped] = useState(false);
@@ -37,6 +38,77 @@ export const ProjectCard = ({
   useEffect(() => {
     console.log("ProjectCard rendering:", { title, projectId, image });
   }, [title, projectId, image]);
+
+  // Try to load the image with different path formats
+  useEffect(() => {
+    if (!image) {
+      setImageSrc(fallbackImage || "https://placehold.co/600x400/9B00FF/FFFFFF?text=No+Image");
+      return;
+    }
+
+    const tryImageFormats = async () => {
+      // Test formats to try
+      const formats = [
+        image,                      // Original format
+        image.startsWith('/') ? image.substring(1) : image,  // Without leading slash
+        `/public/${image}`,         // With public prefix
+        `public/${image}`,          // Public prefix without slash
+        image.startsWith('/') ? `/images${image}` : `/images/${image}`, // Alternative path
+      ];
+
+      let loaded = false;
+
+      for (const src of formats) {
+        if (loaded) break;
+        
+        // Skip external URLs (they're likely placeholders)
+        if (src.startsWith('http')) {
+          setImageSrc(src);
+          setImageLoaded(true);
+          break;
+        }
+
+        try {
+          // Create a promise that resolves when image loads or rejects on error
+          const loadPromise = new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+              console.log(`Image format worked: ${src}`);
+              resolve(src);
+            };
+            img.onerror = () => {
+              console.log(`Image format failed: ${src}`);
+              reject();
+            };
+            img.src = src;
+          });
+
+          // Try to load the image with a timeout
+          const result = await Promise.race([
+            loadPromise,
+            new Promise((_, reject) => setTimeout(() => reject(), 1000))
+          ]).catch(() => null);
+
+          if (result) {
+            setImageSrc(result);
+            setImageLoaded(true);
+            loaded = true;
+            break;
+          }
+        } catch (err) {
+          console.log(`Error testing image ${src}:`, err);
+        }
+      }
+
+      if (!loaded) {
+        // If all formats failed, use fallback
+        console.log("All image formats failed, using fallback");
+        setImageSrc(fallbackImage || "https://placehold.co/600x400/9B00FF/FFFFFF?text=Failed+to+Load");
+      }
+    };
+
+    tryImageFormats();
+  }, [image, fallbackImage]);
 
   // Clean up badges ref array when technologies change
   useEffect(() => {
@@ -150,15 +222,6 @@ export const ProjectCard = ({
     }
   };
 
-  // Safely handle image errors
-  const handleImageError = (e) => {
-    console.log("Image error:", image);
-    if (fallbackImage) {
-      console.log("Using fallback image:", fallbackImage);
-      e.target.src = fallbackImage;
-    }
-  };
-  
   return (
     <Paper
       ref={cardRef}
@@ -238,7 +301,7 @@ export const ProjectCard = ({
           transform: 'rotateY(0deg)'
         }}
       >
-        {image && (
+        {imageSrc && (
           <Box 
             sx={{
               overflow: 'hidden', 
@@ -248,15 +311,16 @@ export const ProjectCard = ({
               width: '100%'
             }}
           >
-            <ProjectImageFix
-              imageRef={imageRef}
-              src={image}
-              fallbackSrc={fallbackImage}
+            <Image
+              ref={imageRef}
+              src={imageSrc}
               height={180}
               alt={title}
+              withPlaceholder
               style={{
                 width: '100%',
                 height: '100%',
+                objectFit: 'cover',
                 transition: 'transform 0.5s ease',
                 transform: 'scale(1)'
               }}
