@@ -1,12 +1,25 @@
-import React from 'react';
-import { Container, Title, Text, Group, Button, Grid } from '@mantine/core';
+import React, { useState, useEffect } from 'react';
+import { Container, Title, Text, Group, Button, Grid, Loader, Box } from '@mantine/core';
 import HeroSection from '../components/home/HeroSection';
 import ProjectCard from '../components/projects/ProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
+import { useGitHubProjects } from '../hooks/useGitHubProjects';
 
 const Home = () => {
-  // Example featured projects data
-  const featuredProjects = [
+  const { 
+    projects: githubProjects, 
+    loading: githubLoading, 
+    error: githubError 
+  } = useGitHubProjects('HxnDev');
+  
+  // Get featured projects only
+  const featuredProjects = githubLoading ? [] : 
+    githubProjects
+      .filter(project => project.featured)
+      .slice(0, 3); // Get only the first 3 featured projects
+  
+  // Fallback projects if GitHub API fails
+  const fallbackProjects = [
     {
       title: 'AI Job Match Analyzer',
       description: 'A powerful tool that helps job seekers analyze their resumes against job descriptions and generate AI-powered cover letters.',
@@ -35,6 +48,10 @@ const Home = () => {
       featured: true
     }
   ];
+  
+  // Decide which projects to display
+  const projectsToShow = githubError || featuredProjects.length === 0 ? 
+    fallbackProjects : featuredProjects;
 
   return (
     <div>
@@ -67,13 +84,40 @@ const Home = () => {
           Featured Projects
         </Title>
         
-        <Grid>
-          {featuredProjects.map((project, index) => (
-            <Grid.Col key={index} md={6} lg={4}>
-              <ProjectCard {...project} />
-            </Grid.Col>
-          ))}
-        </Grid>
+        {githubLoading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', flexDirection: 'column', gap: '1rem' }}>
+            <Loader color="grape" size="lg" />
+            <Text align="center">Loading projects...</Text>
+          </Box>
+        ) : (
+          <Grid>
+            {projectsToShow.map((project, index) => (
+              <Grid.Col key={index} md={6} lg={4}>
+                <ProjectCard {...project} />
+              </Grid.Col>
+            ))}
+          </Grid>
+        )}
+        
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+          <Button
+            component="a"
+            href="/hxndev.github.io/projects"
+            size="lg"
+            variant="gradient"
+            gradient={{ from: '#9B00FF', to: '#00F5FF' }}
+            sx={{
+              boxShadow: '0 4px 15px rgba(155, 0, 255, 0.3)',
+              '&:hover': {
+                transform: 'translateY(-3px)',
+                boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)',
+              },
+              transition: 'all 0.3s ease'
+            }}
+          >
+            View All Projects
+          </Button>
+        </Box>
       </Container>
       
       {/* Enhanced Sponsorship Section */}

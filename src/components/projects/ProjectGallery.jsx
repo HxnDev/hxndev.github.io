@@ -18,14 +18,13 @@ const ProjectGallery = ({
   useEffect(() => {
     if (!galleryRef.current || reducedMotion) return;
     
-    // Wait for DOM to update before querying for elements
-    setTimeout(() => {
+    // Wait a short time for the DOM to update
+    const timeoutId = setTimeout(() => {
       const cards = galleryRef.current.querySelectorAll('.project-card-wrapper');
       
-      // Only animate if we have cards
       if (cards && cards.length > 0) {
         gsap.fromTo(
-          cards,
+          Array.from(cards), // Convert NodeList to Array for GSAP
           { 
             opacity: 0, 
             y: 30, 
@@ -42,7 +41,9 @@ const ProjectGallery = ({
           }
         );
       }
-    }, 100); // Small delay to ensure DOM is updated
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, [filteredProjects, reducedMotion]);
 
   // Highlight search matches

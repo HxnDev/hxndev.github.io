@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Title, Text, Container, Box, Alert, Button } from '@mantine/core';
+import { Title, Text, Container, Box, Alert, Button, Loader } from '@mantine/core';
 import { IconAlertCircle, IconRocket } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 
-// Custom hooks - Fixed imports
+// Custom hooks
 import { useProjectFilter } from '../hooks/useProjectFilter';
 import { useProjectDetail } from '../hooks/useProjectDetail';
+import { useGitHubProjects } from '../hooks/useGitHubProjects';
 import { useAnimationContext } from '../context/AnimationContext';
 
 // Components
@@ -19,8 +20,15 @@ const Projects = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Sample project data - in a real application, this would come from an API or CMS
-  const projectsData = [
+  // Fetch projects from GitHub
+  const { 
+    projects: githubProjects, 
+    loading: githubLoading, 
+    error: githubError 
+  } = useGitHubProjects('HxnDev');
+  
+  // Sample fallback projects in case GitHub API fails
+  const fallbackProjects = [
     {
       id: 'ai-job-match',
       title: 'AI Job Match Analyzer',
@@ -69,158 +77,29 @@ const Projects = () => {
         }
       ]
     },
-    {
-      id: 'portfolio-website',
-      title: 'Portfolio Website',
-      description: 'An interactive portfolio website built with React, featuring advanced animations and a responsive design.',
-      longDescription: 'This portfolio website showcases my projects and skills with a focus on user experience and visual appeal. It features smooth animations, responsive design, and accessibility features. The site is built with React and uses modern CSS techniques for styling.',
-      image: 'https://placehold.co/600x400/00F5FF/FFFFFF?text=Portfolio',
-      technologies: ['React', 'Mantine UI', 'GSAP', 'JavaScript'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      featured: true,
-      category: 'web',
-      date: 'Mar 2023',
-      features: [
-        'Interactive project showcase',
-        'Animated section transitions',
-        'Responsive design for all devices',
-        'Dark/light mode toggle',
-        'Performance optimized animations'
-      ],
-      technicalDetails: {
-        description: 'This portfolio uses React with the Mantine UI library and GSAP for animations. It follows modern front-end practices with a focus on performance and accessibility.',
-        architecture: 'The site is built with a component-based architecture, with reusable UI components and custom hooks for state management. Animation logic is abstracted into separate utilities for maintainability.',
-        challenges: [
-          {
-            challenge: 'Balancing animation complexity with performance',
-            solution: 'Implemented throttling and debouncing techniques for scroll events, and used requestAnimationFrame for smooth animations.'
-          },
-          {
-            challenge: 'Supporting both dark and light themes',
-            solution: 'Created a theme system with CSS variables and context API to manage theme state across the application.'
-          }
-        ]
-      },
-      screenshots: [
-        {
-          image: 'https://placehold.co/600x400/00F5FF/FFFFFF?text=Home',
-          caption: 'Home page with hero section'
-        },
-        {
-          image: 'https://placehold.co/600x400/9B00FF/FFFFFF?text=Projects',
-          caption: 'Projects showcase gallery'
-        }
-      ]
-    },
-    {
-      id: 'ml-project',
-      title: 'Machine Learning Project',
-      description: 'An intelligent system that uses machine learning algorithms to process natural language and generate insights.',
-      longDescription: 'This machine learning project focuses on natural language processing to extract insights from text data. It can classify text, extract key information, and generate summaries. The system is trained on a diverse dataset to ensure accuracy across different domains.',
-      image: 'https://placehold.co/600x400/6200EE/FFFFFF?text=ML+Project',
-      technologies: ['Python', 'TensorFlow', 'NLP', 'Data Science'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      featured: true,
-      category: 'ai',
-      date: 'Nov 2022',
-      features: [
-        'Text classification and sentiment analysis',
-        'Named entity recognition',
-        'Automatic text summarization',
-        'Keyword extraction',
-        'Custom model training pipeline'
-      ],
-      technicalDetails: {
-        description: 'This project uses TensorFlow and transformers to build natural language processing models for text analysis and generation.',
-        architecture: 'The system consists of a preprocessing pipeline, multiple model architectures for different tasks, and a unified API for interfacing with the models.',
-        challenges: [
-          {
-            challenge: 'Training models with limited labeled data',
-            solution: 'Implemented transfer learning approaches using pre-trained language models like BERT and fine-tuning them on domain-specific data.'
-          },
-          {
-            challenge: 'Handling multiple languages efficiently',
-            solution: 'Developed a language detection module and separate processing pipelines for each supported language.'
-          }
-        ]
-      },
-      screenshots: [
-        {
-          image: 'https://placehold.co/600x400/6200EE/FFFFFF?text=Model+Training',
-          caption: 'Model training dashboard'
-        },
-        {
-          image: 'https://placehold.co/600x400/9B00FF/FFFFFF?text=Text+Analysis',
-          caption: 'Text analysis results'
-        },
-        {
-          image: 'https://placehold.co/600x400/00F5FF/FFFFFF?text=Performance+Metrics',
-          caption: 'Model performance metrics'
-        }
-      ]
-    },
-    {
-      id: 'mobile-app',
-      title: 'Mobile App',
-      description: 'A cross-platform mobile application for productivity and task management built with React Native.',
-      image: 'https://placehold.co/600x400/FF3864/FFFFFF?text=Mobile+App',
-      technologies: ['React Native', 'Firebase', 'Redux', 'JavaScript'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      category: 'mobile',
-      date: 'Jul 2022',
-      features: [
-        'Task management with categories',
-        'Calendar integration',
-        'Push notifications',
-        'Data synchronization across devices',
-        'Offline mode support'
-      ]
-    },
-    {
-      id: 'data-visualization',
-      title: 'Data Visualization Dashboard',
-      description: 'An interactive dashboard for visualizing complex datasets with customizable charts and filters.',
-      image: 'https://placehold.co/600x400/00F5FF/FFFFFF?text=Data+Viz',
-      technologies: ['D3.js', 'React', 'Node.js', 'Express', 'MongoDB'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      category: 'data',
-      date: 'Sep 2022'
-    },
-    {
-      id: 'ecommerce-platform',
-      title: 'E-commerce Platform',
-      description: 'A full-featured e-commerce platform with product management, cart functionality, and payment processing.',
-      image: 'https://placehold.co/600x400/9B00FF/FFFFFF?text=E-commerce',
-      technologies: ['Next.js', 'Stripe', 'MongoDB', 'TypeScript'],
-      githubUrl: 'https://github.com/HxnDev',
-      liveUrl: '#',
-      category: 'web',
-      date: 'Apr 2022'
-    }
+    // ... other fallback projects
   ];
+  
+  // Decide which projects to use (GitHub or fallback)
+  const projectsData = githubError ? fallbackProjects : (githubLoading ? [] : githubProjects);
   
   // Initialize project data and hooks
   useEffect(() => {
     // Simulate loading data from an API
     const loadProjects = async () => {
       try {
-        // In a real app, this would be an API call
-        // const response = await fetch('/api/projects');
-        // const data = await response.json();
-        
-        setIsLoading(false);
-        
-        // Animate the page title
-        if (!reducedMotion) {
-          gsap.fromTo(
-            '.page-title',
-            { opacity: 0, y: -30 },
-            { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-          );
+        // Wait for GitHub projects to load
+        if (!githubLoading) {
+          setIsLoading(false);
+          
+          // Animate the page title
+          if (!reducedMotion) {
+            gsap.fromTo(
+              '.page-title',
+              { opacity: 0, y: -30 },
+              { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+            );
+          }
         }
       } catch (err) {
         console.error('Error loading projects:', err);
@@ -230,7 +109,7 @@ const Projects = () => {
     };
     
     loadProjects();
-  }, [reducedMotion]);
+  }, [githubLoading, reducedMotion]);
   
   // Project filtering hook
   const {
@@ -275,14 +154,14 @@ const Projects = () => {
           <Title order={1} className="page-title" mb="xl">Projects</Title>
           
           {/* Error message if needed */}
-          {error && (
+          {(error || githubError) && (
             <Alert 
               icon={<IconAlertCircle size={16} />} 
               title="Error" 
               color="red" 
               mb="lg"
             >
-              {error}
+              {error || githubError}
               <Button variant="outline" color="red" size="xs" mt="sm" onClick={() => setError(null)}>
                 Dismiss
               </Button>
@@ -301,8 +180,11 @@ const Projects = () => {
           
           {/* Project gallery */}
           <Box mt={30}>
-            {isLoading ? (
-              <Text align="center" py={50}>Loading projects...</Text>
+            {isLoading || githubLoading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', flexDirection: 'column', gap: '1rem' }}>
+                <Loader color="grape" size="lg" />
+                <Text align="center">Loading projects...</Text>
+              </Box>
             ) : (
               <ProjectGallery
                 projects={projectsData}

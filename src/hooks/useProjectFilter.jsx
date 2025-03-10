@@ -1,52 +1,41 @@
 import { useState, useEffect, useMemo } from 'react';
 
-/**
- * Custom hook for filtering projects
- * @param {Array} projects - Array of projects
- * @returns {Object} - Filter controls and filtered projects
- */
-export const useProjectFilter = (projects = []) => {
-  // Don't create state from props on every render
-  const [allProjects, setAllProjects] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState([]);
+export const useProjectFilter = (initialProjects = []) => {
+  // Create state variables
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredProjects, setFilteredProjects] = useState(initialProjects);
   
-  // Update allProjects only when projects prop changes (reference)
-  useEffect(() => {
-    setAllProjects(projects);
-    setFilteredProjects(projects);
-  }, [projects]); // Only when projects array reference changes
-  
-  // Extract unique categories - use useMemo to prevent recalculations
+  // Use useMemo for categories to avoid recalculations
   const categories = useMemo(() => {
+    const uniqueCategories = Array.from(
+      new Set(
+        initialProjects
+          .filter(project => project.category)
+          .map(project => project.category)
+      )
+    ).map(category => ({
+      value: category,
+      label: category.charAt(0).toUpperCase() + category.slice(1)
+    }));
+    
     return [
       { value: 'all', label: 'All Categories' },
-      ...Array.from(
-        new Set(
-          projects
-            .filter(project => project.category)
-            .map(project => project.category)
-        )
-      ).map(category => ({
-        value: category,
-        label: category.charAt(0).toUpperCase() + category.slice(1)
-      }))
+      ...uniqueCategories
     ];
-  }, [projects]);
+  }, [initialProjects]);
   
   // Filter projects when category or search changes
   useEffect(() => {
-    if (allProjects.length === 0) return; // Prevent filtering empty array
+    // Start with a fresh copy of initialProjects every time
+    let result = [...initialProjects];
     
-    let result = [...allProjects];
-    
-    // Filter by category
+    // Filter by category (if not 'all')
     if (activeCategory !== 'all') {
       result = result.filter(project => project.category === activeCategory);
     }
     
-    // Filter by search
+    // Filter by search query (if not empty)
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
       result = result.filter(project => 
@@ -59,17 +48,17 @@ export const useProjectFilter = (projects = []) => {
       );
     }
     
+    // Update filtered projects
     setFilteredProjects(result);
-  }, [allProjects, activeCategory, searchQuery]); // Correct dependencies
+  }, [initialProjects, activeCategory, searchQuery]);
   
-  // Reset filters
+  // Reset filters function
   const resetFilters = () => {
     setActiveCategory('all');
     setSearchQuery('');
   };
   
   return {
-    allProjects,
     filteredProjects,
     categories,
     activeCategory,

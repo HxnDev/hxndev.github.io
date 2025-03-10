@@ -21,28 +21,30 @@ const FilterControls = ({
 
   // Animate on mount
   useEffect(() => {
-    if (!reducedMotion) {
-      // Set mounted flag first
+    if (reducedMotion) {
       setMounted(true);
-      
-      // Wait a bit for DOM to update
-      setTimeout(() => {
-        const filterControls = document.querySelectorAll('.filter-control');
-        
-        // Only animate if elements exist
-        if (filterControls && filterControls.length > 0) {
-          const timeline = gsap.timeline();
-          
-          timeline.fromTo(
-            filterControls,
-            { y: -20, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
-          );
-        }
-      }, 100);
-    } else {
-      setMounted(true);
+      return;
     }
+    
+    // Set mounted immediately to prevent additional renders
+    setMounted(true);
+    
+    // Use setTimeout to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      const filterControls = document.querySelectorAll('.filter-control');
+      
+      if (filterControls && filterControls.length > 0) {
+        const timeline = gsap.timeline();
+        
+        timeline.fromTo(
+          Array.from(filterControls), // Convert NodeList to Array
+          { y: -20, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
+        );
+      }
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, [reducedMotion]);
 
   // Handle search input clearing
