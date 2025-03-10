@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Paper, Text, Title, Button, Group, Badge, Image, Box, Transition } from '@mantine/core';
+import { Paper, Text, Title, Button, Group, Badge, Box, Transition } from '@mantine/core';
 import { IconExternalLink, IconBrandGithub, IconInfoCircle } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 import { useColorScheme } from '../../theme/ThemeProvider';
 import { useAnimationContext } from '../../context/AnimationContext';
+import ProjectImageFix from '../ProjectImageFix';
 
 // Export component to avoid circular dependency issues
 export const ProjectCard = ({ 
@@ -31,6 +32,11 @@ export const ProjectCard = ({
   // Card flip state
   const [isFlipped, setIsFlipped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+
+  // Debug log
+  useEffect(() => {
+    console.log("ProjectCard rendering:", { title, projectId, image });
+  }, [title, projectId, image]);
 
   // Clean up badges ref array when technologies change
   useEffect(() => {
@@ -146,7 +152,9 @@ export const ProjectCard = ({
 
   // Safely handle image errors
   const handleImageError = (e) => {
+    console.log("Image error:", image);
     if (fallbackImage) {
+      console.log("Using fallback image:", fallbackImage);
       e.target.src = fallbackImage;
     }
   };
@@ -240,16 +248,15 @@ export const ProjectCard = ({
               width: '100%'
             }}
           >
-            <Image
-              ref={imageRef}
+            <ProjectImageFix
+              imageRef={imageRef}
               src={image}
+              fallbackSrc={fallbackImage}
               height={180}
               alt={title}
-              onError={handleImageError}
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
                 transition: 'transform 0.5s ease',
                 transform: 'scale(1)'
               }}
@@ -286,7 +293,7 @@ export const ProjectCard = ({
           <Text size="sm" c="dimmed" mb="md" style={{ flex: 1 }}>{description}</Text>
 
           <Group gap="xs" mb="md">
-            {technologies.map((tech, index) => (
+            {technologies && technologies.map((tech, index) => (
               <Badge 
                 key={index}
                 ref={el => badgesRef.current[index] = el}
@@ -447,7 +454,7 @@ export const ProjectCard = ({
             
             <Text mb="xs" weight={700}>Technologies:</Text>
             <Group gap="xs" mb="md">
-              {technologies.map((tech, index) => (
+              {technologies && technologies.map((tech, index) => (
                 <Badge 
                   key={index} 
                   variant="filled" 

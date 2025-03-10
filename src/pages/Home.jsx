@@ -16,8 +16,12 @@ const Home = () => {
   const featuredProjects = React.useMemo(() => {
     if (!allProjects || allProjects.length === 0) return [];
     
+    // For debugging
+    console.log("All projects in Home:", allProjects);
+    console.log("Featured projects:", allProjects.filter(project => project.featured));
+    
     return allProjects
-      .filter(project => project.featured)
+      .filter(project => project.featured === true)
       .slice(0, 3); // Get only the first 3 featured projects
   }, [allProjects]);
 
@@ -68,15 +72,21 @@ const Home = () => {
           </Box>
         ) : (
           <Grid>
-            {featuredProjects.length > 0 ? (
+            {featuredProjects && featuredProjects.length > 0 ? (
               featuredProjects.map((project, index) => (
                 <Grid.Col key={project.id || index} md={6} lg={4}>
-                  <ProjectCard {...project} />
+                  <ProjectCard 
+                    {...project} 
+                    onViewDetails={() => console.log("View project:", project.id)}
+                    projectId={project.id}
+                  />
                 </Grid.Col>
               ))
             ) : (
               <Grid.Col span={12}>
-                <Text align="center" c="dimmed">No featured projects found.</Text>
+                <Text align="center" c="dimmed">
+                  No featured projects found. Total projects: {allProjects ? allProjects.length : 0}
+                </Text>
               </Grid.Col>
             )}
           </Grid>

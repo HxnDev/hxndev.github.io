@@ -26,6 +26,11 @@ const Projects = () => {
     error: projectsError 
   } = useGetProjects();
   
+  // For debugging
+  useEffect(() => {
+    console.log("Projects data in Projects component:", projectsData);
+  }, [projectsData]);
+  
   // Initialize project data and hooks
   useEffect(() => {
     // Simplified loading logic to avoid extra state updates
@@ -58,6 +63,8 @@ const Projects = () => {
   
   // Handle view project details
   const handleViewDetails = (projectId, action = 'modal') => {
+    console.log("View details called with:", projectId, action);
+    
     if (action === 'reset') {
       resetFilters();
       return;
@@ -109,12 +116,23 @@ const Projects = () => {
                 <Text align="center">Loading projects...</Text>
               </Box>
             ) : (
-              <ProjectGallery
-                projects={projectsData}
-                filteredProjects={filteredProjects}
-                searchQuery={searchQuery}
-                onViewDetails={handleViewDetails}
-              />
+              <>
+                {/* Debugging info */}
+                {process.env.NODE_ENV === 'development' && (
+                  <Box mb={20} p={10} style={{ background: 'rgba(155, 0, 255, 0.1)', borderRadius: '5px' }}>
+                    <Text size="sm">Total projects: {projectsData ? projectsData.length : 0}</Text>
+                    <Text size="sm">Filtered projects: {filteredProjects ? filteredProjects.length : 0}</Text>
+                    <Text size="sm">Active category: {activeCategory}</Text>
+                  </Box>
+                )}
+                
+                <ProjectGallery
+                  projects={projectsData}
+                  filteredProjects={filteredProjects}
+                  searchQuery={searchQuery}
+                  onViewDetails={handleViewDetails}
+                />
+              </>
             )}
           </Box>
           

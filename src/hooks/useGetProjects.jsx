@@ -12,10 +12,33 @@ export const useGetProjects = () => {
   
   useEffect(() => {
     try {
-      console.log('Loading projects data:', projectsData);
-    console.log('Projects array:', projectsData.projects);
-      // Use the local data from projects.json
-      setProjects(projectsData.projects);
+      // Make sure projectsData.projects exists and is an array
+      if (projectsData && Array.isArray(projectsData.projects)) {
+        console.log('Loading projects data:', projectsData);
+        console.log('Projects array:', projectsData.projects);
+        
+        // Process projects - ensure all necessary fields exist
+        const processedProjects = projectsData.projects.map(project => {
+          // Fix image paths if necessary - only if they don't start with http
+          let imagePath = project.image;
+          if (imagePath && !imagePath.startsWith('http') && imagePath.startsWith('/')) {
+            // Remove the leading slash if it's causing issues in your deployment
+            imagePath = imagePath.substring(1);
+          }
+          
+          return {
+            ...project,
+            image: imagePath,
+            // Ensure featured is a boolean
+            featured: !!project.featured
+          };
+        });
+        
+        setProjects(processedProjects);
+      } else {
+        console.error('Invalid projects data structure:', projectsData);
+        setError('Projects data has invalid structure');
+      }
       setLoading(false);
     } catch (err) {
       console.error('Error loading projects:', err);
