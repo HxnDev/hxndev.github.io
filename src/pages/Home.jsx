@@ -1,107 +1,135 @@
 import React from 'react';
-import { Title, Text, Container, Button, Group, Image, Stack, Grid } from '@mantine/core';
-import { IconDownload, IconBrandGithub } from '@tabler/icons-react';
+import { Container, Title, Text, Group, Button, Grid } from '@mantine/core';
+import HeroSection from '../components/home/HeroSection';
 import ProjectCard from '../components/ProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
 
 const Home = () => {
-  // Featured projects data
+  // Example featured projects data
   const featuredProjects = [
     {
       title: 'AI Job Match Analyzer',
       description: 'A powerful tool that helps job seekers analyze their resumes against job descriptions and generate AI-powered cover letters.',
-      image: '/hxndev.github.io/images/job-analyzer.png',
-      technologies: ['React', 'Flask', 'Gemini AI', 'Python'],
-      githubUrl: 'https://github.com/HxnDev/AI-Job-Match-Analyzer',
-      liveUrl: '/hxndev.github.io/projects/job-match-analyzer',
+      image: 'https://placehold.co/600x400/9B00FF/FFFFFF?text=AI+Job+Analyzer',
+      technologies: ['React', 'Flask', 'Python', 'AI'],
+      githubUrl: 'https://github.com/HxnDev',
+      liveUrl: '#',
       featured: true
     },
-    // Add more featured projects
+    {
+      title: 'Portfolio Website',
+      description: 'An interactive portfolio website built with React, featuring advanced animations and a responsive design.',
+      image: 'https://placehold.co/600x400/00F5FF/FFFFFF?text=Portfolio',
+      technologies: ['React', 'Mantine UI', 'GSAP', 'JavaScript'],
+      githubUrl: 'https://github.com/HxnDev',
+      liveUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Machine Learning Project',
+      description: 'An intelligent system that uses machine learning algorithms to process natural language and generate insights.',
+      image: 'https://placehold.co/600x400/6200EE/FFFFFF?text=ML+Project',
+      technologies: ['Python', 'TensorFlow', 'NLP', 'Data Science'],
+      githubUrl: 'https://github.com/HxnDev',
+      liveUrl: '#',
+      featured: true
+    }
   ];
 
   return (
-    <Container size="lg">
+    <div>
       {/* Hero Section */}
-      <Grid gutter={50} my={40}>
-        <Grid.Col md={7}>
-          <Stack spacing="xl">
-            <Title
-              sx={(theme) => ({
-                fontSize: 48,
-                fontWeight: 900,
-                lineHeight: 1.1,
-                backgroundImage: theme.fn.linearGradient(45, '#6200EE', '#03DAC5'),
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              })}
-            >
-              Hi, I'm Hassan Shahzad
-            </Title>
-            
-            <Text size="xl" color="dimmed">
-              Full Stack Developer & ML Engineer specializing in creating intelligent, intuitive applications
-              that solve real-world problems.
-            </Text>
-
-            <Group mt="xl">
-              <Button 
-                component="a" 
-                href="/hxndev.github.io/assets/hassan_resume.pdf" 
-                size="lg"
-                leftSection={<IconDownload size={20} />}
-                color="grape"
-                download
-              >
-                Download Resume
-              </Button>
-              <Button 
-                component="a"
-                href="https://github.com/HxnDev"
-                target="_blank"
-                size="lg"
-                variant="outline"
-                leftSection={<IconBrandGithub size={20} />}
-              >
-                GitHub Profile
-              </Button>
-            </Group>
-          </Stack>
-        </Grid.Col>
-        
-        <Grid.Col md={5}>
-          <Image 
-            src="/hxndev.github.io/images/profile.jpg" 
-            alt="Hassan Shahzad" 
-            radius="lg"
-            height={400}
-            width="auto"
-            fit="contain"
-            fallbackSrc="https://placehold.co/400x400?text=Profile+Image"
-          />
-        </Grid.Col>
-      </Grid>
-
-      {/* Featured Projects */}
-      <Title order={2} my="xl">Featured Projects</Title>
-      <Grid>
-        {featuredProjects.map((project, index) => (
-          <Grid.Col key={index} md={6} lg={4}>
-            <ProjectCard {...project} />
-          </Grid.Col>
-        ))}
-      </Grid>
+      <HeroSection />
       
-      {/* Call to action to see more projects */}
-      <Group position="center" my="xl">
-        <Button component="a" href="/hxndev.github.io/projects" size="lg" variant="light">
-          View All Projects
-        </Button>
-      </Group>
-
-      {/* Sponsorship Section */}
-      <SponsorshipSection />
-    </Container>
+      {/* Featured Projects Section */}
+      <Container size="lg" style={{ padding: '60px 0' }}>
+        <Title 
+          order={2} 
+          mb={50}
+          sx={(theme) => ({
+            fontSize: '2.5rem',
+            fontWeight: 700,
+            textAlign: 'center',
+            position: 'relative',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: '-15px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '80px',
+              height: '4px',
+              background: theme.fn.linearGradient(45, '#6200EE', '#00F5FF'),
+              borderRadius: '2px'
+            }
+          })}
+        >
+          Featured Projects
+        </Title>
+        
+        <Grid>
+          {featuredProjects.map((project, index) => (
+            <Grid.Col key={index} md={6} lg={4}>
+              <ProjectCard {...project} />
+            </Grid.Col>
+          ))}
+        </Grid>
+      </Container>
+      
+      {/* Enhanced Sponsorship Section */}
+      <Container size="lg" style={{ padding: '20px 0 80px 0' }}>
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(155, 0, 255, 0.1), rgba(0, 245, 255, 0.1))',
+          borderRadius: '12px',
+          padding: '40px',
+          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <Title order={2} align="center" mb="md">Support My Work</Title>
+          
+          <Text align="center" mb="xl" maw={600} mx="auto">
+            If you find my projects helpful, consider supporting their continued development and maintenance.
+          </Text>
+          
+          <Group position="center">
+            <Button 
+              component="a"
+              href="https://github.com/sponsors/HxnDev"
+              target="_blank"
+              color="pink"
+              variant="filled"
+              size="md"
+              styles={{
+                root: {
+                  background: 'linear-gradient(45deg, #FF3864, #9B00FF)',
+                  boxShadow: '0 4px 12px rgba(155, 0, 255, 0.3)',
+                }
+              }}
+            >
+              Sponsor on GitHub
+            </Button>
+            
+            <Button
+              component="a"
+              href="https://www.buymeacoffee.com/hassanshahzad"
+              target="_blank"
+              variant="filled"
+              color="yellow"
+              size="md"
+              styles={{
+                root: {
+                  background: 'linear-gradient(45deg, #FFCC33, #FF9500)',
+                  boxShadow: '0 4px 12px rgba(255, 149, 0, 0.3)',
+                }
+              }}
+            >
+              Buy Me a Coffee
+            </Button>
+          </Group>
+        </div>
+      </Container>
+    </div>
   );
 };
 

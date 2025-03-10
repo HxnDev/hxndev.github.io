@@ -1,87 +1,151 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useScrollVelocity } from '../hooks/useScrollVelocity';
+import React, { createContext, useContext, useState, useEffect, useReducer } from 'react';
 import { configureGsap } from '../animations/gsap';
 
-// Create the context
-const AnimationContext = createContext({
+// Initial state
+const initialState = {
   scrollPosition: 0,
   scrollVelocity: 0,
-  reducedMotion: false,
-  viewportWidth: 0,
-  viewportHeight: 0,
+  viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1200,
+  viewportHeight: typeof window !== 'undefined' ? window.innerHeight : 800,
+  reducedMotion: typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false,
   interactionIntensity: 0
-});
+};
 
-/**
- * Animation Provider component
- */
-export const AnimationProvider = ({ children }) => {
-  const { position: scrollPosition, velocity: scrollVelocity } = useScrollVelocity();
-  const [reducedMotion, setReducedMotion] = useState(
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-  const [viewport, setViewport] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
-  const [interactionIntensity, setInteractionIntensity] = useState(0);
+// Reducer for animation state
+function animationReducer(state, action) {
+  switch (action.type) {
+    case 'UPDATE_SCROLL':
+      return {
+        ...state,
+        scrollPosition: action.payload.position,
+        scrollVelocity: action.payload.velocity,
+        interactionIntensity: Math.min(1, Math.abs(action.payload.velocity) / 1000)
+      };
+    case 'UPDATE_VIEWPORT':
+      return {
+        ...state,
+        viewportWidth: action.payload.width,
+        viewportHeight: action.payload.height
+      };
+    case 'SET_REDUCED_MOTION':
+      return {
+        ...state,
+        reducedMotion: action.payload
+      };
+    default:
+      return state;
+  }
+}
+
+// Create context
+const AnimationContext = createContext(initialState);
+
+// Animation provider component
+export function AnimationProvider({ children }) {
+  const [state, dispatch] = useReducer(animationReducer, initialState);
   
-  // Update reduced motion preference
+  // Track scroll position and velocity
+  useEffect(() => {
+    let lastScrollTop = window.pageYOffset;
+    let lastScrollTime = performance.now();
+    let frameId = null;
+    
+    const updateScroll = () => {
+      const currentScrollTop = window.pageYOffset;
+      const currentTime = performance.now();
+      const timeDelta = currentTime - lastScrollTime;
+      
+      // Calculate velocity (px per millisecond)
+      let velocity = 0;
+      if (timeDelta > 0) {
+        velocity = (currentScrollTop - lastScrollTop) / timeDelta;
+      }
+      
+      // Scale velocity for easier use (px per second)
+      velocity = velocity * 1000;
+      
+      dispatch({
+        type: 'UPDATE_SCROLL',
+        payload: {
+          position: currentScrollTop,
+          velocity: velocity
+        }
+      });
+      
+      lastScrollTop = currentScrollTop;
+      lastScrollTime = currentTime;
+    };
+    
+    const handleScroll = () => {
+      // Use requestAnimationFrame for performance
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+      }
+      
+      frameId = requestAnimationFrame(updateScroll);
+    };
+    
+    // Initial call
+    updateScroll();
+    
+    // Add event listener with passive option for performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, []);
+  
+  // Track viewport dimensions
+  useEffect(() => {
+    const handleResize = () => {
+      dispatch({
+        type: 'UPDATE_VIEWPORT',
+        payload: {
+          width: window.innerWidth,
+          height: window.innerHeight
+        }
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Track reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
     const handleChange = () => {
       const prefersReducedMotion = mediaQuery.matches;
-      setReducedMotion(prefersReducedMotion);
+      dispatch({
+        type: 'SET_REDUCED_MOTION',
+        payload: prefersReducedMotion
+      });
       
       // Configure GSAP based on preference
       configureGsap(prefersReducedMotion);
     };
     
     // Initial configuration
-    configureGsap(reducedMotion);
+    configureGsap(state.reducedMotion);
     
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
-  
-  // Update viewport dimensions
-  useEffect(() => {
-    const handleResize = () => {
-      setViewport({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  // Calculate interaction intensity based on scroll velocity
-  useEffect(() => {
-    // Normalize velocity to a 0-1 scale
-    // Assuming normal scrolling is around 10-100px per second
-    const normalizedVelocity = Math.min(1, Math.abs(scrollVelocity) / 1000);
-    setInteractionIntensity(normalizedVelocity);
-  }, [scrollVelocity]);
-  
-  const value = {
-    scrollPosition,
-    scrollVelocity,
-    reducedMotion,
-    viewportWidth: viewport.width,
-    viewportHeight: viewport.height,
-    interactionIntensity
-  };
-  
+
   return (
-    <AnimationContext.Provider value={value}>
+    <AnimationContext.Provider value={state}>
       {children}
     </AnimationContext.Provider>
   );
-};
+}
 
-/**
- * Hook to use the animation context
- */
+// Hook to use animation context
 export const useAnimationContext = () => useContext(AnimationContext);
