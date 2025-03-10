@@ -1,15 +1,19 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { generateQuantumPalette } from './quantum.jsx';
 
-// Create a theme context
+// Create the color scheme context
 const ColorSchemeContext = createContext({
   colorScheme: 'dark',
   toggleColorScheme: () => {},
+  quantumColors: {},
+  interactionIntensity: 0,
+  setInteractionIntensity: () => {}
 });
 
-// Define custom theme
-const theme = createTheme({
+// Define base theme
+const baseTheme = createTheme({
   primaryColor: 'grape',
   colors: {
     grape: [
@@ -36,6 +40,43 @@ const theme = createTheme({
       '#099268',
       '#087F5B',
     ],
+    // Add quantum colors
+    quantum: [
+      '#E6FCFF',
+      '#C3FAFF',
+      '#96F2FF',
+      '#63E6FF',
+      '#38D9FF',
+      '#00F5FF',
+      '#00C5CC',
+      '#00959B',
+      '#006569',
+      '#003538',
+    ],
+    neutron: [
+      '#F3E7FF',
+      '#E9D2FF',
+      '#D4AEFF',
+      '#C089FF',
+      '#A763FF',
+      '#9240FF',
+      '#6E30C7',
+      '#4D2189',
+      '#2C124D',
+      '#0F0617',
+    ],
+    plasma: [
+      '#FFE7EC',
+      '#FFD2DA',
+      '#FFAEB9',
+      '#FF899B',
+      '#FF637C',
+      '#FF3864',
+      '#D7294E',
+      '#A61F3C',
+      '#751628',
+      '#450C14',
+    ],
   },
   fontFamily: "'Inter', sans-serif",
   headings: {
@@ -51,7 +92,15 @@ export function ThemeProvider({ children }) {
   const [colorScheme, setColorScheme] = useState(() => {
     return localStorage.getItem('colorScheme') || 'dark';
   });
-
+  
+  // State for quantum colors
+  const [quantumColors, setQuantumColors] = useState(() => {
+    return generateQuantumPalette();
+  });
+  
+  // Interaction intensity for dynamic colors
+  const [interactionIntensity, setInteractionIntensity] = useState(0);
+  
   const toggleColorScheme = () => {
     const newColorScheme = colorScheme === 'dark' ? 'light' : 'dark';
     setColorScheme(newColorScheme);
@@ -60,7 +109,7 @@ export function ThemeProvider({ children }) {
     // Apply the theme to document body directly
     document.documentElement.setAttribute('data-mantine-color-scheme', newColorScheme);
   };
-
+  
   // Set initial theme on mount
   useEffect(() => {
     // Set the initial color scheme on document
@@ -68,12 +117,36 @@ export function ThemeProvider({ children }) {
     
     // Also set a data attribute that can be used for additional custom styling
     document.body.dataset.theme = colorScheme;
+    
+    // Generate quantum colors based on color scheme
+    setQuantumColors(generateQuantumPalette({
+      base: colorScheme === 'dark' ? '#0B0C10' : '#FFFFFF',
+      accent: '#00F5FF',
+      secondary: '#9B00FF',
+      tertiary: '#FF3864'
+    }));
   }, [colorScheme]);
+  
+  // Create extended theme with quantum colors
+  const extendedTheme = {
+    ...baseTheme,
+    colorScheme,
+    other: {
+      ...baseTheme.other,
+      quantumColors
+    }
+  };
 
   return (
-    <ColorSchemeContext.Provider value={{ colorScheme, toggleColorScheme }}>
+    <ColorSchemeContext.Provider value={{ 
+      colorScheme, 
+      toggleColorScheme,
+      quantumColors,
+      interactionIntensity,
+      setInteractionIntensity
+    }}>
       <MantineProvider 
-        theme={{ ...theme, colorScheme: colorScheme }}
+        theme={extendedTheme}
         defaultColorScheme={colorScheme}
       >
         {children}
@@ -82,5 +155,5 @@ export function ThemeProvider({ children }) {
   );
 }
 
-// Custom hook to use the theme context
+// Export the hook separately (this is the key fix for HMR compatibility)
 export const useColorScheme = () => useContext(ColorSchemeContext);

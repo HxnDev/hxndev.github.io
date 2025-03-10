@@ -1,6 +1,6 @@
 import { AppShell } from '@mantine/core';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './ThemeProvider';
+import { ThemeProvider } from './theme/ThemeProvider';
 
 // Components
 import Header from './components/Header';
