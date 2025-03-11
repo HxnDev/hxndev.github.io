@@ -45,7 +45,7 @@ const Header = () => {
         transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
         backgroundColor: dark ? 'rgba(15, 6, 23, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',  // More visible shadow
-        borderRadius: '0 0 10px 10px',  // Rounded bottom corners
+        borderRadius: '0 0 20px 20px',  // More rounded bottom corners
         marginBottom: '10px'  // Add some space below
       }}
     >
@@ -78,6 +78,7 @@ const Header = () => {
               <Button 
                 variant={isActive(item.path) ? "filled" : "subtle"} 
                 color={isActive(item.path) ? "grape" : "dark"}  // More contrast
+                radius="xl"  // More rounded buttons
                 style={{
                   transition: 'all 0.2s ease',
                   transform: 'scale(1)',
@@ -103,6 +104,7 @@ const Header = () => {
           <ActionIcon
             variant="filled"  // More visible
             size="lg"  // Larger
+            radius="xl"  // Fully rounded
             color={dark ? 'yellow' : 'blue'}
             onClick={toggleColorScheme}
             title="Toggle color scheme"

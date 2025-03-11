@@ -32,7 +32,7 @@ const FilterControls = ({
   return (
     <Paper 
       withBorder 
-      radius="md" 
+      radius="xl" 
       p="md" 
       mb="xl"
       style={{
@@ -49,6 +49,7 @@ const FilterControls = ({
           onClick={() => setShowMobileFilters(!showMobileFilters)}
           variant={showMobileFilters ? "filled" : "outline"}
           color="grape"
+          radius="xl"
         >
           {showMobileFilters ? "Hide Filters" : "Show Filters"}
         </Button>
@@ -64,6 +65,7 @@ const FilterControls = ({
             value={searchQuery || ''}
             onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
             icon={<IconSearch size={16} />}
+            radius="xl"
             rightSection={
               searchQuery ? (
                 <Box
@@ -87,7 +89,8 @@ const FilterControls = ({
                 boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
               },
               input: {
-                backgroundColor: 'rgba(40, 40, 45, 0.8)'
+                backgroundColor: 'rgba(40, 40, 45, 0.8)',
+                borderRadius: '30px' // Ensure input field is also rounded
               }
             }}
           />
@@ -101,6 +104,7 @@ const FilterControls = ({
                 color={activeCategory === category.value ? "grape" : "gray"}
                 onClick={() => setActiveCategory && setActiveCategory(category.value)}
                 size='sm'
+                radius="xl"
                 sx={{
                   position: 'relative',
                   overflow: 'hidden',
@@ -134,6 +138,7 @@ const FilterControls = ({
                 color="gray"
                 onClick={onReset}
                 size='sm'
+                radius="xl"
                 sx={{
                   transition: 'all 0.2s ease',
                   opacity: 0.7,
@@ -165,6 +170,7 @@ const FilterControls = ({
               value={searchQuery || ''}
               onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
               icon={<IconSearch size={16} />}
+              radius="xl"
               rightSection={
                 searchQuery ? (
                   <Box
@@ -184,7 +190,8 @@ const FilterControls = ({
                 width: '100%',
                 transition: 'all 0.3s ease',
                 input: {
-                  backgroundColor: 'rgba(40, 40, 45, 0.8)'
+                  backgroundColor: 'rgba(40, 40, 45, 0.8)',
+                  borderRadius: '30px'
                 }
               }}
             />
@@ -197,6 +204,7 @@ const FilterControls = ({
                   color={activeCategory === category.value ? "grape" : "gray"}
                   onClick={() => setActiveCategory && setActiveCategory(category.value)}
                   size='sm'
+                  radius="xl"
                   sx={{
                     position: 'relative',
                     overflow: 'hidden',
@@ -227,6 +235,7 @@ const FilterControls = ({
                 color="gray"
                 onClick={onReset}
                 fullWidth
+                radius="xl"
                 sx={{
                   transition: 'all 0.2s ease',
                   opacity: 0.7,

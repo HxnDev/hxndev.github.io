@@ -51,7 +51,7 @@ const EnhancedProjectCard = ({
     <Paper 
       ref={cardRef}
       p="lg" 
-      radius="md" 
+      radius="xl" 
       shadow="md" 
       withBorder
       onMouseEnter={handleMouseEnter}
@@ -82,7 +82,7 @@ const EnhancedProjectCard = ({
             opacity: isHovered ? 0.3 : 0.15,
             background: 'linear-gradient(45deg, rgba(155, 0, 255, 0.3), rgba(0, 245, 255, 0.3))',
             filter: 'blur(20px)',
-            borderRadius: 'md',
+            borderRadius: 'xl',
             transition: 'opacity 0.3s ease'
           }}
         />
@@ -92,7 +92,7 @@ const EnhancedProjectCard = ({
       <Box 
         sx={{ 
           overflow: 'hidden', 
-          borderRadius: 'md', 
+          borderRadius: 'xl', 
           marginBottom: '1.2rem', 
           height: '180px', 
           position: 'relative',
@@ -137,7 +137,7 @@ const EnhancedProjectCard = ({
               padding: '8px 16px',
               background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
               color: 'white',
-              borderRadius: '4px',
+              borderRadius: '25px',
               fontWeight: 'bold',
               transform: isHovered ? 'translateY(0)' : 'translateY(20px)',
               opacity: isHovered ? 1 : 0,
@@ -152,7 +152,13 @@ const EnhancedProjectCard = ({
       {/* Content */}
       <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
         {featured && (
-          <Badge color="grape" mb="xs" gradient={{ from: '#9B00FF', to: '#00F5FF' }} variant="filled">
+          <Badge 
+            color="grape" 
+            mb="xs" 
+            radius="xl"
+            variant="filled"
+            gradient={{ from: '#9B00FF', to: '#00F5FF' }}
+          >
             Featured
           </Badge>
         )}
@@ -167,6 +173,7 @@ const EnhancedProjectCard = ({
               variant="outline" 
               color="cyan"
               size="sm"
+              radius="xl"
               styles={{
                 root: {
                   transition: 'all 0.3s ease',
@@ -178,7 +185,7 @@ const EnhancedProjectCard = ({
             </Badge>
           ))}
           {technologies && technologies.length > 3 && (
-            <Badge variant="filled" size="sm" color="gray">+{technologies.length - 3}</Badge>
+            <Badge variant="filled" size="sm" color="gray" radius="xl">+{technologies.length - 3}</Badge>
           )}
         </Group>
         
@@ -191,7 +198,7 @@ const EnhancedProjectCard = ({
               rel="noopener noreferrer"
               style={{ 
                 padding: '8px 12px',
-                borderRadius: '4px',
+                borderRadius: '25px',
                 color: 'white',
                 backgroundColor: '#333',
                 textDecoration: 'none',
@@ -215,7 +222,7 @@ const EnhancedProjectCard = ({
               rel="noopener noreferrer"
               style={{ 
                 padding: '8px 12px',
-                borderRadius: '4px',
+                borderRadius: '25px',
                 color: 'white',
                 background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
                 textDecoration: 'none',
@@ -240,7 +247,7 @@ const EnhancedProjectCard = ({
             }}
             style={{ 
               padding: '8px 12px',
-              borderRadius: '4px',
+              borderRadius: '25px',
               marginLeft: 'auto',
               color: '#00F5FF',
               backgroundColor: 'transparent',

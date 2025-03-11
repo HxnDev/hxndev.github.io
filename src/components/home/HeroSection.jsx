@@ -135,10 +135,17 @@ const HeroSection = () => {
                 href="/hxndev.github.io/assets/hassan_resume.pdf" 
                 size="lg"
                 leftSection={<IconDownload size={20} />}
+                radius="xl"
                 style={{
                   background: 'linear-gradient(45deg, #6200EE, #9B00FF)',
                   boxShadow: '0 4px 15px rgba(155, 0, 255, 0.3)',
                   transition: 'all 0.3s ease'
+                }}
+                sx={{
+                  '&:hover': {
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)'
+                  }
                 }}
                 download
               >
@@ -153,10 +160,18 @@ const HeroSection = () => {
                 variant="outline"
                 leftSection={<IconBrandGithub size={20} />}
                 rightSection={<IconArrowRight size={16} />}
+                radius="xl"
                 style={{
                   borderColor: '#9B00FF',
                   color: '#00F5FF',
                   transition: 'all 0.3s ease'
+                }}
+                sx={{
+                  '&:hover': {
+                    transform: 'translateY(-3px)',
+                    background: 'rgba(155, 0, 255, 0.1)',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)'
+                  }
                 }}
               >
                 GitHub Profile
@@ -181,7 +196,7 @@ const HeroSection = () => {
                   right: '-40px',
                   bottom: '-40px',
                   background: 'linear-gradient(135deg, rgba(155, 0, 255, 0.3), rgba(0, 245, 255, 0.2))',
-                  borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                  borderRadius: '40% 60% 60% 40% / 40% 40% 60% 60%',
                   filter: 'blur(60px)',
                   opacity: 0.5,
                   zIndex: -1,
@@ -192,7 +207,7 @@ const HeroSection = () => {
               <Image 
                 src="/hxndev.github.io/images/profile.jpg" 
                 alt="Hassan Shahzad" 
-                radius="lg"
+                radius="xl"
                 height={450}
                 fit="cover"
                 style={{
@@ -256,7 +271,7 @@ const HeroSection = () => {
             width: '30px',
             height: '50px',
             border: '2px solid rgba(155, 0, 255, 0.5)',
-            borderRadius: '15px',
+            borderRadius: '25px',
             display: 'flex',
             justifyContent: 'center',
             padding: '5px 0'
@@ -278,11 +293,11 @@ const HeroSection = () => {
       <style>
         {`
           @keyframes morphBlob {
-            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-            25% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+            0% { border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%; }
+            25% { border-radius: 60% 40% 40% 60% / 60% 60% 40% 40%; }
             50% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
-            75% { border-radius: 30% 70% 70% 30% / 70% 70% 30% 30%; }
-            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            75% { border-radius: 40% 60% 60% 40% / 60% 60% 40% 40%; }
+            100% { border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%; }
           }
           
           @keyframes scrollIndicator {

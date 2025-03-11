@@ -12,7 +12,7 @@ const ColorSchemeContext = createContext({
   setInteractionIntensity: () => {}
 });
 
-// Define base theme
+// Define base theme with more rounded elements
 const baseTheme = createTheme({
   primaryColor: 'grape',
   colors: {
@@ -83,7 +83,47 @@ const baseTheme = createTheme({
     fontFamily: "'Inter', sans-serif",
     fontWeight: 700,
   },
-  defaultRadius: 'md',
+  defaultRadius: "xl", // Changed from 'md' to 'xl' for more rounded corners throughout
+  components: {
+    Button: {
+      defaultProps: {
+        radius: "xl" // Set all buttons to have fully rounded corners by default
+      }
+    },
+    Card: {
+      defaultProps: {
+        radius: "xl" // Rounder cards
+      }
+    },
+    Paper: {
+      defaultProps: {
+        radius: "xl" // Rounder papers
+      }
+    },
+    TextInput: {
+      defaultProps: {
+        radius: "xl" // Rounder text inputs
+      }
+    },
+    Badge: {
+      defaultProps: {
+        radius: "xl" // Pill-shaped badges
+      }
+    },
+    ActionIcon: {
+      defaultProps: {
+        radius: "xl" // Circular action icons
+      }
+    }
+  },
+  other: {
+    borderRadiusXXL: '2rem',
+    glassEffect: {
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+    },
+  },
 });
 
 // Theme provider component
