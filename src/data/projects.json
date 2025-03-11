@@ -1,6 +1,48 @@
 {
     "projects": [
       {
+        "id": "jobfit",
+        "title": "JobFit",
+        "description": "A comprehensive job matching and recommendation platform that uses AI to connect job seekers with suitable opportunities.",
+        "longDescription": "JobFit is an intelligent job matching platform that analyzes user skills and preferences to recommend the most suitable job opportunities. It features resume parsing, skill assessment, and personalized job recommendations to streamline the job search process.",
+        "image": "images/projects/job-fit.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=JobFit",
+        "technologies": ["Python", "Machine Learning", "NLP", "Flask", "React"],
+        "githubUrl": "https://github.com/HxnDev/JobFit",
+        "liveUrl": null,
+        "featured": true,
+        "category": "ai",
+        "date": "2023",
+        "features": [
+          "AI-powered job matching algorithm",
+          "Resume parsing and analysis",
+          "Personalized job recommendations",
+          "Skill gap analysis",
+          "User-friendly interface"
+        ]
+      },
+      {
+        "id": "portfolio-website",
+        "title": "Portfolio Website",
+        "description": "A modern, animated portfolio website showcasing my projects and skills using React and GSAP.",
+        "longDescription": "This portfolio website features modern design principles with interactive animations, responsive layouts, and dynamic content. It showcases projects, skills, and professional experience with a focus on performance and user experience. Built with React and enhanced with GSAP animations, the site provides a seamless browsing experience across all devices.",
+        "image": "images/projects/portfolio.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Portfolio+Website",
+        "technologies": ["React", "GSAP", "Mantine UI", "JavaScript"],
+        "githubUrl": "https://github.com/HxnDev/hxndev.github.io",
+        "liveUrl": "https://hxndev.github.io",
+        "featured": true,
+        "category": "web",
+        "date": "2023",
+        "features": [
+          "Interactive animations with GSAP",
+          "Responsive design for all devices",
+          "Dynamic project showcasing",
+          "Dark/light theme support",
+          "Performance optimizations"
+        ]
+      },
+      {
         "id": "virtual-mouse-opencv",
         "title": "Virtual Mouse using OpenCV",
         "description": "A computer vision project that allows controlling the mouse cursor using hand gestures detected by a webcam.",
@@ -12,400 +54,432 @@
         "liveUrl": null,
         "featured": true,
         "category": "ai",
-        "date": "Jan 2023",
+        "date": "2022",
         "features": [
           "Real-time hand gesture tracking",
           "Mouse cursor control with hand movements",
           "Click, scroll, and drag gesture recognition",
           "Customizable sensitivity and gestures"
-        ],
-        "technicalDetails": {
-          "description": "This system uses a combination of computer vision techniques for precise hand tracking and gesture recognition.",
-          "architecture": "The application uses MediaPipe for hand landmark detection and OpenCV for image processing. Hand landmarks are mapped to screen coordinates using a custom calibration system.",
-          "challenges": [
-            {
-              "challenge": "Achieving stable cursor movement with natural hand tremors",
-              "solution": "Implemented adaptive smoothing algorithms and movement thresholds to filter out micro-movements."
-            },
-            {
-              "challenge": "Distinguishing between intentional gestures and passive hand movements",
-              "solution": "Created a state machine approach for gesture recognition with temporal analysis to confirm intentional gestures."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Hand+Detection",
-            "caption": "Hand landmark detection in action"
-          },
-          {
-            "image": "https://placehold.co/600x400/6200EE/FFFFFF?text=Gesture+Recognition",
-            "caption": "Gesture recognition interface"
-          }
         ]
       },
       {
-        "id": "ai-tic-tac-toe",
-        "title": "AI-Based Tic-Tac-Toe Game",
-        "description": "An unbeatable Tic-Tac-Toe AI opponent using the Minimax algorithm with alpha-beta pruning.",
-        "longDescription": "This implementation features an AI opponent that uses the Minimax algorithm with alpha-beta pruning to make optimal moves in the classic Tic-Tac-Toe game. The AI analyzes all possible game states to determine the best move, making it effectively unbeatable.",
-        "image": "images/projects/tictactoe.jpg",
-        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Tic+Tac+Toe+AI",
-        "technologies": ["Python", "Minimax Algorithm", "Alpha-Beta Pruning", "Game Theory"],
-        "githubUrl": "https://github.com/HxnDev/AI-Based-Tic-Tac-Toe-Game-using-Minimax",
+        "id": "hawkseye",
+        "title": "HawksEye",
+        "description": "A comprehensive surveillance and security system that leverages computer vision for threat detection and monitoring.",
+        "longDescription": "HawksEye is an advanced surveillance system that uses computer vision algorithms to detect potential security threats in real-time. The system can identify suspicious activities, unauthorized access, and potential security breaches, providing immediate alerts to security personnel.",
+        "image": "images/projects/hawkseye.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=HawksEye",
+        "technologies": ["Python", "OpenCV", "TensorFlow", "Computer Vision", "Machine Learning"],
+        "githubUrl": "https://github.com/HxnDev/HawksEye",
         "liveUrl": null,
         "featured": true,
         "category": "ai",
-        "date": "Feb 2023",
+        "date": "2022",
         "features": [
-          "Unbeatable AI using Minimax algorithm",
-          "Performance optimization with alpha-beta pruning",
-          "Clean and intuitive user interface",
-          "Game state visualization"
-        ],
-        "technicalDetails": {
-          "description": "This implementation demonstrates fundamental AI concepts through game theory application.",
-          "architecture": "The game uses a tree-based search algorithm to evaluate all possible future game states and select optimal moves.",
-          "challenges": [
-            {
-              "challenge": "Optimizing the algorithm for better performance",
-              "solution": "Implemented alpha-beta pruning to reduce the number of nodes evaluated by the minimax algorithm."
-            },
-            {
-              "challenge": "Creating balanced difficulty levels",
-              "solution": "Added a randomized decision factor at specific depths to make the AI occasionally choose suboptimal moves for easier difficulty settings."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/6200EE/FFFFFF?text=Game+Board",
-            "caption": "Game board interface"
-          },
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=AI+Moves",
-            "caption": "AI move calculation visualization"
-          }
+          "Real-time threat detection",
+          "Multi-camera support",
+          "Automated alert system",
+          "Activity logging and reporting",
+          "User access management"
         ]
       },
       {
-        "id": "iris-entropy-calculation",
-        "title": "IRIS Dataset Entropy Calculation",
-        "description": "A data science project that calculates entropy and information gain for the classic IRIS dataset.",
-        "longDescription": "This project implements decision tree algorithms from scratch to calculate entropy and information gain for the classic IRIS dataset. It demonstrates core concepts in data mining and machine learning by showing how information theory can be used for feature selection and classification.",
-        "image": "images/projects/iris.jpg",
-        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=IRIS+Entropy",
-        "technologies": ["Python", "Machine Learning", "Information Theory", "Data Mining"],
-        "githubUrl": "https://github.com/HxnDev/Calculating-Entropy-of-IRIS-Dataset",
+        "id": "brilliant-pro-lms",
+        "title": "Brilliant Pro LMS",
+        "description": "A comprehensive Learning Management System that provides tools for course creation, student management, and educational content delivery.",
+        "longDescription": "Brilliant Pro LMS is a complete learning management solution designed for educational institutions and corporate training programs. It offers features for course creation, content management, student tracking, and assessment tools to facilitate effective online learning experiences.",
+        "image": "images/projects/brilliant-pro.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Brilliant+Pro+LMS",
+        "technologies": ["JavaScript", "React", "Node.js", "Express", "MongoDB"],
+        "githubUrl": "https://github.com/HxnDev/Brilliant-Pro-LMS",
         "liveUrl": null,
         "featured": false,
-        "category": "data",
-        "date": "Mar 2023",
+        "category": "web",
+        "date": "2022",
         "features": [
-          "Custom implementation of entropy calculation",
-          "Information gain computation for feature selection",
-          "Visualization of decision boundaries",
-          "Benchmarking against scikit-learn implementations"
-        ],
-        "technicalDetails": {
-          "description": "This project demonstrates foundational concepts in information theory as applied to machine learning.",
-          "architecture": "The implementation uses numpy for numerical computations and matplotlib for visualizing entropy distribution across features.",
-          "challenges": [
-            {
-              "challenge": "Handling continuous variables in entropy calculations",
-              "solution": "Implemented dynamic binning strategies to discretize continuous variables while preserving information content."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Entropy+Graph",
-            "caption": "Entropy visualization across features"
-          }
+          "Course creation and management",
+          "Student enrollment and tracking",
+          "Assessment and grading tools",
+          "Content library management",
+          "Progress tracking and reporting"
+        ]
+      },
+      {
+        "id": "vehicle-buy-sell",
+        "title": "Vehicle Buy Sell Platform",
+        "description": "An Angular-based platform for buying and selling vehicles with comprehensive listing, search, and transaction capabilities.",
+        "longDescription": "This vehicle buying and selling platform provides a user-friendly interface for listing vehicles, searching for available options, and managing transactions. It includes features for detailed vehicle listings, user authentication, messaging between buyers and sellers, and transaction management.",
+        "image": "images/projects/vehicle-buy-sell.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Vehicle+Buy+Sell",
+        "technologies": ["Angular", "TypeScript", "Firebase", "Bootstrap", "RxJS"],
+        "githubUrl": "https://github.com/HxnDev/Vehicle-Buying-Selling-Platform-in-Angular",
+        "liveUrl": null,
+        "featured": false,
+        "category": "web",
+        "date": "2021",
+        "features": [
+          "Detailed vehicle listings with multiple images",
+          "Advanced search and filtering options",
+          "User authentication and profile management",
+          "In-app messaging system",
+          "Saved listings and favorites"
+        ]
+      },
+      {
+        "id": "event-management-system",
+        "title": "Event Management System",
+        "description": "A comprehensive solution for planning, organizing, and managing events of all sizes with features for registration, scheduling, and attendance tracking.",
+        "longDescription": "The Event Management System streamlines the entire event planning and management process. It provides tools for creating events, managing registrations, scheduling sessions, tracking attendance, and generating reports. The system is designed to be versatile and can handle events of various types and sizes.",
+        "image": "images/projects/event-management.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Event+Management+System",
+        "technologies": ["Java", "Spring Boot", "MySQL", "Thymeleaf", "Bootstrap"],
+        "githubUrl": "https://github.com/HxnDev/Event-Management-System",
+        "liveUrl": null,
+        "featured": true,
+        "category": "web",
+        "date": "2022",
+        "features": [
+          "Event creation and scheduling",
+          "Attendee registration and management",
+          "Session and venue planning",
+          "Speaker and staff management",
+          "Real-time analytics and reporting"
+        ]
+      },
+      {
+        "id": "phy-elearning-app",
+        "title": "PHY E-learning App",
+        "description": "A mobile application designed to make learning physics engaging and interactive through visualizations, simulations, and interactive problem-solving.",
+        "longDescription": "PHY is a comprehensive e-learning mobile application focused on making physics education accessible and engaging. It features interactive simulations, 3D visualizations of physics concepts, problem-solving tools, and comprehensive course content covering various physics topics for high school and university students.",
+        "image": "images/projects/phy-app.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=PHY+App",
+        "technologies": ["React Native", "JavaScript", "Three.js", "Firebase", "Node.js"],
+        "githubUrl": "https://github.com/HxnDev/PHY---A-Walkthrough-Physics-E-Learning-Mobile-App",
+        "liveUrl": null,
+        "featured": false,
+        "category": "mobile",
+        "date": "2021",
+        "features": [
+          "Interactive 3D physics simulations",
+          "Comprehensive course materials",
+          "Problem-solving exercises with hints",
+          "Progress tracking and assessments",
+          "Offline content access"
+        ]
+      },
+      {
+        "id": "simple-translator",
+        "title": "Simple Translator in Python",
+        "description": "A translator application that supports multiple languages and provides efficient text translation capabilities.",
+        "longDescription": "Simple Translator is a Python-based application that offers quick and reliable text translation between multiple languages. It features a clean interface, language detection, and utilizes advanced translation APIs to provide accurate translations for various text formats.",
+        "image": "images/projects/simple-translator.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Simple+Translator",
+        "technologies": ["Python", "Google Translate API", "Tkinter", "NLP"],
+        "githubUrl": "https://github.com/HxnDev/Simple-Translator-in-Python",
+        "liveUrl": null,
+        "featured": false,
+        "category": "tools",
+        "date": "2020",
+        "features": [
+          "Support for multiple languages",
+          "Text and file translation",
+          "Language detection",
+          "Pronunciation guides",
+          "History tracking for previous translations"
+        ]
+      },
+      {
+        "id": "rock-paper-scissors",
+        "title": "Rock Paper Scissors Game",
+        "description": "A fun, interactive implementation of the classic Rock Paper Scissors game with a computer opponent.",
+        "longDescription": "This project is an interactive implementation of the classic Rock Paper Scissors game, featuring a computer opponent with various difficulty levels. The game includes a user-friendly interface, score tracking, game history, and customizable game modes for an engaging gaming experience.",
+        "image": "images/projects/rock-paper-scissors.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Rock+Paper+Scissors",
+        "technologies": ["Python", "Tkinter", "Game Development", "Algorithm Design"],
+        "githubUrl": "https://github.com/HxnDev/Rock-Paper-Scissors-Game",
+        "liveUrl": null,
+        "featured": false,
+        "category": "games",
+        "date": "2020",
+        "features": [
+          "Interactive user interface",
+          "Multiple difficulty levels",
+          "Score tracking and statistics",
+          "Game history recording",
+          "Computer opponent with adaptive strategies"
+        ]
+      },
+      {
+        "id": "qr-code-generator",
+        "title": "QR Code Generator",
+        "description": "A versatile tool for generating customizable QR codes for various applications such as URLs, contact information, and text.",
+        "longDescription": "This QR Code Generator allows users to create customized QR codes for different types of data including URLs, contact information, text, and more. It offers features for adjusting QR code size, error correction level, and design customization to meet specific requirements and brand guidelines.",
+        "image": "images/projects/qr-code.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=QR+Code+Generator",
+        "technologies": ["Python", "PyQRCode", "Pillow", "Tkinter"],
+        "githubUrl": "https://github.com/HxnDev/QR-Code-Generator",
+        "liveUrl": null,
+        "featured": false,
+        "category": "tools",
+        "date": "2020",
+        "features": [
+          "Multiple QR code data formats support",
+          "Customizable QR code appearance",
+          "Adjustable error correction level",
+          "Export in various image formats",
+          "Batch QR code generation"
+        ]
+      },
+      {
+        "id": "pose-detection",
+        "title": "Pose Detection",
+        "description": "A computer vision application that detects and tracks human body poses in real-time using advanced AI models.",
+        "longDescription": "This Pose Detection project utilizes computer vision and machine learning to detect and track human body poses in real-time. It can identify key body landmarks and track movements, making it useful for applications in fitness, physical therapy, sports analysis, and interactive gaming. The system works with both images and video inputs.",
+        "image": "images/projects/pose-detection.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Pose+Detection",
+        "technologies": ["Python", "TensorFlow", "MediaPipe", "OpenCV", "Computer Vision"],
+        "githubUrl": "https://github.com/HxnDev/Pose-Detection",
+        "liveUrl": null,
+        "featured": true,
+        "category": "ai",
+        "date": "2021",
+        "features": [
+          "Real-time pose detection and tracking",
+          "33-point skeletal mapping",
+          "Movement analysis and metrics",
+          "Support for multiple people in frame",
+          "Integration with fitness and health applications"
+        ]
+      },
+      {
+        "id": "graphical-password-authentication",
+        "title": "Graphical Password Authentication System",
+        "description": "An innovative authentication system that utilizes graphical elements instead of traditional text passwords for enhanced security and memorability.",
+        "longDescription": "The Graphical Password Authentication System offers an alternative to traditional text-based passwords by using images and graphical elements for authentication. This approach enhances security while making passwords more memorable for users. The system includes multiple authentication methods such as image sequence selection, pattern drawing, and point-click sequences.",
+        "image": "images/projects/graphical-password.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Graphical+Password+Authentication",
+        "technologies": ["Java", "JavaFX", "Cryptography", "Security", "UI Design"],
+        "githubUrl": "https://github.com/HxnDev/Graphical-Password-Authentication-System",
+        "liveUrl": null,
+        "featured": true,
+        "category": "security",
+        "date": "2021",
+        "features": [
+          "Multiple graphical authentication methods",
+          "Enhanced security against common attacks",
+          "User-friendly interface",
+          "Password reset mechanisms",
+          "Secure storage of authentication data"
+        ]
+      },
+      {
+        "id": "video-to-gif-converter",
+        "title": "Video to GIF Converter",
+        "description": "A tool that converts video files into animated GIFs with customizable settings for frame rate, quality, and dimensions.",
+        "longDescription": "This Video to GIF Converter allows users to transform video clips into animated GIFs with full control over the output settings. Users can adjust frame rate, quality, dimensions, and even add effects or captions to the resulting GIFs. The tool supports various video formats and provides optimization for different use cases like social media sharing or web embedding.",
+        "image": "images/projects/video-to-gif.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Video+to+GIF+Converter",
+        "technologies": ["Python", "FFmpeg", "OpenCV", "Pillow", "MoviePy"],
+        "githubUrl": "https://github.com/HxnDev/Video-to-GIF-Converter",
+        "liveUrl": null,
+        "featured": false,
+        "category": "tools",
+        "date": "2020",
+        "features": [
+          "Support for multiple video formats",
+          "Customizable frame rate and dimensions",
+          "Quality and file size optimization",
+          "Batch processing capability",
+          "Preview functionality before conversion"
+        ]
+      },
+      {
+        "id": "ripple-effect",
+        "title": "The Ripple Effect",
+        "description": "An Ethereum-based fundraising platform that leverages blockchain technology for transparent and secure donations.",
+        "longDescription": "The Ripple Effect is a blockchain-based fundraising platform built on Ethereum that revolutionizes charitable giving through transparency and security. The app allows donors to track exactly how their contributions are being used, ensures funds reach intended recipients, and eliminates intermediaries. It features smart contracts for automated fund distribution and provides verification of project outcomes.",
+        "image": "images/projects/ripple-effect.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Ripple+Effect",
+        "technologies": ["Ethereum", "Solidity", "React", "Web3.js", "Smart Contracts"],
+        "githubUrl": "https://github.com/HxnDev/The-Ripple-Effect---An-Ethereum-Based-Fundraiser-App",
+        "liveUrl": null,
+        "featured": true,
+        "category": "blockchain",
+        "date": "2022",
+        "features": [
+          "Blockchain-based donation tracking",
+          "Smart contract implementation for fund management",
+          "Transparent fund allocation visualization",
+          "Decentralized verification of project outcomes",
+          "Crypto and fiat currency support"
+        ]
+      },
+      {
+        "id": "insta-profile-details",
+        "title": "Instagram Profile Details",
+        "description": "A tool that extracts and analyzes public profile information from Instagram accounts.",
+        "longDescription": "This Instagram Profile Details tool provides insights into public Instagram profiles by extracting available data and presenting it in an organized manner. It can gather information such as follower count, engagement rates, posting frequency, and hashtag usage. The tool respects Instagram's terms of service by only accessing publicly available information.",
+        "image": "images/projects/insta-profile.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Instagram+Profile+Details",
+        "technologies": ["Python", "Beautiful Soup", "Requests", "Data Analysis", "API Integration"],
+        "githubUrl": "https://github.com/HxnDev/Insta-Profile-Details",
+        "liveUrl": null,
+        "featured": false,
+        "category": "tools",
+        "date": "2020",
+        "features": [
+          "Profile statistics extraction",
+          "Post engagement analysis",
+          "Hashtag and content analysis",
+          "Data visualization of profile metrics",
+          "Export functionality for gathered data"
+        ]
+      },
+      {
+        "id": "image-to-sketch",
+        "title": "Image to Sketch",
+        "description": "A creative tool that converts photographs into artistic sketches with adjustable parameters for style customization.",
+        "longDescription": "Image to Sketch is a creative image processing tool that transforms photographs into artistic sketch-like renderings. Users can adjust various parameters such as line weight, detail level, and contrast to achieve different artistic styles. The application provides real-time preview and supports multiple output formats for digital art creation or traditional printing.",
+        "image": "images/projects/image-to-sketch.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Image+to+Sketch",
+        "technologies": ["Python", "OpenCV", "NumPy", "Image Processing"],
+        "githubUrl": "https://github.com/HxnDev/Image-to-Sketch",
+        "liveUrl": null,
+        "featured": false,
+        "category": "tools",
+        "date": "2020",
+        "features": [
+          "Multiple sketch style options",
+          "Adjustable parameters for customization",
+          "Batch processing capability",
+          "Support for various image formats",
+          "Real-time preview functionality"
+        ]
+      },
+      {
+        "id": "virtual-drag-and-drop",
+        "title": "Virtual Drag And Drop Using OpenCV",
+        "description": "A computer vision project that enables drag-and-drop functionality using hand gestures captured through a webcam.",
+        "longDescription": "This project uses OpenCV and computer vision techniques to create a virtual drag-and-drop interface controlled by hand gestures. Users can interact with on-screen objects by making specific hand movements captured via webcam. The system tracks hand gestures for selection, movement, and release of virtual objects, creating an intuitive and touchless interaction experience.",
+        "image": "images/projects/virtual-drag-and-drop.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Virtual+Drag+And+Drop",
+        "technologies": ["Python", "OpenCV", "Computer Vision", "MediaPipe", "Gesture Recognition"],
+        "githubUrl": "https://github.com/HxnDev/Virtual-Drag-And-Drop-Using-OpenCV",
+        "liveUrl": null,
+        "featured": true,
+        "category": "ai",
+        "date": "2021",
+        "features": [
+          "Real-time hand tracking and gesture recognition",
+          "Virtual object interaction",
+          "Customizable gesture mappings",
+          "Multi-object management",
+          "Smooth motion tracking and control"
+        ]
+      },
+      {
+        "id": "face-mesh",
+        "title": "Face Mesh using Python",
+        "description": "A computer vision application that creates detailed facial landmark detection for various applications including AR filters and facial analysis.",
+        "longDescription": "Face Mesh is a sophisticated facial landmark detection system that identifies and tracks 468 different points on the human face in real-time. This detailed mapping enables applications in augmented reality, facial analysis, expression tracking, and more. The project uses MediaPipe and OpenCV to achieve high-accuracy facial point detection even under various lighting conditions and head poses.",
+        "image": "images/projects/face-mesh.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Face+Mesh",
+        "technologies": ["Python", "MediaPipe", "OpenCV", "TensorFlow", "Computer Vision"],
+        "githubUrl": "https://github.com/HxnDev/Face-Mesh-using-Python",
+        "liveUrl": null,
+        "featured": true,
+        "category": "ai",
+        "date": "2021",
+        "features": [
+          "468-point facial landmark detection",
+          "Real-time tracking and mapping",
+          "3D coordinate estimation",
+          "Expression and movement analysis",
+          "Integration capabilities with AR applications"
         ]
       },
       {
         "id": "solar-system-opengl",
         "title": "3D Solar System Scene using OpenGL",
         "description": "An interactive 3D simulation of the solar system with realistic planet movements using OpenGL.",
-        "longDescription": "This project creates a visually stunning and physically accurate representation of our solar system using OpenGL. Planets orbit the sun following accurate orbital periods and rotations, with realistic texturing and lighting effects.",
-        "image": "images/projects/solar-system.jpg",
-        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Solar+System+3D",
+        "longDescription": "This project creates a visually stunning and physically accurate representation of our solar system using OpenGL. Planets orbit the sun following accurate orbital periods and rotations, with realistic texturing and lighting effects. The simulation allows users to explore the solar system from different perspectives and includes information about celestial bodies.",
+        "image": "images/projects/3d-solar-system.jpg",
+        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Solar+System+3D",
         "technologies": ["C++", "OpenGL", "3D Graphics", "Physics Simulation"],
         "githubUrl": "https://github.com/HxnDev/3D-Solar-System-Scene-using-OpenGL",
         "liveUrl": null,
-        "featured": true,
-        "category": "other",
-        "date": "Apr 2023",
+        "featured": false,
+        "category": "graphics",
+        "date": "2021",
         "features": [
           "Realistic planetary orbits and rotations",
           "High-resolution planet textures",
           "Interactive camera controls",
-          "Dynamic lighting from the sun"
-        ],
-        "technicalDetails": {
-          "description": "This project demonstrates 3D graphics programming and physics simulation techniques.",
-          "architecture": "The application uses modern OpenGL with custom shaders for realistic planet rendering, with a physics engine for orbital calculations.",
-          "challenges": [
-            {
-              "challenge": "Maintaining accurate scale while keeping visualization useful",
-              "solution": "Implemented a dynamic scaling system that preserves relative planet sizes while adjusting distances for better visualization."
-            },
-            {
-              "challenge": "Optimizing rendering for multiple detailed planet models",
-              "solution": "Created level-of-detail systems and texture streaming to maintain high performance even with detailed planet models."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/FF3864/FFFFFF?text=Solar+System",
-            "caption": "Complete solar system view"
-          },
-          {
-            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Earth+View",
-            "caption": "Detailed Earth rendering"
-          }
+          "Dynamic lighting from the sun",
+          "Educational information about planets"
         ]
       },
       {
-        "id": "internet-speed-calculator",
-        "title": "Internet Speed Calculator",
-        "description": "A tool for measuring and analyzing internet connection speed with historical tracking.",
-        "longDescription": "This application provides accurate measurements of download and upload speeds, ping, and jitter. It stores historical data to track performance over time and identify patterns in connection quality.",
-        "image": "images/projects/internet-speed.jpg",
-        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Speed+Test",
-        "technologies": ["Python", "Networking", "Data Visualization", "Tkinter"],
-        "githubUrl": "https://github.com/HxnDev/Internet-Speed-Calculator",
+        "id": "exam-scheduler",
+        "title": "Exam Scheduler Generator Using Genetic Algorithm",
+        "description": "An intelligent exam scheduling system that uses genetic algorithms to optimize exam timetables considering various constraints.",
+        "longDescription": "The Exam Scheduler tackles the complex problem of creating conflict-free exam timetables using genetic algorithms. It considers constraints such as room availability, course conflicts, instructor schedules, and student loads to generate optimal exam schedules. The system adapts to different institutional requirements and can handle large-scale scheduling problems efficiently.",
+        "image": "images/projects/exam-scheduler.jpg",
+        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Exam+Scheduler",
+        "technologies": ["Python", "Genetic Algorithms", "Optimization", "Data Structures"],
+        "githubUrl": "https://github.com/HxnDev/Exam-Scheduler-Generator-Using-Genetic-Algorithm",
         "liveUrl": null,
         "featured": false,
-        "category": "other",
-        "date": "May 2023",
+        "category": "ai",
+        "date": "2022",
         "features": [
-          "Accurate download and upload speed measurement",
-          "Ping and jitter analysis",
-          "Historical data tracking",
-          "Performance visualization over time"
-        ],
-        "technicalDetails": {
-          "description": "This tool uses multiple connection testing methodologies to provide accurate speed measurements.",
-          "architecture": "The application establishes multiple concurrent connections to testing servers for bandwidth measurement while monitoring round-trip time for latency calculations.",
-          "challenges": [
-            {
-              "challenge": "Ensuring accuracy across different network conditions",
-              "solution": "Implemented adaptive testing algorithms that adjust packet sizes and testing intervals based on current network conditions."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Speed+Test+UI",
-            "caption": "Speed testing interface"
-          }
+          "Constraint-based scheduling optimization",
+          "Automatic conflict resolution",
+          "Customizable constraints and priorities",
+          "Performance metrics for schedule quality",
+          "Multiple schedule generation and comparison"
         ]
       },
       {
-        "id": "canon-war-game",
-        "title": "Canon War Game in Assembly",
-        "description": "A retro-style war game implemented entirely in x86 Assembly language.",
-        "longDescription": "This project demonstrates low-level programming principles by implementing a complete game in Assembly language. Players control canons to destroy enemy targets while managing ammunition and avoiding counter-attacks.",
-        "image": "images/projects/canon-war.jpg",
-        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=Canon+War+Game",
-        "technologies": ["x86 Assembly", "Low-level Programming", "Game Development"],
-        "githubUrl": "https://github.com/HxnDev/Canon-War-Game-using-Assembly-Language",
+        "id": "ai-chess-game",
+        "title": "AI Based Chess Game Using Minimax",
+        "description": "An intelligent chess game implementation featuring an AI opponent powered by the Minimax algorithm and Alpha-Beta pruning.",
+        "longDescription": "This AI-powered chess game implements the Minimax algorithm with Alpha-Beta pruning to create a challenging computer opponent. The AI evaluates possible moves several steps ahead and selects optimal plays based on board evaluation functions. Players can adjust difficulty levels, analyze game states, and improve their chess skills against different AI strategies.",
+        "image": "images/projects/ai-chess.jpg",
+        "fallbackImage": "https://placehold.co/600x400/FF3864/FFFFFF?text=AI+Chess+Game",
+        "technologies": ["Python", "Minimax Algorithm", "Alpha-Beta Pruning", "Game Theory", "Chess Engine"],
+        "githubUrl": "https://github.com/HxnDev/AI-Based-Chess-Game-Using-Minimax-and-Alpha-Beta-Prunning",
         "liveUrl": null,
-        "featured": false,
-        "category": "other",
-        "date": "Jun 2023",
-        "features": [
-          "Fully implemented in x86 Assembly",
-          "Pixel-based graphics rendering",
-          "Keyboard input handling",
-          "Physics simulation for projectile motion"
-        ],
-        "technicalDetails": {
-          "description": "This project showcases advanced assembly programming techniques for game development.",
-          "architecture": "The game uses direct memory manipulation for graphics and custom interrupt handlers for input processing.",
-          "challenges": [
-            {
-              "challenge": "Implementing smooth animation in Assembly",
-              "solution": "Created a double-buffering system and optimized drawing routines to maintain consistent frame rates."
-            },
-            {
-              "challenge": "Managing game state without high-level constructs",
-              "solution": "Designed a memory-efficient state management system using fixed-offset memory blocks and bit manipulation."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/FF3864/FFFFFF?text=Game+Screen",
-            "caption": "Main game screen"
-          }
-        ]
-      },
-      {
-        "id": "bubble-pop-screensaver",
-        "title": "Bubble Pop Screen Saver & Game",
-        "description": "A dual-purpose application functioning as both a relaxing screensaver and an interactive bubble-popping game.",
-        "longDescription": "This project combines a visually appealing bubble animation screensaver with interactive gameplay. In screensaver mode, colorful bubbles float and interact with realistic physics, while game mode challenges players to pop bubbles for points within time constraints.",
-        "image": "images/projects/bubble-pop.jpg",
-        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Bubble+Pop",
-        "technologies": ["C++", "Graphics Programming", "Game Development", "Physics Simulation"],
-        "githubUrl": "https://github.com/HxnDev/Bubble-Pop-Screen-Saver-And-Game",
-        "liveUrl": null,
-        "featured": false,
-        "category": "other",
-        "date": "Jul 2023",
-        "features": [
-          "Dual-mode: screensaver and game",
-          "Realistic bubble physics with collision detection",
-          "Customizable bubble colors and sizes",
-          "Scoring system with difficulty progression"
-        ],
-        "technicalDetails": {
-          "description": "This application demonstrates graphics programming and physics simulation techniques.",
-          "architecture": "The program uses a unified core engine for both modes, with state transitions handling the switch between passive animation and interactive gameplay.",
-          "challenges": [
-            {
-              "challenge": "Creating realistic bubble physics",
-              "solution": "Implemented a custom physics engine with surface tension simulation and realistic collision responses."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Bubble+Animation",
-            "caption": "Screensaver mode"
-          },
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Game+Mode",
-            "caption": "Interactive game mode"
-          }
-        ]
-      },
-      {
-        "id": "analog-clock",
-        "title": "Analog Clock",
-        "description": "A realistic analog clock implementation with smooth animation and customizable themes.",
-        "longDescription": "This project creates a visually accurate analog clock with smooth second, minute, and hour hand movements. It features multiple themes, a customizable interface, and accurate timekeeping synchronized with system time.",
-        "image": "images/projects/analog-clock.jpg",
-        "fallbackImage": "https://placehold.co/600x400/6200EE/FFFFFF?text=Analog+Clock",
-        "technologies": ["JavaScript", "HTML Canvas", "CSS", "Animation"],
-        "githubUrl": "https://github.com/HxnDev/Analog-Clock",
-        "liveUrl": "https://hxndev.github.io/Analog-Clock/",
-        "featured": false,
-        "category": "web",
-        "date": "Aug 2023",
-        "features": [
-          "Realistic analog clock design",
-          "Smooth hand animations",
-          "Multiple theme options",
-          "Accurate time synchronization"
-        ],
-        "technicalDetails": {
-          "description": "This project demonstrates animation techniques and time manipulation in web development.",
-          "architecture": "The clock uses HTML Canvas for rendering, with JavaScript handling time calculations and animation frames.",
-          "challenges": [
-            {
-              "challenge": "Creating smooth hand movements",
-              "solution": "Implemented continuous rotation calculations rather than discrete second updates, providing a more natural movement effect."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/6200EE/FFFFFF?text=Classic+Theme",
-            "caption": "Classic clock theme"
-          },
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Modern+Theme",
-            "caption": "Modern dark theme"
-          }
-        ]
-      },
-      {
-        "id": "child-process-utils",
-        "title": "Unix Command Utilities",
-        "description": "Implementation of Unix command pipelines with ls, sort, and wc commands using child processes.",
-        "longDescription": "This project demonstrates inter-process communication by implementing core Unix commands (ls, sort, and wc) that can be piped together. It showcases low-level process management, file descriptors, and signal handling.",
-        "image": "images/projects/unix-commands.jpg",
-        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Unix+Commands",
-        "technologies": ["C", "Unix", "Systems Programming", "IPC"],
-        "githubUrl": "https://github.com/HxnDev/ls-sort-and-wc-using-child-processes",
-        "liveUrl": null,
-        "featured": false,
-        "category": "other",
-        "date": "Sep 2023",
-        "features": [
-          "Implementation of ls, sort, and wc commands",
-          "Support for command pipelining",
-          "File descriptor management",
-          "Signal handling for process control"
-        ],
-        "technicalDetails": {
-          "description": "This project demonstrates systems programming concepts and process management techniques.",
-          "architecture": "The implementation uses fork() and exec() for process creation, with pipes for inter-process communication.",
-          "challenges": [
-            {
-              "challenge": "Managing file descriptors across process boundaries",
-              "solution": "Implemented a descriptor tracking system to ensure proper duplication and closing of file handles during process creation."
-            },
-            {
-              "challenge": "Handling arbitrary command pipelines",
-              "solution": "Created a parser and execution engine that can handle variable-length command chains with proper resource cleanup."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Command+Pipeline",
-            "caption": "Command pipeline execution"
-          }
-        ]
-      },
-      {
-        "id": "portfolio-website",
-        "title": "Portfolio Website",
-        "description": "A modern, animated portfolio website showcasing my projects and skills using React and GSAP.",
-        "longDescription": "This portfolio website features modern design principles with interactive animations, responsive layouts, and dynamic content. It showcases projects, skills, and professional experience with a focus on performance and user experience.",
-        "image": "images/projects/portfolio.jpg",
-        "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Portfolio+Website",
-        "technologies": ["React", "GSAP", "Mantine UI", "JavaScript"],
-        "githubUrl": "https://github.com/HxnDev/hxndev.github.io",
-        "liveUrl": "https://hxndev.github.io",
         "featured": true,
-        "category": "web",
-        "date": "Oct 2023",
+        "category": "ai",
+        "date": "2022",
         "features": [
-          "Interactive animations with GSAP",
-          "Responsive design for all devices",
-          "Dynamic project showcasing",
-          "Dark/light theme support"
-        ],
-        "technicalDetails": {
-          "description": "This website demonstrates modern frontend development practices and animation techniques.",
-          "architecture": "The site uses React for component-based structure, with GSAP for animations and Mantine UI for consistent styling.",
-          "challenges": [
-            {
-              "challenge": "Creating smooth transitions between sections",
-              "solution": "Implemented a custom animation system with GSAP timelines for coordinated entrance and exit animations."
-            },
-            {
-              "challenge": "Optimizing performance with complex animations",
-              "solution": "Used animation batching, requestAnimationFrame timing, and progressive enhancement to maintain smooth performance across devices."
-            }
-          ]
-        },
-        "screenshots": [
-          {
-            "image": "https://placehold.co/600x400/9B00FF/FFFFFF?text=Home+Page",
-            "caption": "Portfolio home page"
-          },
-          {
-            "image": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Projects+Gallery",
-            "caption": "Projects showcase section"
-          }
+          "Minimax algorithm with Alpha-Beta pruning",
+          "Multiple difficulty levels",
+          "Move suggestion and analysis",
+          "Game state visualization",
+          "Performance optimization for deeper search"
+        ]
+      },
+      {
+        "id": "password-cracker",
+        "title": "Password Cracker using Brute Force Algorithm",
+        "description": "A demonstration tool that showcases password vulnerability through brute force methods for educational purposes.",
+        "longDescription": "This password cracker demonstrates the vulnerability of weak passwords by implementing various brute force algorithms. Designed for educational purposes, it helps users understand the importance of strong password practices by showing how quickly simple passwords can be compromised. The project includes different attack strategies and performance optimizations for demonstration purposes only.",
+        "image": "images/projects/password-cracker.jpg",
+        "fallbackImage": "https://placehold.co/600x400/00F5FF/FFFFFF?text=Password+Cracker",
+        "technologies": ["Python", "Cryptography", "Algorithm Design", "Security"],
+        "githubUrl": "https://github.com/HxnDev/Password-Cracker-using-Brute-Force-Algorithm",
+        "liveUrl": null,
+        "featured": false,
+        "category": "security",
+        "date": "2020",
+        "features": [
+          "Multiple attack strategies demonstration",
+          "Password strength analysis",
+          "Performance benchmarking for different approaches",
+          "Educational resources on password security",
+          "Visualization of cracking process"
         ]
       }
     ]
