@@ -25,7 +25,7 @@ import { useAnimationContext } from '../../context/AnimationContext';
 
 const ProjectDetail = ({ project, onBack }) => {
   const containerRef = useRef(null);
-  const { colorScheme, quantumColors } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const { reducedMotion } = useAnimationContext();
   const isDark = colorScheme === 'dark';
 

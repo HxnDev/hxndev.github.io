@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { configureGsap } from '../animations/gsap';
 
 // Initial state
@@ -139,10 +139,10 @@ export function AnimationProvider({ children }) {
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  }, [state.reducedMotion]);
 
   return <AnimationContext.Provider value={state}>{children}</AnimationContext.Provider>;
 }
 
-// Hook to use animation context
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAnimationContext = () => useContext(AnimationContext);

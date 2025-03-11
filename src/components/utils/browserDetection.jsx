@@ -80,7 +80,7 @@ export const detectFeatures = () => {
           window.WebGLRenderingContext &&
           (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
         );
-      } catch (e) {
+      } catch {
         return false;
       }
     })(),
@@ -89,7 +89,7 @@ export const detectFeatures = () => {
       try {
         const canvas = document.createElement('canvas');
         return !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
-      } catch (e) {
+      } catch {
         return false;
       }
     })(),

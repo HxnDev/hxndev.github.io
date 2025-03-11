@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import ProjectCard from './ProjectCard';
 import { useAnimationContext } from '../../context/AnimationContext';
 
-const ProjectGallery = ({ projects, filteredProjects, searchQuery, onViewDetails }) => {
+const ProjectGallery = ({ filteredProjects, searchQuery, onViewDetails }) => {
   const galleryRef = useRef(null);
   const { reducedMotion } = useAnimationContext();
   const [animationComplete, setAnimationComplete] = useState(false);

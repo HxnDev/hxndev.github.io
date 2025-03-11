@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useColorScheme } from '../theme/ThemeProvider';
 import { useAnimationContext } from '../context/AnimationContext';
 

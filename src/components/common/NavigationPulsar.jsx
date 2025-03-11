@@ -20,10 +20,6 @@ const NavigationPulsar = () => {
     { path: '/hxndev.github.io/contact', label: 'Contact', icon: <IconMail size={20} /> },
   ];
 
-  // Get current section
-  const currentPath =
-    navigationItems.find(item => item.path === location.pathname) || navigationItems[0];
-
   // Handle navigation click
   const handleNavigate = path => {
     setExpanded(false);

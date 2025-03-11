@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Title, Text, Container, Box, Alert, Button, Loader, SimpleGrid } from '@mantine/core';
 import { IconAlertCircle, IconRocket } from '@tabler/icons-react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -16,7 +16,7 @@ import ProjectDetail from '../components/projects/ProjectDetail';
 import ProjectModal from '../components/projects/ProjectModal';
 
 const Projects = () => {
-  const { reducedMotion } = useAnimationContext();
+  const { _reducedMotion } = useAnimationContext();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Projects = () => {
     if (projectId && projectsData && projectsData.length > 0) {
       handleViewDetails(projectId);
     }
-  }, [projectsLoading, projectsData, location.search]);
+  }, [projectsLoading, projectsData, location.search, handleViewDetails]);
 
   // Project filtering hook
   const {
@@ -67,26 +67,29 @@ const Projects = () => {
   } = useProjectDetail();
 
   // Handle view project details with proper navigation
-  const handleViewDetails = (projectId, action = 'page') => {
-    if (action === 'reset') {
-      resetFilters();
-      navigate('/hxndev.github.io/projects');
-      return;
-    }
+  const handleViewDetails = useCallback(
+    (projectId, action = 'page') => {
+      if (action === 'reset') {
+        resetFilters();
+        navigate('/hxndev.github.io/projects');
+        return;
+      }
 
-    if (!projectId) {
-      return;
-    }
+      if (!projectId) {
+        return;
+      }
 
-    if (action === 'modal') {
-      openProjectModal(projectId, projectsData);
-    } else if (action === 'page') {
-      // Update the URL
-      navigate(`/hxndev.github.io/projects?project=${projectId}`);
-      // View project details
-      viewProjectDetails(projectId, projectsData);
-    }
-  };
+      if (action === 'modal') {
+        openProjectModal(projectId, projectsData);
+      } else if (action === 'page') {
+        // Update the URL
+        navigate(`/hxndev.github.io/projects?project=${projectId}`);
+        // View project details
+        viewProjectDetails(projectId, projectsData);
+      }
+    },
+    [navigate, resetFilters, openProjectModal, projectsData, viewProjectDetails]
+  );
 
   // Handle back to gallery
   const handleBackToGallery = () => {

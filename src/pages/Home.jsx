@@ -1,15 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Title,
-  Text,
-  Container,
-  Group,
-  Button,
-  Grid,
-  Loader,
-  Box,
-  SimpleGrid,
-} from '@mantine/core';
+import React from 'react';
+import { Title, Text, Container, Button, Grid, Loader, Box, SimpleGrid } from '@mantine/core';
 import HeroSection from '../components/home/HeroSection';
 import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';

@@ -41,7 +41,7 @@ export const useGetProjects = () => {
         setError('Projects data has invalid structure');
       }
       setLoading(false);
-    } catch (err) {
+    } catch {
       setError('Failed to load projects. Please try again later.');
       setLoading(false);
     }

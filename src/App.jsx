@@ -90,7 +90,7 @@ function App() {
           setLoading(false);
         }, 500);
       })
-      .catch(err => {
+      .catch(() => {
         // Continue anyway after a timeout
         setTimeout(() => {
           setLoading(false);

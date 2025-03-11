@@ -20,7 +20,7 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [focused, setFocused] = useState(null);
+  const [_focused, setFocused] = useState(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 

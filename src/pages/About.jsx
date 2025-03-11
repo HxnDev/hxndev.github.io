@@ -28,7 +28,7 @@ const About = () => {
   const pageRef = useRef(null);
   const { reducedMotion } = useAnimationContext();
   const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const _isDark = colorScheme === 'dark';
 
   // Page entrance animation
   useEffect(() => {

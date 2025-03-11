@@ -123,7 +123,8 @@ const Timeline = ({ experiences = [] }) => {
     if (!timelineRef.current) return;
 
     const timelineItems = timelineRef.current.querySelectorAll('.timeline-item');
-    const timelineTop = timelineRef.current.getBoundingClientRect().top;
+    // Remove or comment out this line:
+    // const timelineTop = timelineRef.current.getBoundingClientRect().top;
     const viewportHeight = window.innerHeight;
 
     // Calculate which item should be active based on scroll position

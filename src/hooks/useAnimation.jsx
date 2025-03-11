@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useScrollVelocity } from './useScrollVelocity';
 
 /**

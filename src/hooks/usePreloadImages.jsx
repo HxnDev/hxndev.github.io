@@ -81,7 +81,7 @@ export const usePreloadImages = (images = [], enabled = true) => {
 
     return () => {
       // Clean up by removing event listeners for any in-progress loads
-      validImages.forEach(src => {
+      validImages.forEach(() => {
         const img = new Image();
         img.onload = null;
         img.onerror = null;

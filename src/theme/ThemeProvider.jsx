@@ -196,5 +196,5 @@ export function ThemeProvider({ children }) {
   );
 }
 
-// Export the hook separately (this is the key fix for HMR compatibility)
+// eslint-disable-next-line react-refresh/only-export-components
 export const useColorScheme = () => useContext(ColorSchemeContext);

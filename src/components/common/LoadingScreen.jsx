@@ -47,16 +47,19 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
   useEffect(() => {
     if (!loadingRef.current) return;
 
+    // Capture the ref at the top of the effect function
+    const currentRef = loadingRef.current;
+
     // Create entrance animation
     gsap.fromTo(
-      loadingRef.current.querySelectorAll('.animate-item'),
+      currentRef.querySelectorAll('.animate-item'),
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
     );
 
     return () => {
-      if (loadingRef.current) {
-        gsap.to(loadingRef.current, {
+      if (currentRef) {
+        gsap.to(currentRef, {
           opacity: 0,
           duration: 0.5,
         });

@@ -10,18 +10,18 @@ export const useScrollObserver = (options = {}) => {
   const [observedElements, setObservedElements] = useState([]);
   const observerRef = useRef(null);
 
-  // Default options
-  const defaultOptions = {
-    root: null,
-    rootMargin: '0px 0px -10% 0px', // Trigger slightly before elements enter viewport
-    threshold: 0.1, // Trigger when 10% of the element is visible
-  };
-
-  // Merge default options with provided options
-  const observerOptions = { ...defaultOptions, ...options };
-
   // Initialize intersection observer
   useEffect(() => {
+    // Default options
+    const defaultOptions = {
+      root: null,
+      rootMargin: '0px 0px -10% 0px', // Trigger slightly before elements enter viewport
+      threshold: 0.1, // Trigger when 10% of the element is visible
+    };
+
+    // Merge default options with provided options
+    const observerOptions = { ...defaultOptions, ...options };
+
     // Create observer
     observerRef.current = new IntersectionObserver(observedEntries => {
       setEntries(observedEntries);
@@ -40,7 +40,7 @@ export const useScrollObserver = (options = {}) => {
         observerRef.current.disconnect();
       }
     };
-  }, [JSON.stringify(observerOptions), observedElements]);
+  }, [observedElements, options]);
 
   // Function to observe an element
   const observe = element => {
