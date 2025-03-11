@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Title, Text, Container, Button, Group, Image, Grid, Box } from '@mantine/core';
+import { Title, Text, Container, Button, Group, Grid, Box } from '@mantine/core';
 import { IconDownload, IconBrandGithub, IconArrowRight } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 
@@ -81,6 +81,11 @@ const HeroSection = () => {
         background: 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.15), transparent 70%)'
       }}
     >
+      {/* Floating orbs background decoration */}
+      <div className="orb orb-1"></div>
+      <div className="orb orb-2"></div>
+      <div className="orb orb-3"></div>
+      
       <Container size="lg">
         <Grid gutter={60}>
           <Grid.Col md={7} ref={textRef}>
@@ -180,135 +185,150 @@ const HeroSection = () => {
           </Grid.Col>
           
           <Grid.Col md={5} style={{ position: 'relative' }}>
-            <Box
-              ref={imageRef}
-              style={{
-                position: 'relative',
-                perspective: '1000px',
-                transformStyle: 'preserve-3d'
-              }}
-            >
-              <Box
-                style={{
-                  position: 'absolute',
-                  top: '-40px',
-                  left: '-40px',
-                  right: '-40px',
-                  bottom: '-40px',
-                  background: 'linear-gradient(135deg, rgba(155, 0, 255, 0.3), rgba(0, 245, 255, 0.2))',
-                  borderRadius: '40% 60% 60% 40% / 40% 40% 60% 60%',
-                  filter: 'blur(60px)',
-                  opacity: 0.5,
-                  zIndex: -1,
-                  animation: 'morphBlob 8s infinite ease-in-out'
-                }}
-              />
-              
-              <Image 
-                src="/hxndev.github.io/images/profile.jpg" 
-                alt="Hassan Shahzad" 
-                radius="xl"
-                height={450}
-                fit="cover"
-                style={{
-                  border: '4px solid rgba(155, 0, 255, 0.3)',
-                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(155, 0, 255, 0.4)',
-                  transform: 'perspective(1000px) rotateY(-5deg)',
-                  transition: 'all 0.5s ease'
-                }}
-              />
+            <div className="profile-container" ref={imageRef}>
+              <div className="profile-image-wrapper">
+                <img 
+                  src="/hxndev.github.io/images/profile.jpg" 
+                  alt="Hassan Shahzad" 
+                  className="profile-image"
+                />
+              </div>
               
               {/* Decorative elements */}
-              <Box
-                style={{
-                  position: 'absolute',
-                  top: '-20px',
-                  right: '-20px',
-                  width: '100px',
-                  height: '100px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #00F5FF, transparent)',
-                  opacity: 0.7,
-                  filter: 'blur(20px)'
-                }}
-              />
-              
-              <Box
-                style={{
-                  position: 'absolute',
-                  bottom: '-30px',
-                  left: '-30px',
-                  width: '150px',
-                  height: '150px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #9B00FF, transparent)',
-                  opacity: 0.6,
-                  filter: 'blur(30px)'
-                }}
-              />
-            </Box>
+              <div className="glow-effect"></div>
+              <div className="circle-decoration circle-1"></div>
+              <div className="circle-decoration circle-2"></div>
+            </div>
           </Grid.Col>
         </Grid>
       </Container>
-      
-      {/* Add animated scroll indicator */}
-      <Box
-        style={{
-          position: 'absolute',
-          bottom: '30px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          opacity: 0.7,
-          animation: 'fadeInUp 2s 1s forwards'
-        }}
-      >
-        <Text size="sm" mb={10} style={{ opacity: 0.7 }}>Scroll to explore</Text>
-        <Box
-          style={{
-            width: '30px',
-            height: '50px',
-            border: '2px solid rgba(155, 0, 255, 0.5)',
-            borderRadius: '25px',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '5px 0'
-          }}
-        >
-          <Box
-            style={{
-              width: '6px',
-              height: '10px',
-              background: 'linear-gradient(#9B00FF, #00F5FF)',
-              borderRadius: '3px',
-              animation: 'scrollIndicator 2s infinite'
-            }}
-          />
-        </Box>
-      </Box>
-      
-      {/* Add keyframes for animations */}
+
+      {/* Custom CSS for the new profile design */}
       <style>
         {`
-          @keyframes morphBlob {
-            0% { border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%; }
-            25% { border-radius: 60% 40% 40% 60% / 60% 60% 40% 40%; }
-            50% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
-            75% { border-radius: 40% 60% 60% 40% / 60% 60% 40% 40%; }
-            100% { border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%; }
+          .profile-container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
           }
           
-          @keyframes scrollIndicator {
-            0% { transform: translateY(0); opacity: 1; }
-            75% { transform: translateY(20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 0; }
+          .profile-image-wrapper {
+            position: relative;
+            height: 400px;
+            width: 400px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(155, 0, 255, 0.4);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: all 0.5s ease;
+            border: 4px solid rgba(155, 0, 255, 0.3);
           }
           
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translate(-50%, 30px); }
-            to { opacity: 0.7; transform: translate(-50%, 0); }
+          .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+          }
+          
+          .profile-image-wrapper:hover .profile-image {
+            transform: scale(1.05);
+          }
+          
+          .glow-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(155, 0, 255, 0.2), transparent 70%);
+            filter: blur(20px);
+            opacity: 0.7;
+            z-index: -1;
+          }
+          
+          .circle-decoration {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(15px);
+          }
+          
+          .circle-1 {
+            top: -10%;
+            right: -5%;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00F5FF, transparent);
+            opacity: 0.7;
+          }
+          
+          .circle-2 {
+            bottom: -10%;
+            left: -5%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #9B00FF, transparent);
+            opacity: 0.6;
+          }
+          
+          .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(30px);
+            opacity: 0.4;
+            z-index: -1;
+          }
+          
+          .orb-1 {
+            top: 20%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at center, rgba(0, 245, 255, 0.3), transparent);
+            animation: float 15s infinite ease-in-out;
+          }
+          
+          .orb-2 {
+            bottom: 15%;
+            left: 10%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at center, rgba(155, 0, 255, 0.3), transparent);
+            animation: float 18s infinite ease-in-out reverse;
+          }
+          
+          .orb-3 {
+            top: 40%;
+            left: 20%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at center, rgba(255, 56, 100, 0.2), transparent);
+            animation: float 12s infinite ease-in-out 2s;
+          }
+          
+          @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(0) translateX(20px); }
+            75% { transform: translateY(20px) translateX(10px); }
+            100% { transform: translateY(0) translateX(0); }
+          }
+          
+          @media (max-width: 992px) {
+            .profile-image-wrapper {
+              height: 300px;
+              width: 300px;
+              margin: 40px auto 0;
+            }
+          }
+          
+          @media (max-width: 768px) {
+            .profile-image-wrapper {
+              height: 250px;
+              width: 250px;
+            }
           }
         `}
       </style>
