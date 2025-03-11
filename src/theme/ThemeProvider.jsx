@@ -9,7 +9,7 @@ const ColorSchemeContext = createContext({
   toggleColorScheme: () => {},
   quantumColors: {},
   interactionIntensity: 0,
-  setInteractionIntensity: () => {}
+  setInteractionIntensity: () => {},
 });
 
 // Define base theme with more rounded elements
@@ -83,38 +83,38 @@ const baseTheme = createTheme({
     fontFamily: "'Inter', sans-serif",
     fontWeight: 700,
   },
-  defaultRadius: "xl", // Changed from 'md' to 'xl' for more rounded corners throughout
+  defaultRadius: 'xl', // Changed from 'md' to 'xl' for more rounded corners throughout
   components: {
     Button: {
       defaultProps: {
-        radius: "xl" // Set all buttons to have fully rounded corners by default
-      }
+        radius: 'xl', // Set all buttons to have fully rounded corners by default
+      },
     },
     Card: {
       defaultProps: {
-        radius: "xl" // Rounder cards
-      }
+        radius: 'xl', // Rounder cards
+      },
     },
     Paper: {
       defaultProps: {
-        radius: "xl" // Rounder papers
-      }
+        radius: 'xl', // Rounder papers
+      },
     },
     TextInput: {
       defaultProps: {
-        radius: "xl" // Rounder text inputs
-      }
+        radius: 'xl', // Rounder text inputs
+      },
     },
     Badge: {
       defaultProps: {
-        radius: "xl" // Pill-shaped badges
-      }
+        radius: 'xl', // Pill-shaped badges
+      },
     },
     ActionIcon: {
       defaultProps: {
-        radius: "xl" // Circular action icons
-      }
-    }
+        radius: 'xl', // Circular action icons
+      },
+    },
   },
   other: {
     borderRadiusXXL: '2rem',
@@ -132,63 +132,64 @@ export function ThemeProvider({ children }) {
   const [colorScheme, setColorScheme] = useState(() => {
     return localStorage.getItem('colorScheme') || 'dark';
   });
-  
+
   // State for quantum colors
   const [quantumColors, setQuantumColors] = useState(() => {
     return generateQuantumPalette();
   });
-  
+
   // Interaction intensity for dynamic colors
   const [interactionIntensity, setInteractionIntensity] = useState(0);
-  
+
   const toggleColorScheme = () => {
     const newColorScheme = colorScheme === 'dark' ? 'light' : 'dark';
     setColorScheme(newColorScheme);
     localStorage.setItem('colorScheme', newColorScheme);
-    
+
     // Apply the theme to document body directly
     document.documentElement.setAttribute('data-mantine-color-scheme', newColorScheme);
   };
-  
+
   // Set initial theme on mount
   useEffect(() => {
     // Set the initial color scheme on document
     document.documentElement.setAttribute('data-mantine-color-scheme', colorScheme);
-    
+
     // Also set a data attribute that can be used for additional custom styling
     document.body.dataset.theme = colorScheme;
-    
+
     // Generate quantum colors based on color scheme
-    setQuantumColors(generateQuantumPalette({
-      base: colorScheme === 'dark' ? '#0B0C10' : '#FFFFFF',
-      accent: '#00F5FF',
-      secondary: '#9B00FF',
-      tertiary: '#FF3864'
-    }));
+    setQuantumColors(
+      generateQuantumPalette({
+        base: colorScheme === 'dark' ? '#0B0C10' : '#FFFFFF',
+        accent: '#00F5FF',
+        secondary: '#9B00FF',
+        tertiary: '#FF3864',
+      })
+    );
   }, [colorScheme]);
-  
+
   // Create extended theme with quantum colors
   const extendedTheme = {
     ...baseTheme,
     colorScheme,
     other: {
       ...baseTheme.other,
-      quantumColors
-    }
+      quantumColors,
+    },
   };
 
   return (
-    <ColorSchemeContext.Provider value={{ 
-      colorScheme, 
-      toggleColorScheme,
-      quantumColors,
-      interactionIntensity,
-      setInteractionIntensity
-    }}>
-      <MantineProvider 
-        theme={extendedTheme}
-        defaultColorScheme={colorScheme}
-      >
+    <ColorSchemeContext.Provider
+      value={{
+        colorScheme,
+        toggleColorScheme,
+        quantumColors,
+        interactionIntensity,
+        setInteractionIntensity,
+      }}
+    >
+      <MantineProvider theme={extendedTheme} defaultColorScheme={colorScheme}>
         {children}
       </MantineProvider>
     </ColorSchemeContext.Provider>

@@ -4,7 +4,7 @@ import { ANIMATION_DEFAULTS, REDUCED_MOTION_DEFAULTS } from './constants';
 // Initialize GSAP with default settings
 gsap.defaults({
   ease: ANIMATION_DEFAULTS.easings.smooth,
-  duration: ANIMATION_DEFAULTS.durations.medium
+  duration: ANIMATION_DEFAULTS.durations.medium,
 });
 
 /**
@@ -13,11 +13,11 @@ gsap.defaults({
  */
 export const configureGsap = (reducedMotion = false) => {
   const defaults = reducedMotion ? REDUCED_MOTION_DEFAULTS : ANIMATION_DEFAULTS;
-  
+
   gsap.defaults({
     ease: defaults.easings.smooth,
     duration: defaults.durations.medium,
-    overwrite: true
+    overwrite: true,
   });
 };
 
@@ -33,9 +33,9 @@ export const animateElement = (target, props, options = {}) => {
     ease = ANIMATION_DEFAULTS.easings.smooth,
     delay = 0,
     onComplete,
-    stagger
+    stagger,
   } = options;
-  
+
   return gsap.to(target, {
     ...props,
     duration,
@@ -44,7 +44,7 @@ export const animateElement = (target, props, options = {}) => {
     onComplete,
     stagger,
     force3D: true, // Force GPU acceleration
-    overwrite: 'auto'
+    overwrite: 'auto',
   });
 };
 
@@ -60,9 +60,9 @@ export const animateFrom = (target, props, options = {}) => {
     ease = ANIMATION_DEFAULTS.easings.smooth,
     delay = 0,
     onComplete,
-    stagger
+    stagger,
   } = options;
-  
+
   return gsap.from(target, {
     ...props,
     duration,
@@ -71,7 +71,7 @@ export const animateFrom = (target, props, options = {}) => {
     onComplete,
     stagger,
     force3D: true,
-    overwrite: 'auto'
+    overwrite: 'auto',
   });
 };
 
@@ -85,7 +85,7 @@ export const createTimeline = (options = {}) => {
     paused: options.paused || false,
     defaults: {
       duration: options.duration || ANIMATION_DEFAULTS.durations.medium,
-      ease: options.ease || ANIMATION_DEFAULTS.easings.smooth
-    }
+      ease: options.ease || ANIMATION_DEFAULTS.easings.smooth,
+    },
   });
 };

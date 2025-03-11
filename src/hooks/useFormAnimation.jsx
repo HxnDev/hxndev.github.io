@@ -16,71 +16,71 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formState, setFormState] = useState('idle'); // 'idle', 'submitting', 'success', 'error'
-  
+
   const fieldsRef = useRef({});
   const formRef = useRef(null);
-  
+
   const { reducedMotion } = useAnimationContext();
-  
+
   // Register a field for animations
   const registerField = (name, ref) => {
     if (ref && !fieldsRef.current[name]) {
       fieldsRef.current[name] = ref;
     }
   };
-  
+
   // Handle form input changes
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
-    
+    setValues(prev => ({ ...prev, [name]: value }));
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors((prev) => {
+      setErrors(prev => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
       });
     }
   };
-  
+
   // Handle field focus
-  const handleFocus = (name) => {
+  const handleFocus = name => {
     if (reducedMotion) return;
-    
+
     setFocused(name);
-    
+
     if (fieldsRef.current[name]) {
       gsap.to(fieldsRef.current[name], {
         y: -4,
         boxShadow: '0 8px 16px rgba(155, 0, 255, 0.15)',
         duration: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.out',
       });
     }
   };
-  
+
   // Handle field blur
-  const handleBlur = (name) => {
+  const handleBlur = name => {
     if (reducedMotion) return;
-    
+
     setFocused(null);
-    
+
     if (fieldsRef.current[name]) {
       gsap.to(fieldsRef.current[name], {
         y: 0,
         boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
         duration: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.out',
       });
     }
-    
+
     // Validate on blur if there's a validation function
     if (validateFn) {
       const fieldErrors = validateFn(values, name);
       if (fieldErrors && Object.keys(fieldErrors).length > 0) {
-        setErrors((prev) => ({ ...prev, ...fieldErrors }));
-        
+        setErrors(prev => ({ ...prev, ...fieldErrors }));
+
         // Shake animation for errors
         if (fieldsRef.current[name] && fieldErrors[name]) {
           gsap.fromTo(
@@ -92,18 +92,18 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
       }
     }
   };
-  
+
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e && e.preventDefault();
-    
+
     // Validate all fields
     if (validateFn) {
       const formErrors = validateFn(values);
-      
+
       if (formErrors && Object.keys(formErrors).length > 0) {
         setErrors(formErrors);
-        
+
         // Shake animation for errors
         if (!reducedMotion) {
           Object.keys(formErrors).forEach(fieldName => {
@@ -116,35 +116,35 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
             }
           });
         }
-        
+
         return;
       }
     }
-    
+
     // Set submitting state
     setIsSubmitting(true);
     setFormState('submitting');
-    
+
     try {
       // Call submission handler if provided
       if (submitHandler) {
         await submitHandler(values);
       }
-      
+
       // Success state
       setFormState('success');
       setSubmitted(true);
-      
+
       // Success animation
       if (!reducedMotion && formRef.current) {
         const timeline = gsap.timeline();
-        
+
         timeline
           .to(formRef.current, {
             y: 10,
             opacity: 0,
             duration: 0.3,
-            ease: 'power2.in'
+            ease: 'power2.in',
           })
           .set(formRef.current, { display: 'none' })
           .fromTo(
@@ -157,7 +157,7 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
       // Error state
       console.error('Form submission error:', error);
       setFormState('error');
-      
+
       // Error animation if needed
       if (!reducedMotion && formRef.current) {
         gsap.fromTo(
@@ -170,7 +170,7 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
       setIsSubmitting(false);
     }
   };
-  
+
   // Reset form state
   const resetForm = () => {
     setValues(initialValues);
@@ -179,33 +179,33 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
     setIsSubmitting(false);
     setSubmitted(false);
     setFormState('idle');
-    
+
     // Reset form display if needed
     if (formRef.current) {
       gsap.set(formRef.current, { display: 'block', y: 0, opacity: 1 });
     }
   };
-  
+
   // Entrance animation for form
   useEffect(() => {
     if (reducedMotion || !formRef.current) return;
-    
+
     const fields = Object.values(fieldsRef.current);
-    
+
     gsap.fromTo(
       fields,
       { y: 20, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        stagger: 0.1, 
-        duration: 0.4, 
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.1,
+        duration: 0.4,
         ease: 'power2.out',
-        clearProps: 'all'
+        clearProps: 'all',
       }
     );
   }, [reducedMotion]);
-  
+
   return {
     values,
     errors,
@@ -220,7 +220,7 @@ export const useFormAnimation = (initialValues = {}, validateFn, submitHandler) 
     handleFocus,
     handleBlur,
     handleSubmit,
-    resetForm
+    resetForm,
   };
 };
 

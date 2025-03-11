@@ -13,59 +13,59 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
   const startTime = useRef(Date.now());
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
-  
+
   // Handle completion and fade out animation
   useEffect(() => {
     if (isComplete) {
       const elapsedTime = Date.now() - startTime.current;
       const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
-      
+
       setTimeout(() => {
         if (loadingRef.current) {
           gsap.to(loadingRef.current, {
             opacity: 0,
             duration: 0.5,
-            onComplete: () => setHidden(true)
+            onComplete: () => setHidden(true),
           });
         }
       }, remainingTime);
     }
   }, [isComplete, minDisplayTime]);
-  
+
   // Update progress bar animation
   useEffect(() => {
     if (progressRef.current) {
       gsap.to(progressRef.current, {
         width: `${progress}%`,
         duration: 0.5,
-        ease: 'power2.out'
+        ease: 'power2.out',
       });
     }
   }, [progress]);
-  
+
   // Add exit animation for the entire loading screen
   useEffect(() => {
     if (!loadingRef.current) return;
-    
+
     // Create entrance animation
     gsap.fromTo(
       loadingRef.current.querySelectorAll('.animate-item'),
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
     );
-    
+
     return () => {
       if (loadingRef.current) {
         gsap.to(loadingRef.current, {
           opacity: 0,
-          duration: 0.5
+          duration: 0.5,
         });
       }
     };
   }, []);
-  
+
   if (hidden) return null;
-  
+
   return (
     <Box
       ref={loadingRef}
@@ -79,11 +79,11 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        background: isDark 
+        background: isDark
           ? 'linear-gradient(135deg, #0B0C10, #1F2833)'
           : 'linear-gradient(135deg, #F8F9FA, #E9ECEF)',
         zIndex: 9999,
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
       <Title
@@ -95,12 +95,12 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
           backgroundClip: 'text',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          fontSize: '2.5rem'
+          fontSize: '2.5rem',
         }}
       >
         Hassan Shahzad
       </Title>
-      
+
       <Box
         className="animate-item"
         style={{
@@ -110,7 +110,7 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
           borderRadius: '2px',
           overflow: 'hidden',
           position: 'relative',
-          marginBottom: '1rem'
+          marginBottom: '1rem',
         }}
       >
         <Box
@@ -122,15 +122,15 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
             height: '100%',
             width: '0%',
             background: 'linear-gradient(to right, #9B00FF, #00F5FF)',
-            borderRadius: '2px'
+            borderRadius: '2px',
           }}
         />
       </Box>
-      
+
       <Text className="animate-item" mt="md" size="sm" color="dimmed">
         {Math.round(progress)}% loaded
       </Text>
-      
+
       {/* Decorative elements */}
       <Box
         style={{
@@ -142,10 +142,10 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
           borderRadius: '50%',
           background: 'radial-gradient(circle at center, rgba(155, 0, 255, 0.1), transparent 70%)',
           filter: 'blur(20px)',
-          animation: 'pulse 4s infinite ease-in-out'
+          animation: 'pulse 4s infinite ease-in-out',
         }}
       />
-      
+
       <Box
         style={{
           position: 'absolute',
@@ -156,16 +156,25 @@ const LoadingScreen = ({ progress = 0, isComplete = false, minDisplayTime = 1000
           borderRadius: '50%',
           background: 'radial-gradient(circle at center, rgba(0, 245, 255, 0.1), transparent 70%)',
           filter: 'blur(15px)',
-          animation: 'pulse 4s infinite ease-in-out 1s'
+          animation: 'pulse 4s infinite ease-in-out 1s',
         }}
       />
-      
+
       {/* Animation keyframes */}
       <style jsx="true">{`
         @keyframes pulse {
-          0% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.2); }
-          100% { opacity: 0.5; transform: scale(1); }
+          0% {
+            opacity: 0.5;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.2);
+          }
+          100% {
+            opacity: 0.5;
+            transform: scale(1);
+          }
         }
       `}</style>
     </Box>

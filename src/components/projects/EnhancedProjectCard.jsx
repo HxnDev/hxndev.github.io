@@ -3,17 +3,17 @@ import { Paper, Text, Title, Group, Badge, Box } from '@mantine/core';
 import { IconBrandGithub, IconExternalLink, IconInfoCircle } from '@tabler/icons-react';
 import { useColorScheme } from '../../theme/ThemeProvider';
 
-const EnhancedProjectCard = ({ 
-  title, 
-  description, 
+const EnhancedProjectCard = ({
+  title,
+  description,
   image,
-  fallbackImage, 
-  technologies = [], 
+  fallbackImage,
+  technologies = [],
   featured = false,
   githubUrl,
   liveUrl,
   onViewDetails,
-  projectId
+  projectId,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -21,18 +21,18 @@ const EnhancedProjectCard = ({
   const cardRef = useRef(null);
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
-  
+
   // Determine image source
-  const imgSrc = imageError 
-    ? (fallbackImage || "https://placehold.co/600x400/9B00FF/FFFFFF?text=Project") 
-    : (image || "https://placehold.co/600x400/9B00FF/FFFFFF?text=No+Image");
-  
+  const imgSrc = imageError
+    ? fallbackImage || 'https://placehold.co/600x400/9B00FF/FFFFFF?text=Project'
+    : image || 'https://placehold.co/600x400/9B00FF/FFFFFF?text=No+Image';
+
   // Animation on mount
   useEffect(() => {
     if (cardRef.current) {
       cardRef.current.style.opacity = '0';
       cardRef.current.style.transform = 'translateY(20px)';
-      
+
       setTimeout(() => {
         if (cardRef.current) {
           cardRef.current.style.opacity = '1';
@@ -49,58 +49,53 @@ const EnhancedProjectCard = ({
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-  
+
   // Handle card click with proper navigation
-  const handleCardClick = (e) => {
+  const handleCardClick = e => {
     e.preventDefault();
-    // Add debug logs to trace execution
-    console.log("Card clicked for project:", projectId);
-    console.log("onViewDetails function available:", !!onViewDetails);
-    
     if (onViewDetails && projectId) {
-      // Call the handler function with the project ID
       onViewDetails(projectId);
     }
   };
-  
+
   // Handle details button click
-  const handleDetailsClick = (e) => {
+  const handleDetailsClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("Details button clicked for project:", projectId);
-    
     if (onViewDetails && projectId) {
       onViewDetails(projectId);
     }
   };
-  
+
   return (
-    <Paper 
+    <Paper
       ref={cardRef}
-      p="lg" 
-      radius="xl" 
-      shadow="md" 
+      p="lg"
+      radius="xl"
+      shadow="md"
       withBorder
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleCardClick}
-      style={{ 
-        height: '100%', 
-        display: 'flex', 
+      style={{
+        height: '100%',
+        display: 'flex',
         flexDirection: 'column',
         transition: 'all 0.3s ease-in-out',
         transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
-        boxShadow: isHovered ? '0 10px 25px rgba(155, 0, 255, 0.15)' : '0 4px 12px rgba(0, 0, 0, 0.1)',
+        boxShadow: isHovered
+          ? '0 10px 25px rgba(155, 0, 255, 0.15)'
+          : '0 4px 12px rgba(0, 0, 0, 0.1)',
         border: featured ? '2px solid rgba(155, 0, 255, 0.5)' : undefined,
         backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)',
         position: 'relative',
         overflow: 'hidden',
-        cursor: 'pointer' // Add pointer cursor to indicate clickable
+        cursor: 'pointer',
       }}
     >
       {/* Background glow effect for featured projects */}
       {featured && (
-        <Box 
+        <Box
           style={{
             position: 'absolute',
             top: 0,
@@ -112,37 +107,37 @@ const EnhancedProjectCard = ({
             background: 'linear-gradient(45deg, rgba(155, 0, 255, 0.3), rgba(0, 245, 255, 0.3))',
             filter: 'blur(20px)',
             borderRadius: 'xl',
-            transition: 'opacity 0.3s ease'
+            transition: 'opacity 0.3s ease',
           }}
         />
       )}
-      
+
       {/* Image container */}
-      <Box 
-        sx={{ 
-          overflow: 'hidden', 
-          borderRadius: 'xl', 
-          marginBottom: '1.2rem', 
-          height: '180px', 
+      <Box
+        sx={{
+          overflow: 'hidden',
+          borderRadius: 'xl',
+          marginBottom: '1.2rem',
+          height: '180px',
           position: 'relative',
-          zIndex: 1
+          zIndex: 1,
         }}
       >
-        <img 
+        <img
           src={imgSrc}
-          alt={title} 
+          alt={title}
           onError={() => setImageError(true)}
           onLoad={() => setImageLoaded(true)}
-          style={{ 
-            width: '100%', 
+          style={{
+            width: '100%',
             height: '100%',
             objectFit: 'cover',
             opacity: imageLoaded ? 1 : 0.3,
             transition: 'all 0.5s ease',
-            transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
           }}
         />
-        
+
         {/* Overlay gradient for better text visibility */}
         <Box
           style={{
@@ -151,14 +146,14 @@ const EnhancedProjectCard = ({
             left: 0,
             right: 0,
             bottom: 0,
-            background: isHovered 
-              ? 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.1))' 
+            background: isHovered
+              ? 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.1))'
               : 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.2) 70%, rgba(0,0,0,0))',
             opacity: 1,
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
           }}
         />
-        
+
         {/* Featured badge (if applicable) */}
         {featured && (
           <Box
@@ -166,11 +161,11 @@ const EnhancedProjectCard = ({
               position: 'absolute',
               top: '10px',
               left: '10px',
-              zIndex: 2
+              zIndex: 2,
             }}
           >
-            <Badge 
-              color="grape" 
+            <Badge
+              color="grape"
               radius="xl"
               variant="filled"
               gradient={{ from: '#9B00FF', to: '#00F5FF' }}
@@ -180,44 +175,59 @@ const EnhancedProjectCard = ({
           </Box>
         )}
       </Box>
-      
+
       {/* Content */}
-      <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
-        <Title order={4} mb="xs" style={{ color: isDark ? '#e0e0e0' : '#1A1B1E' }}>{title}</Title>
-        <Text size="sm" color={isDark ? "dimmed" : "dark.6"} mb="md" style={{ flex: 1 }}>{description}</Text>
-        
+      <Box
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        <Title order={4} mb="xs" style={{ color: isDark ? '#e0e0e0' : '#1A1B1E' }}>
+          {title}
+        </Title>
+        <Text size="sm" color={isDark ? 'dimmed' : 'dark.6'} mb="md" style={{ flex: 1 }}>
+          {description}
+        </Text>
+
         <Group spacing="xs" mb="md">
-          {technologies && technologies.slice(0, 3).map((tech, index) => (
-            <Badge 
-              key={index} 
-              variant="outline" 
-              color="cyan"
-              size="sm"
-              radius="xl"
-              styles={{
-                root: {
-                  transition: 'all 0.3s ease',
-                  transform: isHovered ? `translateY(${-3 * (index % 3)}px)` : 'translateY(0)'
-                }
-              }}
-            >
-              {tech}
-            </Badge>
-          ))}
+          {technologies &&
+            technologies.slice(0, 3).map((tech, index) => (
+              <Badge
+                key={index}
+                variant="outline"
+                color="cyan"
+                size="sm"
+                radius="xl"
+                styles={{
+                  root: {
+                    transition: 'all 0.3s ease',
+                    transform: isHovered ? `translateY(${-3 * (index % 3)}px)` : 'translateY(0)',
+                  },
+                }}
+              >
+                {tech}
+              </Badge>
+            ))}
           {technologies && technologies.length > 3 && (
-            <Badge variant="filled" size="sm" color="gray" radius="xl">+{technologies.length - 3}</Badge>
+            <Badge variant="filled" size="sm" color="gray" radius="xl">
+              +{technologies.length - 3}
+            </Badge>
           )}
         </Group>
-        
+
         {/* Action buttons */}
         <Group mt="auto">
           {githubUrl && (
-            <a 
-              href={githubUrl} 
-              target="_blank" 
+            <a
+              href={githubUrl}
+              target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()} // Prevent triggering card click
-              style={{ 
+              onClick={e => e.stopPropagation()}
+              style={{
                 padding: '8px 12px',
                 borderRadius: '25px',
                 color: 'white',
@@ -228,21 +238,21 @@ const EnhancedProjectCard = ({
                 alignItems: 'center',
                 gap: '6px',
                 transition: 'all 0.3s ease',
-                transform: isHovered ? 'translateY(-2px)' : 'translateY(0)'
+                transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
               }}
             >
               <IconBrandGithub size={16} />
               GitHub
             </a>
           )}
-          
+
           {liveUrl && (
-            <a 
-              href={liveUrl} 
-              target="_blank" 
+            <a
+              href={liveUrl}
+              target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()} // Prevent triggering card click
-              style={{ 
+              onClick={e => e.stopPropagation()}
+              style={{
                 padding: '8px 12px',
                 borderRadius: '25px',
                 color: 'white',
@@ -253,29 +263,33 @@ const EnhancedProjectCard = ({
                 alignItems: 'center',
                 gap: '6px',
                 transition: 'all 0.3s ease',
-                transform: isHovered ? 'translateY(-2px)' : 'translateY(0)'
+                transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
               }}
             >
               <IconExternalLink size={16} />
               Live Demo
             </a>
           )}
-          
-          <Box 
+
+          <Box
             onClick={handleDetailsClick}
-            style={{ 
+            style={{
               padding: '8px 12px',
               borderRadius: '25px',
               marginLeft: 'auto',
               color: isDark ? '#00F5FF' : '#6200EE',
-              backgroundColor: isHovered ? (isDark ? 'rgba(0, 245, 255, 0.1)' : 'rgba(98, 0, 238, 0.1)') : 'transparent',
+              backgroundColor: isHovered
+                ? isDark
+                  ? 'rgba(0, 245, 255, 0.1)'
+                  : 'rgba(98, 0, 238, 0.1)'
+                : 'transparent',
               fontSize: '14px',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              opacity: isHovered ? 1 : 0.7
+              opacity: isHovered ? 1 : 0.7,
             }}
           >
             <IconInfoCircle size={16} />

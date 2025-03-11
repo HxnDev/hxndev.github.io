@@ -8,9 +8,9 @@ const SponsorshipSection = () => {
   const isDark = colorScheme === 'dark';
 
   return (
-    <Paper 
-      p="xl" 
-      radius="xl" 
+    <Paper
+      p="xl"
+      radius="xl"
       withBorder
       style={{
         background: isDark
@@ -19,7 +19,7 @@ const SponsorshipSection = () => {
         borderColor: isDark ? 'rgba(155, 0, 255, 0.3)' : 'rgba(155, 0, 255, 0.2)',
         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(155, 0, 255, 0.2)',
         overflow: 'hidden',
-        position: 'relative'
+        position: 'relative',
       }}
     >
       {/* Background decorative elements */}
@@ -34,30 +34,31 @@ const SponsorshipSection = () => {
           background: 'radial-gradient(circle at center, rgba(155, 0, 255, 0.2), transparent 70%)',
           filter: 'blur(40px)',
           opacity: 0.6,
-          zIndex: 0
+          zIndex: 0,
         }}
       />
-      
+
       <Stack align="center" style={{ position: 'relative', zIndex: 1 }}>
-        <Title 
+        <Title
           order={3}
           style={{
             background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             marginBottom: '1rem',
-            fontWeight: 700
+            fontWeight: 700,
           }}
         >
           Support My Work
         </Title>
-        
-        <Text ta="center" c={isDark ? "dimmed" : "dark.6"} maw={600} mx="auto">
-          If you find my projects helpful, consider supporting their continued development and maintenance.
+
+        <Text ta="center" c={isDark ? 'dimmed' : 'dark.6'} maw={600} mx="auto">
+          If you find my projects helpful, consider supporting their continued development and
+          maintenance.
         </Text>
-        
+
         <Group mt="md">
-          <Button 
+          <Button
             component="a"
             href="https://github.com/sponsors/HxnDev"
             target="_blank"
@@ -69,14 +70,14 @@ const SponsorshipSection = () => {
               boxShadow: '0 4px 12px rgba(155, 0, 255, 0.3)',
               '&:hover': {
                 transform: 'translateY(-3px)',
-                boxShadow: '0 8px 16px rgba(155, 0, 255, 0.4)'
+                boxShadow: '0 8px 16px rgba(155, 0, 255, 0.4)',
               },
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
             }}
           >
             Sponsor on GitHub
           </Button>
-          
+
           <Button
             component="a"
             href="https://www.buymeacoffee.com/hassanshahzad"
@@ -89,9 +90,9 @@ const SponsorshipSection = () => {
               boxShadow: '0 4px 12px rgba(252, 211, 77, 0.3)',
               '&:hover': {
                 transform: 'translateY(-3px)',
-                boxShadow: '0 8px 16px rgba(252, 211, 77, 0.4)'
+                boxShadow: '0 8px 16px rgba(252, 211, 77, 0.4)',
               },
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
             }}
           >
             Buy Me a Coffee

@@ -17,58 +17,62 @@ const HeroSection = () => {
     if (!textRef.current || !imageRef.current) return;
 
     // Reset positions for animation
-    gsap.set(textRef.current.querySelectorAll('.animate-item'), { 
-      y: 50, 
-      opacity: 0 
-    });
-    
-    gsap.set(imageRef.current, { 
-      scale: 0.8, 
+    gsap.set(textRef.current.querySelectorAll('.animate-item'), {
+      y: 50,
       opacity: 0,
-      rotationY: -15
     });
-    
+
+    gsap.set(imageRef.current, {
+      scale: 0.8,
+      opacity: 0,
+      rotationY: -15,
+    });
+
     // Create timeline
     const tl = gsap.timeline({
-      defaults: { 
-        duration: 0.8, 
-        ease: "power3.out" 
-      }
+      defaults: {
+        duration: 0.8,
+        ease: 'power3.out',
+      },
     });
-    
+
     // Animate text elements
     tl.to(textRef.current.querySelectorAll('.animate-item'), {
       y: 0,
       opacity: 1,
-      stagger: 0.2
+      stagger: 0.2,
     });
-    
+
     // Animate image
-    tl.to(imageRef.current, {
-      scale: 1,
-      opacity: 1,
-      rotationY: 0,
-      duration: 1.2
-    }, "-=0.5");
-    
+    tl.to(
+      imageRef.current,
+      {
+        scale: 1,
+        opacity: 1,
+        rotationY: 0,
+        duration: 1.2,
+      },
+      '-=0.5'
+    );
+
     // Add scroll listener for parallax
     const handleScroll = () => {
       const scrollPos = window.scrollY;
       const parallaxRate = scrollPos * 0.15;
-      
+
       gsap.to(imageRef.current, {
         y: -parallaxRate * 0.5,
-        duration: 0.1
+        duration: 0.1,
       });
-      
+
       gsap.to(textRef.current, {
         y: parallaxRate * 0.3,
-        duration: 0.1
+        duration: 0.1,
       });
     };
-    
+
     window.addEventListener('scroll', handleScroll);
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -81,34 +85,34 @@ const HeroSection = () => {
         position: 'relative',
         padding: '80px 0 100px',
         overflow: 'hidden',
-        background: isDark 
+        background: isDark
           ? 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.15), transparent 70%)'
-          : 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.05), transparent 70%)'
+          : 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.05), transparent 70%)',
       }}
     >
       {/* Floating orbs background decoration */}
       <div className="orb orb-1"></div>
       <div className="orb orb-2"></div>
       <div className="orb orb-3"></div>
-      
+
       <Container size="lg">
         <Grid gutter={60}>
           <Grid.Col md={7} ref={textRef}>
             <Box className="animate-item" mb={20}>
-              <Text 
-                component="span" 
-                size="lg" 
+              <Text
+                component="span"
+                size="lg"
                 style={{
                   background: 'linear-gradient(45deg, #00F5FF, #9B00FF)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  fontWeight: 700
+                  fontWeight: 700,
                 }}
               >
                 Full Stack Developer & ML Engineer
               </Text>
             </Box>
-            
+
             <Title
               className="animate-item"
               style={{
@@ -124,50 +128,50 @@ const HeroSection = () => {
             >
               Hi, I'm Hassan Shahzad
             </Title>
-            
-            <Text 
+
+            <Text
               className="animate-item"
-              size="xl" 
-              color={isDark ? "dimmed" : "dark"}
-              style={{ 
+              size="xl"
+              color={isDark ? 'dimmed' : 'dark'}
+              style={{
                 maxWidth: '600px',
                 lineHeight: 1.6,
-                marginBottom: '2rem'
+                marginBottom: '2rem',
               }}
             >
-              Specializing in creating intelligent, intuitive applications
-              that solve real-world problems with a passion for clean code and innovative solutions.
+              Specializing in creating intelligent, intuitive applications that solve real-world
+              problems with a passion for clean code and innovative solutions.
             </Text>
 
             <Group position="left" spacing="md" className="animate-item" ref={ctaRef}>
-              <Button 
-                component="a" 
-                href="/hxndev.github.io/assets/hassan_resume.pdf" 
+              <Button
+                component="a"
+                href="/hxndev.github.io/assets/hassan_resume.pdf"
                 size="lg"
                 leftSection={<IconDownload size={20} />}
                 radius="xl"
                 style={{
                   background: 'linear-gradient(45deg, #6200EE, #9B00FF)',
                   boxShadow: '0 4px 15px rgba(155, 0, 255, 0.3)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
                 }}
                 sx={{
                   '&:hover': {
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)'
-                  }
+                    boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)',
+                  },
                 }}
                 download
               >
                 Download Resume
               </Button>
-              
-              <Button 
+
+              <Button
                 component="a"
                 href="https://github.com/HxnDev"
                 target="_blank"
                 size="lg"
-                variant={isDark ? "outline" : "filled"}
+                variant={isDark ? 'outline' : 'filled'}
                 leftSection={<IconBrandGithub size={20} />}
                 rightSection={<IconArrowRight size={16} />}
                 radius="xl"
@@ -175,31 +179,31 @@ const HeroSection = () => {
                   borderColor: '#9B00FF',
                   color: isDark ? '#00F5FF' : 'white',
                   backgroundColor: isDark ? 'transparent' : '#9B00FF',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
                 }}
                 sx={{
                   '&:hover': {
                     transform: 'translateY(-3px)',
                     background: isDark ? 'rgba(155, 0, 255, 0.1)' : '#8100d9',
-                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)'
-                  }
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)',
+                  },
                 }}
               >
                 GitHub Profile
               </Button>
             </Group>
           </Grid.Col>
-          
+
           <Grid.Col md={5} style={{ position: 'relative' }}>
             <div className="profile-container" ref={imageRef}>
               <div className="profile-image-wrapper">
-                <img 
-                  src="/hxndev.github.io/images/profile.jpg" 
-                  alt="Hassan Shahzad" 
+                <img
+                  src="/hxndev.github.io/images/profile.jpg"
+                  alt="Hassan Shahzad"
                   className="profile-image"
                 />
               </div>
-              
+
               {/* Decorative elements */}
               <div className="glow-effect"></div>
               <div className="circle-decoration circle-1"></div>

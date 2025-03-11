@@ -13,14 +13,14 @@ import { ANIMATION_DEFAULTS, REDUCED_MOTION_DEFAULTS } from '../../animations/co
  */
 export const isInViewport = (element, offset = 0) => {
   if (!element) return false;
-  
+
   const rect = element.getBoundingClientRect();
   const windowHeight = window.innerHeight || document.documentElement.clientHeight;
   const windowWidth = window.innerWidth || document.documentElement.clientWidth;
-  
-  const vertInView = (rect.top - offset <= windowHeight) && (rect.top + rect.height + offset >= 0);
-  const horInView = (rect.left - offset <= windowWidth) && (rect.left + rect.width + offset >= 0);
-  
+
+  const vertInView = rect.top - offset <= windowHeight && rect.top + rect.height + offset >= 0;
+  const horInView = rect.left - offset <= windowWidth && rect.left + rect.width + offset >= 0;
+
   return vertInView && horInView;
 };
 
@@ -36,15 +36,15 @@ export const optimizedAnimation = (element, properties, options = {}) => {
   if (!options.force && !isInViewport(element, options.viewportOffset || 100)) {
     return null;
   }
-  
+
   const {
     duration = ANIMATION_DEFAULTS.durations.medium,
     ease = ANIMATION_DEFAULTS.easings.smooth,
     delay = 0,
     onComplete,
-    stagger
+    stagger,
   } = options;
-  
+
   return gsap.to(element, {
     ...properties,
     duration,
@@ -53,7 +53,7 @@ export const optimizedAnimation = (element, properties, options = {}) => {
     onComplete,
     stagger,
     force3D: true, // Force GPU acceleration
-    overwrite: 'auto' // Automatically overwrite existing tweens
+    overwrite: 'auto', // Automatically overwrite existing tweens
   });
 };
 
@@ -66,18 +66,18 @@ export const optimizedAnimation = (element, properties, options = {}) => {
 export const createThrottledScrollHandler = (callback, limit = 100) => {
   let waiting = false;
   let frameId = null;
-  
+
   return () => {
     if (waiting) return;
-    
+
     waiting = true;
     cancelAnimationFrame(frameId);
-    
+
     frameId = requestAnimationFrame(() => {
       callback();
       waiting = false;
     });
-    
+
     // Fallback timeout in case requestAnimationFrame is blocked
     setTimeout(() => {
       waiting = false;
@@ -89,7 +89,7 @@ export const createThrottledScrollHandler = (callback, limit = 100) => {
  * Apply performance optimizations based on device capabilities
  * @param {Object} performanceMetrics - Performance metrics
  */
-export const applyPerformanceOptimizations = (performanceMetrics) => {
+export const applyPerformanceOptimizations = performanceMetrics => {
   // Reduce particle count for ParticleBackground
   if (performanceMetrics.devicePerformance === 'low') {
     // Apply low performance optimizations
@@ -110,5 +110,5 @@ export default {
   isInViewport,
   optimizedAnimation,
   createThrottledScrollHandler,
-  applyPerformanceOptimizations
+  applyPerformanceOptimizations,
 };

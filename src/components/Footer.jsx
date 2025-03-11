@@ -6,21 +6,23 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer style={{ 
-      marginTop: 'auto',
-      padding: '24px 0',
-      borderTop: '1px solid var(--mantine-color-gray-2)',
-      position: 'relative'
-    }}>
+    <footer
+      style={{
+        marginTop: 'auto',
+        padding: '24px 0',
+        borderTop: '1px solid var(--mantine-color-gray-2)',
+        position: 'relative',
+      }}
+    >
       <Container size="lg">
         <Group justify="space-between">
           <Text size="sm" c="dimmed">
             © {year} Hassan Shahzad. All rights reserved.
           </Text>
-          
+
           <Group gap="md">
-            <Anchor 
-              href="https://github.com/HxnDev" 
+            <Anchor
+              href="https://github.com/HxnDev"
               target="_blank"
               style={{
                 borderRadius: '50%',
@@ -30,21 +32,21 @@ const Footer = () => {
                 justifyContent: 'center',
                 transition: 'all 0.3s ease',
                 backgroundColor: 'rgba(155, 0, 255, 0.1)',
-                color: 'var(--mantine-color-dimmed)'
+                color: 'var(--mantine-color-dimmed)',
               }}
               sx={{
                 '&:hover': {
                   backgroundColor: 'rgba(155, 0, 255, 0.2)',
                   transform: 'translateY(-3px)',
                   boxShadow: '0 4px 8px rgba(155, 0, 255, 0.2)',
-                  color: '#9B00FF'
-                }
+                  color: '#9B00FF',
+                },
               }}
             >
               <IconBrandGithub size={20} />
             </Anchor>
-            <Anchor 
-              href="https://www.linkedin.com/in/hassan-shahzad-2a6617212/" 
+            <Anchor
+              href="https://www.linkedin.com/in/hassan-shahzad-2a6617212/"
               target="_blank"
               style={{
                 borderRadius: '50%',
@@ -54,20 +56,20 @@ const Footer = () => {
                 justifyContent: 'center',
                 transition: 'all 0.3s ease',
                 backgroundColor: 'rgba(0, 119, 181, 0.1)',
-                color: 'var(--mantine-color-dimmed)'
+                color: 'var(--mantine-color-dimmed)',
               }}
               sx={{
                 '&:hover': {
                   backgroundColor: 'rgba(0, 119, 181, 0.2)',
                   transform: 'translateY(-3px)',
                   boxShadow: '0 4px 8px rgba(0, 119, 181, 0.2)',
-                  color: '#0077B5'
-                }
+                  color: '#0077B5',
+                },
               }}
             >
               <IconBrandLinkedin size={20} />
             </Anchor>
-            <Anchor 
+            <Anchor
               href="mailto:hassanshahzad.dev@gmail.com"
               style={{
                 borderRadius: '50%',
@@ -77,15 +79,15 @@ const Footer = () => {
                 justifyContent: 'center',
                 transition: 'all 0.3s ease',
                 backgroundColor: 'rgba(0, 245, 255, 0.1)',
-                color: 'var(--mantine-color-dimmed)'
+                color: 'var(--mantine-color-dimmed)',
               }}
               sx={{
                 '&:hover': {
                   backgroundColor: 'rgba(0, 245, 255, 0.2)',
                   transform: 'translateY(-3px)',
                   boxShadow: '0 4px 8px rgba(0, 245, 255, 0.2)',
-                  color: '#00F5FF'
-                }
+                  color: '#00F5FF',
+                },
               }}
             >
               <IconMail size={20} />
@@ -93,9 +95,9 @@ const Footer = () => {
           </Group>
         </Group>
       </Container>
-      
+
       {/* Decorative element */}
-      <Box 
+      <Box
         style={{
           position: 'absolute',
           left: '50%',
@@ -104,7 +106,7 @@ const Footer = () => {
           height: '3px',
           transform: 'translateX(-50%)',
           background: 'linear-gradient(90deg, transparent, #9B00FF, #00F5FF, transparent)',
-          borderRadius: '100px'
+          borderRadius: '100px',
         }}
       />
     </footer>

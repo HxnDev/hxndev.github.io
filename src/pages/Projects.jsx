@@ -21,30 +21,29 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Fetch projects data
-  const { 
-    projects: projectsData, 
-    loading: projectsLoading, 
-    error: projectsError 
+  const {
+    projects: projectsData,
+    loading: projectsLoading,
+    error: projectsError,
   } = useGetProjects();
-  
+
   // Initialize project data and hooks
   useEffect(() => {
     // Simplified loading logic to avoid extra state updates
     if (!projectsLoading) {
       setIsLoading(false);
     }
-    
+
     // Check for direct project link in URL
     const urlParams = new URLSearchParams(location.search);
     const projectId = urlParams.get('project');
     if (projectId && projectsData && projectsData.length > 0) {
-      console.log("Found project ID in URL:", projectId);
       handleViewDetails(projectId);
     }
   }, [projectsLoading, projectsData, location.search]);
-  
+
   // Project filtering hook
   const {
     filteredProjects,
@@ -53,9 +52,9 @@ const Projects = () => {
     setActiveCategory,
     searchQuery,
     setSearchQuery,
-    resetFilters
+    resetFilters,
   } = useProjectFilter(projectsData);
-  
+
   // Project detail view hook
   const {
     selectedProject,
@@ -64,24 +63,21 @@ const Projects = () => {
     openProjectModal,
     closeProjectModal,
     viewProjectDetails,
-    returnToGallery
+    returnToGallery,
   } = useProjectDetail();
-  
+
   // Handle view project details with proper navigation
   const handleViewDetails = (projectId, action = 'page') => {
-    console.log("handleViewDetails called with projectId:", projectId, "action:", action);
-    
     if (action === 'reset') {
       resetFilters();
       navigate('/hxndev.github.io/projects');
       return;
     }
-    
+
     if (!projectId) {
-      console.error("No project ID provided to handleViewDetails");
       return;
     }
-    
+
     if (action === 'modal') {
       openProjectModal(projectId, projectsData);
     } else if (action === 'page') {
@@ -91,35 +87,38 @@ const Projects = () => {
       viewProjectDetails(projectId, projectsData);
     }
   };
-  
+
   // Handle back to gallery
   const handleBackToGallery = () => {
     // Update URL to remove project parameter
     navigate('/hxndev.github.io/projects');
     returnToGallery();
   };
-  
+
   return (
     <Container size="lg">
       {viewMode === 'gallery' ? (
         <>
-          <Title order={1} className="page-title" mb="xl">Projects</Title>
-          
+          <Title order={1} className="page-title" mb="xl">
+            Projects
+          </Title>
+
           {/* Error message if needed */}
           {(error || projectsError) && (
-            <Alert 
-              icon={<IconAlertCircle size={16} />} 
-              title="Error" 
-              color="red" 
-              mb="lg"
-            >
+            <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red" mb="lg">
               {error || projectsError}
-              <Button variant="outline" color="red" size="xs" mt="sm" onClick={() => setError(null)}>
+              <Button
+                variant="outline"
+                color="red"
+                size="xs"
+                mt="sm"
+                onClick={() => setError(null)}
+              >
                 Dismiss
               </Button>
             </Alert>
           )}
-          
+
           {/* Filter controls */}
           <FilterControls
             categories={categories}
@@ -129,29 +128,29 @@ const Projects = () => {
             setSearchQuery={setSearchQuery}
             onReset={resetFilters}
           />
-          
+
           {/* Project gallery */}
           <Box mt={30}>
             {isLoading || projectsLoading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', flexDirection: 'column', gap: '1rem' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '200px',
+                  flexDirection: 'column',
+                  gap: '1rem',
+                }}
+              >
                 <Loader color="grape" size="lg" />
                 <Text align="center">Loading projects...</Text>
               </Box>
             ) : (
               <>
-                {/* Debugging info - only in development */}
-                {process.env.NODE_ENV === 'development' && (
-                  <Box mb={20} p={10} style={{ background: 'rgba(155, 0, 255, 0.1)', borderRadius: '5px' }}>
-                    <Text size="sm">Total projects: {projectsData ? projectsData.length : 0}</Text>
-                    <Text size="sm">Filtered projects: {filteredProjects ? filteredProjects.length : 0}</Text>
-                    <Text size="sm">Active category: {activeCategory}</Text>
-                  </Box>
-                )}
-                
                 {/* Project Gallery */}
                 {filteredProjects.length > 0 ? (
-                  <SimpleGrid 
-                    cols={3} 
+                  <SimpleGrid
+                    cols={3}
                     spacing="lg"
                     breakpoints={[
                       { maxWidth: 992, cols: 2, spacing: 'md' },
@@ -159,14 +158,19 @@ const Projects = () => {
                     ]}
                   >
                     {filteredProjects.map((project, index) => (
-                      <div key={project.id || index} style={{ 
-                        animation: `fadeInUp 0.5s ease forwards ${0.1 + (index % 9) * 0.05}s`,
-                        opacity: 0
-                      }}>
+                      <div
+                        key={project.id || index}
+                        style={{
+                          animation: `fadeInUp 0.5s ease forwards ${0.1 + (index % 9) * 0.05}s`,
+                          opacity: 0,
+                        }}
+                      >
                         <EnhancedProjectCard
                           {...project}
                           // Fix potential image path issues
-                          image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
+                          image={
+                            project.image ? project.image.replace(/^\/|^\/public\//, '') : null
+                          }
                           onViewDetails={handleViewDetails}
                           projectId={project.id}
                         />
@@ -174,24 +178,26 @@ const Projects = () => {
                     ))}
                   </SimpleGrid>
                 ) : (
-                  <Box 
-                    sx={{ 
-                      display: 'flex', 
-                      justifyContent: 'center', 
-                      alignItems: 'center', 
-                      height: '300px', 
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: '300px',
                       flexDirection: 'column',
                       gap: '1rem',
                       background: 'rgba(155, 0, 255, 0.05)',
                       borderRadius: '8px',
-                      border: '1px dashed rgba(155, 0, 255, 0.3)'
+                      border: '1px dashed rgba(155, 0, 255, 0.3)',
                     }}
                   >
                     <IconAlertCircle size={48} style={{ opacity: 0.5 }} />
-                    <Text align="center" size="lg">No projects found with the current filters</Text>
-                    <Button 
-                      onClick={resetFilters} 
-                      variant="gradient" 
+                    <Text align="center" size="lg">
+                      No projects found with the current filters
+                    </Text>
+                    <Button
+                      onClick={resetFilters}
+                      variant="gradient"
                       gradient={{ from: '#9B00FF', to: '#00F5FF' }}
                     >
                       Reset Filters
@@ -201,7 +207,7 @@ const Projects = () => {
               </>
             )}
           </Box>
-          
+
           {/* Project modal */}
           <ProjectModal
             project={selectedProject}
@@ -211,19 +217,16 @@ const Projects = () => {
         </>
       ) : (
         // Detail view
-        <ProjectDetail
-          project={selectedProject}
-          onBack={handleBackToGallery}
-        />
+        <ProjectDetail project={selectedProject} onBack={handleBackToGallery} />
       )}
-      
+
       {/* Featured projects call to action - only show in gallery view with no filters */}
       {viewMode === 'gallery' && activeCategory === 'all' && !searchQuery && (
         <Box
           mt={50}
           mb={30}
           p="xl"
-          sx={(theme) => ({
+          sx={theme => ({
             borderRadius: theme.radius.md,
             background: 'linear-gradient(135deg, rgba(155, 0, 255, 0.1), rgba(0, 245, 255, 0.1))',
             border: '1px dashed rgba(155, 0, 255, 0.3)',
@@ -232,16 +235,18 @@ const Projects = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <IconRocket size={32} style={{ color: '#9B00FF' }} />
             <div>
-              <Title order={4} mb="xs">Interested in a collaboration?</Title>
+              <Title order={4} mb="xs">
+                Interested in a collaboration?
+              </Title>
               <Text>
-                I'm always open to discussing new projects and opportunities. 
-                Feel free to reach out if you'd like to work together!
+                I'm always open to discussing new projects and opportunities. Feel free to reach out
+                if you'd like to work together!
               </Text>
             </div>
-            <Button 
-              component="a" 
+            <Button
+              component="a"
               href="/hxndev.github.io/contact"
-              variant="gradient" 
+              variant="gradient"
               gradient={{ from: '#9B00FF', to: '#00F5FF' }}
               ml="auto"
               sx={{
@@ -250,7 +255,7 @@ const Projects = () => {
                   transform: 'translateY(-3px)',
                   boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)',
                 },
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
               }}
             >
               Contact Me
@@ -258,7 +263,7 @@ const Projects = () => {
           </Box>
         </Box>
       )}
-      
+
       {/* Animation keyframes */}
       <style jsx="true">{`
         @keyframes fadeInUp {

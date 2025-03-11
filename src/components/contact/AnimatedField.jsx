@@ -28,25 +28,25 @@ const AnimatedField = ({
   const { reducedMotion } = useAnimationContext();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
-  
+
   // Handle field focus animation
   useEffect(() => {
     if (reducedMotion || !fieldRef.current) return;
-    
+
     if (isFocused) {
       // Animate focus state
       gsap.to(fieldRef.current, {
         y: -4,
         boxShadow: `0 8px 16px rgba(${isDark ? '155, 0, 255' : '98, 0, 238'}, 0.15)`,
         duration: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.out',
       });
-      
+
       // Animate underline
       if (underlineRef.current) {
         gsap.fromTo(
-          underlineRef.current, 
-          { width: '0%' }, 
+          underlineRef.current,
+          { width: '0%' },
           { width: '100%', duration: 0.4, ease: 'power2.out' }
         );
       }
@@ -56,46 +56,42 @@ const AnimatedField = ({
         y: 0,
         boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
         duration: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.out',
       });
-      
+
       // Reset underline
       if (underlineRef.current) {
         gsap.to(underlineRef.current, {
           width: '0%',
           duration: 0.3,
-          ease: 'power2.in'
+          ease: 'power2.in',
         });
       }
     }
   }, [isFocused, reducedMotion, isDark]);
-  
+
   // Handle error shake animation
   useEffect(() => {
     if (reducedMotion || !fieldRef.current || !error) return;
-    
+
     // Shake animation for errors
-    gsap.fromTo(
-      fieldRef.current,
-      { x: -5 },
-      { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' }
-    );
+    gsap.fromTo(fieldRef.current, { x: -5 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
   }, [error, reducedMotion]);
-  
+
   // Handle focus events
-  const handleFocus = (e) => {
+  const handleFocus = e => {
     setIsFocused(true);
     if (onFocus) onFocus(e);
   };
-  
-  const handleBlur = (e) => {
+
+  const handleBlur = e => {
     setIsFocused(false);
     if (onBlur) onBlur(e);
   };
-  
+
   // Component for the field
   const FieldComponent = multiline ? Textarea : TextInput;
-  
+
   return (
     <Box mb="md">
       {label && (
@@ -104,12 +100,12 @@ const AnimatedField = ({
           {required && <span style={{ color: '#FF3864' }}> *</span>}
         </Text>
       )}
-      
+
       <Box
         ref={fieldRef}
         style={{
           position: 'relative',
-          transition: reducedMotion ? 'all 0.3s ease' : 'none'
+          transition: reducedMotion ? 'all 0.3s ease' : 'none',
         }}
       >
         <FieldComponent
@@ -124,24 +120,28 @@ const AnimatedField = ({
           required={required}
           minRows={multiline ? rows : undefined}
           {...props}
-          styles={(theme) => ({
+          styles={theme => ({
             input: {
               transition: 'all 0.3s ease',
-              border: `1px solid ${isFocused 
-                ? (isDark ? 'rgba(155, 0, 255, 0.5)' : 'rgba(98, 0, 238, 0.5)')
-                : (error 
-                  ? theme.colors.red[6] 
-                  : (isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
-                )
+              border: `1px solid ${
+                isFocused
+                  ? isDark
+                    ? 'rgba(155, 0, 255, 0.5)'
+                    : 'rgba(98, 0, 238, 0.5)'
+                  : error
+                    ? theme.colors.red[6]
+                    : isDark
+                      ? 'rgba(255, 255, 255, 0.1)'
+                      : 'rgba(0, 0, 0, 0.1)'
               }`,
               backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
               '&:focus': {
-                borderColor: isDark ? 'rgba(155, 0, 255, 0.7)' : 'rgba(98, 0, 238, 0.7)'
-              }
-            }
+                borderColor: isDark ? 'rgba(155, 0, 255, 0.7)' : 'rgba(98, 0, 238, 0.7)',
+              },
+            },
           })}
         />
-        
+
         {/* Animated underline */}
         {isFocused && (
           <Box
@@ -153,31 +153,37 @@ const AnimatedField = ({
               height: '2px',
               width: '0%',
               background: `linear-gradient(to right, ${isDark ? '#9B00FF' : '#6200EE'}, ${isDark ? '#00F5FF' : '#03DAC5'})`,
-              zIndex: 2
+              zIndex: 2,
             }}
           />
         )}
       </Box>
-      
+
       {/* Error message with fade in animation */}
       {error && (
-        <Text 
-          color="red" 
-          size="xs" 
+        <Text
+          color="red"
+          size="xs"
           mt={5}
           style={{
-            animation: reducedMotion ? 'none' : 'fadeIn 0.3s ease forwards'
+            animation: reducedMotion ? 'none' : 'fadeIn 0.3s ease forwards',
           }}
         >
           {error}
         </Text>
       )}
-      
+
       {/* Add keyframe animations */}
       <style jsx="true">{`
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-5px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </Box>

@@ -2,12 +2,12 @@ body {
   transition: background-color 0.5s ease;
 }
 
-body[data-theme="dark"] {
-  background: linear-gradient(to bottom, #0B0C10, #1F2833);
+body[data-theme='dark'] {
+  background: linear-gradient(to bottom, #0b0c10, #1f2833);
 }
 
-body[data-theme="light"] {
-  background: linear-gradient(to bottom, #FFFFFF, #F8F9FA);
+body[data-theme='light'] {
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
 }
 
 /* Smooth scrolling */
