@@ -10,7 +10,7 @@ const FilterControls = ({
   setSearchQuery,
   onReset
 }) => {
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   // Handle search input clearing
   const handleClearSearch = () => {
@@ -29,6 +29,11 @@ const FilterControls = ({
     }, 10);
   };
 
+  // Toggle filter visibility
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
+
   return (
     <Paper 
       withBorder 
@@ -41,136 +46,37 @@ const FilterControls = ({
         border: '1px solid rgba(155, 0, 255, 0.15)'
       }}
     >
-      {/* Mobile filter toggle */}
-      <Box className="filter-mobile-toggle" sx={{ display: { xs: 'block', sm: 'none' }, marginBottom: '1rem' }}>
-        <Button
-          fullWidth
-          leftSection={<IconFilter size={16} />}
-          onClick={() => setShowMobileFilters(!showMobileFilters)}
-          variant={showMobileFilters ? "filled" : "outline"}
-          color="grape"
-          radius="xl"
-        >
-          {showMobileFilters ? "Hide Filters" : "Show Filters"}
-        </Button>
-      </Box>
+      {/* Filter toggle button */}
+      <Button
+        fullWidth
+        leftSection={<IconFilter size={16} />}
+        onClick={toggleFilters}
+        variant={showFilters ? "filled" : "outline"}
+        color="grape"
+        radius="xl"
+        mb="md"
+      >
+        {showFilters ? "Hide Filters" : "Show Filters"}
+      </Button>
       
-      {/* Desktop layout */}
-      <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-        <Group position="apart" align="center">
-          {/* Search input */}
-          <TextInput
-            id="project-search-input"
-            placeholder="Search projects..."
-            value={searchQuery || ''}
-            onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
-            icon={<IconSearch size={16} />}
-            radius="xl"
-            rightSection={
-              searchQuery ? (
-                <Box
-                  sx={{
-                    cursor: 'pointer',
-                    color: 'gray',
-                    '&:hover': { color: '#00F5FF' }
-                  }}
-                  onClick={handleClearSearch}
-                >
-                  <IconX size={16} />
-                </Box>
-              ) : null
-            }
-            sx={{
-              width: '250px',
-              transition: 'all 0.3s ease',
-              '&:focus-within': {
-                width: '300px',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
-              },
-              input: {
-                backgroundColor: 'rgba(40, 40, 45, 0.8)',
-                borderRadius: '30px' // Ensure input field is also rounded
-              }
-            }}
-          />
-          
-          {/* Category buttons */}
-          <Group spacing="xs">
-            {categories.map((category) => (
-              <Button
-                key={category.value}
-                variant={activeCategory === category.value ? "filled" : "outline"}
-                color={activeCategory === category.value ? "grape" : "gray"}
-                onClick={() => setActiveCategory && setActiveCategory(category.value)}
-                size='sm'
-                radius="xl"
-                sx={{
-                  position: 'relative',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-                  }
-                }}
-              >
-                {category.label}
-                {activeCategory === category.value && (
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '2px',
-                      background: 'linear-gradient(45deg, #9B00FF, #00F5FF)'
-                    }}
-                  />
-                )}
-              </Button>
-            ))}
-            
-            {/* Reset button */}
-            {(activeCategory !== 'all' || searchQuery) && (
-              <Button
-                variant="subtle"
-                color="gray"
-                onClick={onReset}
-                size='sm'
-                radius="xl"
-                sx={{
-                  transition: 'all 0.2s ease',
-                  opacity: 0.7,
-                  '&:hover': {
-                    opacity: 1,
-                    transform: 'translateY(-2px)'
-                  }
-                }}
-              >
-                Reset Filters
-              </Button>
-            )}
-          </Group>
-        </Group>
-      </Box>
-      
-      {/* Mobile layout */}
+      {/* Filter content - only show when filters are toggled on */}
       <Transition
-        mounted={showMobileFilters}
+        mounted={showFilters}
         transition="slide-down"
         duration={300}
         timingFunction="ease"
       >
         {(styles) => (
-          <Box sx={{ display: { xs: 'block', sm: 'none' } }} style={styles}>
+          <Box style={styles}>
+            {/* Search input */}
             <TextInput
-              id="project-search-input-mobile"
+              id="project-search-input"
               placeholder="Search projects..."
               value={searchQuery || ''}
               onChange={(e) => setSearchQuery && setSearchQuery(e.currentTarget.value)}
               icon={<IconSearch size={16} />}
               radius="xl"
+              mb="md"
               rightSection={
                 searchQuery ? (
                   <Box
@@ -185,17 +91,17 @@ const FilterControls = ({
                   </Box>
                 ) : null
               }
-              mb="md"
               sx={{
                 width: '100%',
                 transition: 'all 0.3s ease',
                 input: {
                   backgroundColor: 'rgba(40, 40, 45, 0.8)',
-                  borderRadius: '30px'
+                  borderRadius: '30px' // Ensure input field is also rounded
                 }
               }}
             />
             
+            {/* Category buttons */}
             <Group spacing="xs" mb="md" position="center" style={{ flexWrap: 'wrap' }}>
               {categories.map((category) => (
                 <Button
@@ -209,7 +115,11 @@ const FilterControls = ({
                     position: 'relative',
                     overflow: 'hidden',
                     transition: 'all 0.3s ease',
-                    marginBottom: '0.5rem'
+                    marginBottom: '0.5rem',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                    }
                   }}
                 >
                   {category.label}
@@ -229,6 +139,7 @@ const FilterControls = ({
               ))}
             </Group>
             
+            {/* Reset button */}
             {(activeCategory !== 'all' || searchQuery) && (
               <Button
                 variant="subtle"
