@@ -3,45 +3,47 @@ import { Box, Title, SimpleGrid, Paper, ThemeIcon, Text, Group } from '@mantine/
 import { IconBrandGithub, IconBrandLinkedin, IconMail } from '@tabler/icons-react';
 import { useColorScheme } from '../theme/ThemeProvider';
 
-const ConnectSection = () => {
+const ConnectSection= () => {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  
+  // Match the design in the image with simpler styling
   
   const connectOptions = [
     {
       title: 'GitHub',
       description: 'Check out my projects and contributions',
-      icon: <IconBrandGithub size={30} color={isDark ? "white" : "#333"} />,
+      icon: <IconBrandGithub size={30} color="white" />,
       link: 'https://github.com/HxnDev',
-      color: 'rgba(155, 0, 255, 0.8)'
+      color: 'rgba(155, 0, 255, 0.8)',
+      iconBg: '#9B00FF'
     },
     {
       title: 'LinkedIn',
       description: 'Connect with me professionally',
-      icon: <IconBrandLinkedin size={30} color={isDark ? "white" : "#0077B5"} />,
+      icon: <IconBrandLinkedin size={30} color="white" />,
       link: 'https://www.linkedin.com/in/hassan-shahzad-2a6617212/',
-      color: '#0077B5'
+      color: '#0077B5',
+      iconBg: '#0077B5'
     },
     {
       title: 'Email',
       description: 'Send me a direct message',
-      icon: <IconMail size={30} color={isDark ? "white" : "#00B5AD"} />,
+      icon: <IconMail size={30} color="white" />,
       link: 'mailto:hassanshahzad.dev@gmail.com',
-      color: '#00B5AD'
+      color: '#00F5FF',
+      iconBg: '#00B5AD'
     }
   ];
 
   return (
-    <Box my={60}>
+    <Box my={8}>
       <Title 
         order={2} 
-        mb={40} 
+        mb={8}
         align="center"
         style={{
-          backgroundImage: 'linear-gradient(45deg, #6200EE, #03DAC5)',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
+          color: '#4169E1',
           fontSize: '2rem',
           fontWeight: 700
         }}
@@ -64,7 +66,7 @@ const ConnectSection = () => {
             href={option.link}
             target="_blank"
             rel="noopener noreferrer"
-            p={30}
+            p="xl"
             radius="md"
             withBorder
             style={{
@@ -73,7 +75,13 @@ const ConnectSection = () => {
               textDecoration: 'none',
               transition: 'all 0.3s ease',
               cursor: 'pointer',
-              textAlign: 'center'
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              padding: '32px 16px'
             }}
             sx={{
               '&:hover': {
@@ -83,17 +91,37 @@ const ConnectSection = () => {
               }
             }}
           >
-            <Group position="center" mb={15}>
-              <ThemeIcon size={60} radius={60} style={{ backgroundColor: option.color }}>
-                {option.icon}
-              </ThemeIcon>
-            </Group>
+            <div 
+              style={{ 
+                backgroundColor: option.iconBg,
+                boxShadow: `0 4px 8px rgba(0, 0, 0, 0.15)`,
+                width: '80px',
+                height: '80px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px'
+              }}
+            >
+              {option.icon}
+            </div>
             
-            <Title order={4} align="center" mb={10} color={isDark ? "white" : "dark"}>
+            <Text 
+              weight={700} 
+              size="xl" 
+              align="center" 
+              mb={1}
+              style={{ 
+                color: option.title === 'GitHub' ? '#4169E1' : 
+                        option.title === 'LinkedIn' ? '#0077B5' : 
+                        '#00B5AD'
+              }}
+            >
               {option.title}
-            </Title>
+            </Text>
             
-            <Text align="center" color={isDark ? "dimmed" : "dark.6"} size="sm">
+            <Text align="center" color="dimmed" size="md">
               {option.description}
             </Text>
           </Paper>
