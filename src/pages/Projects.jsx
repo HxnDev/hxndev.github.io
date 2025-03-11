@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Title, Text, Container, Box, Alert, Button, Loader, SimpleGrid } from '@mantine/core';
 import { IconAlertCircle, IconRocket } from '@tabler/icons-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Custom hooks
 import { useProjectFilter } from '../hooks/useProjectFilter';
@@ -18,6 +19,8 @@ const Projects = () => {
   const { reducedMotion } = useAnimationContext();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
   
   // Fetch projects data
   const { 
@@ -34,12 +37,13 @@ const Projects = () => {
     }
     
     // Check for direct project link in URL
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(location.search);
     const projectId = urlParams.get('project');
     if (projectId && projectsData && projectsData.length > 0) {
+      console.log("Found project ID in URL:", projectId);
       handleViewDetails(projectId);
     }
-  }, [projectsLoading, projectsData]);
+  }, [projectsLoading, projectsData, location.search]);
   
   // Project filtering hook
   const {
@@ -63,18 +67,36 @@ const Projects = () => {
     returnToGallery
   } = useProjectDetail();
   
-  // Handle view project details
-  const handleViewDetails = (projectId, action = 'modal') => {
+  // Handle view project details with proper navigation
+  const handleViewDetails = (projectId, action = 'page') => {
+    console.log("handleViewDetails called with projectId:", projectId, "action:", action);
+    
     if (action === 'reset') {
       resetFilters();
+      navigate('/hxndev.github.io/projects');
+      return;
+    }
+    
+    if (!projectId) {
+      console.error("No project ID provided to handleViewDetails");
       return;
     }
     
     if (action === 'modal') {
       openProjectModal(projectId, projectsData);
     } else if (action === 'page') {
+      // Update the URL
+      navigate(`/hxndev.github.io/projects?project=${projectId}`);
+      // View project details
       viewProjectDetails(projectId, projectsData);
     }
+  };
+  
+  // Handle back to gallery
+  const handleBackToGallery = () => {
+    // Update URL to remove project parameter
+    navigate('/hxndev.github.io/projects');
+    returnToGallery();
   };
   
   return (
@@ -191,7 +213,7 @@ const Projects = () => {
         // Detail view
         <ProjectDetail
           project={selectedProject}
-          onBack={returnToGallery}
+          onBack={handleBackToGallery}
         />
       )}
       

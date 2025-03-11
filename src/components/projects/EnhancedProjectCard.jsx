@@ -47,6 +47,30 @@ const EnhancedProjectCard = ({
     setIsHovered(false);
   };
   
+  // Handle card click with proper navigation
+  const handleCardClick = (e) => {
+    e.preventDefault();
+    // Add debug logs to trace execution
+    console.log("Card clicked for project:", projectId);
+    console.log("onViewDetails function available:", !!onViewDetails);
+    
+    if (onViewDetails && projectId) {
+      // Call the handler function with the project ID
+      onViewDetails(projectId);
+    }
+  };
+  
+  // Handle details button click
+  const handleDetailsClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Details button clicked for project:", projectId);
+    
+    if (onViewDetails && projectId) {
+      onViewDetails(projectId);
+    }
+  };
+  
   return (
     <Paper 
       ref={cardRef}
@@ -56,6 +80,7 @@ const EnhancedProjectCard = ({
       withBorder
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
       style={{ 
         height: '100%', 
         display: 'flex', 
@@ -66,7 +91,8 @@ const EnhancedProjectCard = ({
         border: featured ? '2px solid rgba(155, 0, 255, 0.5)' : undefined,
         backgroundColor: 'rgba(28, 29, 34, 0.7)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        cursor: 'pointer' // Add pointer cursor to indicate clickable
       }}
     >
       {/* Background glow effect for featured projects */}
@@ -114,7 +140,7 @@ const EnhancedProjectCard = ({
           }}
         />
         
-        {/* Hover overlay */}
+        {/* Overlay gradient for better text visibility */}
         <Box
           style={{
             position: 'absolute',
@@ -122,47 +148,38 @@ const EnhancedProjectCard = ({
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent 50%)',
-            opacity: isHovered ? 1 : 0,
-            transition: 'opacity 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            background: isHovered 
+              ? 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.1))' 
+              : 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.2) 70%, rgba(0,0,0,0))',
+            opacity: 1,
+            transition: 'all 0.3s ease'
           }}
-        >
+        />
+        
+        {/* Featured badge (if applicable) */}
+        {featured && (
           <Box
-            onClick={() => onViewDetails && onViewDetails(projectId)}
             style={{
-              cursor: 'pointer',
-              padding: '8px 16px',
-              background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
-              color: 'white',
-              borderRadius: '25px',
-              fontWeight: 'bold',
-              transform: isHovered ? 'translateY(0)' : 'translateY(20px)',
-              opacity: isHovered ? 1 : 0,
-              transition: 'all 0.3s ease'
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              zIndex: 2
             }}
           >
-            View Details
+            <Badge 
+              color="grape" 
+              radius="xl"
+              variant="filled"
+              gradient={{ from: '#9B00FF', to: '#00F5FF' }}
+            >
+              Featured
+            </Badge>
           </Box>
-        </Box>
+        )}
       </Box>
       
       {/* Content */}
       <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
-        {featured && (
-          <Badge 
-            color="grape" 
-            mb="xs" 
-            radius="xl"
-            variant="filled"
-            gradient={{ from: '#9B00FF', to: '#00F5FF' }}
-          >
-            Featured
-          </Badge>
-        )}
-        
         <Title order={4} mb="xs" style={{ color: '#e0e0e0' }}>{title}</Title>
         <Text size="sm" color="dimmed" mb="md" style={{ flex: 1 }}>{description}</Text>
         
@@ -196,6 +213,7 @@ const EnhancedProjectCard = ({
               href={githubUrl} 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()} // Prevent triggering card click
               style={{ 
                 padding: '8px 12px',
                 borderRadius: '25px',
@@ -220,6 +238,7 @@ const EnhancedProjectCard = ({
               href={liveUrl} 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()} // Prevent triggering card click
               style={{ 
                 padding: '8px 12px',
                 borderRadius: '25px',
@@ -239,30 +258,26 @@ const EnhancedProjectCard = ({
             </a>
           )}
           
-          <a 
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              onViewDetails && onViewDetails(projectId);
-            }}
+          <Box 
+            onClick={handleDetailsClick}
             style={{ 
               padding: '8px 12px',
               borderRadius: '25px',
               marginLeft: 'auto',
               color: '#00F5FF',
-              backgroundColor: 'transparent',
-              textDecoration: 'none',
+              backgroundColor: isHovered ? 'rgba(0, 245, 255, 0.1)' : 'transparent',
               fontSize: '14px',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
+              cursor: 'pointer',
               transition: 'all 0.3s ease',
               opacity: isHovered ? 1 : 0.7
             }}
           >
             <IconInfoCircle size={16} />
             Details
-          </a>
+          </Box>
         </Group>
       </Box>
     </Paper>
