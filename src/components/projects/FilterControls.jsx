@@ -45,7 +45,7 @@ const FilterControls = ({
       <Box className="filter-mobile-toggle" sx={{ display: { xs: 'block', sm: 'none' }, marginBottom: '1rem' }}>
         <Button
           fullWidth
-          leftIcon={<IconFilter size={16} />}
+          leftSection={<IconFilter size={16} />}
           onClick={() => setShowMobileFilters(!showMobileFilters)}
           variant={showMobileFilters ? "filled" : "outline"}
           color="grape"
