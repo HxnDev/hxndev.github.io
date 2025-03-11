@@ -29,21 +29,6 @@ const Projects = () => {
     error: projectsError,
   } = useGetProjects();
 
-  // Initialize project data and hooks
-  useEffect(() => {
-    // Simplified loading logic to avoid extra state updates
-    if (!projectsLoading) {
-      setIsLoading(false);
-    }
-
-    // Check for direct project link in URL
-    const urlParams = new URLSearchParams(location.search);
-    const projectId = urlParams.get('project');
-    if (projectId && projectsData && projectsData.length > 0) {
-      handleViewDetails(projectId);
-    }
-  }, [projectsLoading, projectsData, location.search, handleViewDetails]);
-
   // Project filtering hook
   const {
     filteredProjects,
@@ -66,7 +51,7 @@ const Projects = () => {
     returnToGallery,
   } = useProjectDetail();
 
-  // Handle view project details with proper navigation
+  // Handle view project details with proper navigation - DEFINE THIS BEFORE useEffect
   const handleViewDetails = useCallback(
     (projectId, action = 'page') => {
       if (action === 'reset') {
@@ -90,6 +75,21 @@ const Projects = () => {
     },
     [navigate, resetFilters, openProjectModal, projectsData, viewProjectDetails]
   );
+
+  // Initialize project data and hooks - NOW handleViewDetails EXISTS when this runs
+  useEffect(() => {
+    // Simplified loading logic to avoid extra state updates
+    if (!projectsLoading) {
+      setIsLoading(false);
+    }
+
+    // Check for direct project link in URL
+    const urlParams = new URLSearchParams(location.search);
+    const projectId = urlParams.get('project');
+    if (projectId && projectsData && projectsData.length > 0) {
+      handleViewDetails(projectId);
+    }
+  }, [projectsLoading, projectsData, location.search, handleViewDetails]);
 
   // Handle back to gallery
   const handleBackToGallery = () => {
