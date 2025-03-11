@@ -1,23 +1,22 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Box } from '@mantine/core';
 import { useAnimationContext } from '../../context/AnimationContext';
 import { gsap } from 'gsap';
 
 const PageTransition = ({ children }) => {
   const location = useLocation();
-  const containerRef = React.useRef(null);
+  const containerRef = useRef(null);
+  const contentRef = useRef(null);
   const { reducedMotion } = useAnimationContext();
   
   // Apply enter animation when the component mounts or location changes
-  React.useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const container = containerRef.current;
-    const content = container.children[0];
+  useEffect(() => {
+    if (!containerRef.current || !contentRef.current) return;
     
     // Reset positions
-    gsap.set(container, { perspective: 1000 });
-    gsap.set(content, { opacity: 0, y: 30 });
+    gsap.set(containerRef.current, { perspective: 1000 });
+    gsap.set(contentRef.current, { opacity: 0, y: 30 });
     
     // Create timeline for entrance animation
     const timeline = gsap.timeline({
@@ -29,20 +28,26 @@ const PageTransition = ({ children }) => {
     
     // Simple fade in for reduced motion, more complex animation otherwise
     if (reducedMotion) {
-      timeline.to(content, { opacity: 1, y: 0 });
+      timeline.to(contentRef.current, { opacity: 1, y: 0 });
     } else {
-      timeline
-        .to(content, { opacity: 1, y: 0 })
-        .from(
-          content.querySelectorAll('h1, h2, h3, .animate-in'), 
+      timeline.to(contentRef.current, { opacity: 1, y: 0 });
+      
+      // Find and animate headings and elements with animate-in class if they exist
+      const animateElements = contentRef.current.querySelectorAll('h1, h2, h3, .animate-in');
+      
+      if (animateElements.length > 0) {
+        timeline.fromTo(
+          animateElements,
+          { opacity: 0, y: 20 },
           { 
-            opacity: 0, 
-            y: 20, 
+            opacity: 1, 
+            y: 0, 
             stagger: 0.1,
             delay: 0.1
           },
           '-=0.2'
         );
+      }
     }
     
     return () => {
@@ -51,9 +56,9 @@ const PageTransition = ({ children }) => {
   }, [location.pathname, reducedMotion]);
   
   return (
-    <div ref={containerRef} style={{ width: '100%', minHeight: '80vh' }}>
-      <div>{children}</div>
-    </div>
+    <Box ref={containerRef} sx={{ width: '100%', minHeight: '80vh' }}>
+      <Box ref={contentRef}>{children}</Box>
+    </Box>
   );
 };
 
