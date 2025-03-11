@@ -5,6 +5,7 @@ import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
 import { useGetProjects } from '../hooks/useGetProjects';
 import AnimatedSection from '../components/common/AnimatedSection';
+import { useColorScheme } from '../theme/ThemeProvider';
 
 const Home = () => {
   const { 
@@ -13,7 +14,10 @@ const Home = () => {
     error: projectsError 
   } = useGetProjects();
   
-  // Get featured projects only - no longer limiting to 3
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  
+  // Get featured projects
   const featuredProjects = React.useMemo(() => {
     if (!allProjects || allProjects.length === 0) return [];
     return allProjects.filter(project => project.featured === true);
@@ -34,23 +38,16 @@ const Home = () => {
           <Title 
             order={2} 
             mb={50}
-            sx={(theme) => ({
+            style={{
               fontSize: '2.5rem',
               fontWeight: 700,
               textAlign: 'center',
               position: 'relative',
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                bottom: '-15px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
-                height: '4px',
-                background: 'linear-gradient(45deg, #6200EE, #00F5FF)',
-                borderRadius: '2px'
-              }
-            })}
+              backgroundImage: 'linear-gradient(45deg, #6200EE, #03DAC5)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
           >
             Featured Projects
           </Title>
@@ -96,33 +93,13 @@ const Home = () => {
               ))
             ) : (
               <Grid.Col span={12}>
-                <Text align="center" c="dimmed">
+                <Text align="center" c={isDark ? "dimmed" : "dark.6"}>
                   No featured projects found. Total projects: {allProjects ? allProjects.length : 0}
                 </Text>
               </Grid.Col>
             )}
           </SimpleGrid>
         )}
-        
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
-          <Button
-            component="a"
-            href="/hxndev.github.io/projects"
-            size="lg"
-            variant="gradient"
-            gradient={{ from: '#9B00FF', to: '#00F5FF' }}
-            sx={{
-              boxShadow: '0 4px 15px rgba(155, 0, 255, 0.3)',
-              '&:hover': {
-                transform: 'translateY(-3px)',
-                boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)',
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            View All Projects
-          </Button>
-        </Box>
       </Container>
       
       {/* Sponsorship Section */}

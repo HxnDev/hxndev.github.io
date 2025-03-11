@@ -2,12 +2,15 @@ import React, { useRef, useEffect } from 'react';
 import { Title, Text, Container, Button, Group, Grid, Box } from '@mantine/core';
 import { IconDownload, IconBrandGithub, IconArrowRight } from '@tabler/icons-react';
 import { gsap } from 'gsap';
+import { useColorScheme } from '../../theme/ThemeProvider';
 
 const HeroSection = () => {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const imageRef = useRef(null);
   const ctaRef = useRef(null);
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   // Animation on component mount
   useEffect(() => {
@@ -78,7 +81,9 @@ const HeroSection = () => {
         position: 'relative',
         padding: '80px 0 100px',
         overflow: 'hidden',
-        background: 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.15), transparent 70%)'
+        background: isDark 
+          ? 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.15), transparent 70%)'
+          : 'radial-gradient(circle at 30% 50%, rgba(155, 0, 255, 0.05), transparent 70%)'
       }}
     >
       {/* Floating orbs background decoration */}
@@ -123,7 +128,7 @@ const HeroSection = () => {
             <Text 
               className="animate-item"
               size="xl" 
-              color="dimmed"
+              color={isDark ? "dimmed" : "dark"}
               style={{ 
                 maxWidth: '600px',
                 lineHeight: 1.6,
@@ -162,19 +167,20 @@ const HeroSection = () => {
                 href="https://github.com/HxnDev"
                 target="_blank"
                 size="lg"
-                variant="outline"
+                variant={isDark ? "outline" : "filled"}
                 leftSection={<IconBrandGithub size={20} />}
                 rightSection={<IconArrowRight size={16} />}
                 radius="xl"
                 style={{
                   borderColor: '#9B00FF',
-                  color: '#00F5FF',
+                  color: isDark ? '#00F5FF' : 'white',
+                  backgroundColor: isDark ? 'transparent' : '#9B00FF',
                   transition: 'all 0.3s ease'
                 }}
                 sx={{
                   '&:hover': {
                     transform: 'translateY(-3px)',
-                    background: 'rgba(155, 0, 255, 0.1)',
+                    background: isDark ? 'rgba(155, 0, 255, 0.1)' : '#8100d9',
                     boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)'
                   }
                 }}

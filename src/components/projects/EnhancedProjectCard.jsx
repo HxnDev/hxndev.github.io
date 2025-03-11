@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Paper, Text, Title, Group, Badge, Box } from '@mantine/core';
 import { IconBrandGithub, IconExternalLink, IconInfoCircle } from '@tabler/icons-react';
+import { useColorScheme } from '../../theme/ThemeProvider';
 
 const EnhancedProjectCard = ({ 
   title, 
@@ -18,6 +19,8 @@ const EnhancedProjectCard = ({
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef(null);
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
   
   // Determine image source
   const imgSrc = imageError 
@@ -89,7 +92,7 @@ const EnhancedProjectCard = ({
         transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
         boxShadow: isHovered ? '0 10px 25px rgba(155, 0, 255, 0.15)' : '0 4px 12px rgba(0, 0, 0, 0.1)',
         border: featured ? '2px solid rgba(155, 0, 255, 0.5)' : undefined,
-        backgroundColor: 'rgba(28, 29, 34, 0.7)',
+        backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)',
         position: 'relative',
         overflow: 'hidden',
         cursor: 'pointer' // Add pointer cursor to indicate clickable
@@ -180,8 +183,8 @@ const EnhancedProjectCard = ({
       
       {/* Content */}
       <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
-        <Title order={4} mb="xs" style={{ color: '#e0e0e0' }}>{title}</Title>
-        <Text size="sm" color="dimmed" mb="md" style={{ flex: 1 }}>{description}</Text>
+        <Title order={4} mb="xs" style={{ color: isDark ? '#e0e0e0' : '#1A1B1E' }}>{title}</Title>
+        <Text size="sm" color={isDark ? "dimmed" : "dark.6"} mb="md" style={{ flex: 1 }}>{description}</Text>
         
         <Group spacing="xs" mb="md">
           {technologies && technologies.slice(0, 3).map((tech, index) => (
@@ -264,8 +267,8 @@ const EnhancedProjectCard = ({
               padding: '8px 12px',
               borderRadius: '25px',
               marginLeft: 'auto',
-              color: '#00F5FF',
-              backgroundColor: isHovered ? 'rgba(0, 245, 255, 0.1)' : 'transparent',
+              color: isDark ? '#00F5FF' : '#6200EE',
+              backgroundColor: isHovered ? (isDark ? 'rgba(0, 245, 255, 0.1)' : 'rgba(98, 0, 238, 0.1)') : 'transparent',
               fontSize: '14px',
               display: 'flex',
               alignItems: 'center',

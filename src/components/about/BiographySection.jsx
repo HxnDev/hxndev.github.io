@@ -100,7 +100,8 @@ const BiographySection = ({ bio, image }) => {
         background: isDark 
           ? 'linear-gradient(145deg, rgba(28, 29, 34, 0.9), rgba(15, 16, 20, 1))' 
           : 'linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(245, 245, 250, 1))',
-        position: 'relative'
+        position: 'relative',
+        borderColor: isDark ? 'rgba(155, 0, 255, 0.3)' : 'rgba(155, 0, 255, 0.2)'
       }}
     >
       {/* Background decoration */}
@@ -120,7 +121,18 @@ const BiographySection = ({ bio, image }) => {
         />
       )}
       
-      <Title order={2} mb="lg">Bio</Title>
+      <Title 
+        order={2} 
+        mb="lg"
+        style={{
+          backgroundImage: 'linear-gradient(45deg, #6200EE, #03DAC5)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}
+      >
+        Bio
+      </Title>
       
       <Grid gutter={50}>
         <Grid.Col md={4}>
@@ -197,7 +209,8 @@ const BiographySection = ({ bio, image }) => {
                 size="lg"
                 style={{
                   lineHeight: 1.7,
-                  opacity: reducedMotion ? 1 : 0 // Set initial opacity for animation
+                  opacity: reducedMotion ? 1 : 0, // Set initial opacity for animation
+                  color: isDark ? 'white' : '#1A1B1E'
                 }}
               >
                 {paragraph}

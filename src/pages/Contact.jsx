@@ -4,6 +4,7 @@ import { IconAt, IconMapPin, IconBrandGithub, IconBrandLinkedin, IconSend } from
 import { gsap } from 'gsap';
 import { useAnimationContext } from '../context/AnimationContext';
 import { useColorScheme } from '../theme/ThemeProvider';
+import SponsorshipSection from '../components/SponsorshipSection';
 
 const Contact = () => {
   const pageRef = useRef(null);
@@ -64,11 +65,19 @@ const Contact = () => {
       
       <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]} spacing={50}>
         <div>
-          <Text size="lg" mb="md">
+          <Text size="lg" mb="md" color={isDark ? "white" : "dark"}>
             Have a question or want to work together? Feel free to reach out!
           </Text>
           
-          <Paper withBorder p="md" radius="md" mt="xl" style={{ backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(255, 255, 255, 0.7)' }}>
+          <Paper 
+            withBorder 
+            p="md" 
+            radius="md" 
+            mt="xl" 
+            style={{ 
+              backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)'
+            }}
+          >
             <Group wrap="nowrap">
               <ThemeIcon 
                 size={34} 
@@ -78,13 +87,21 @@ const Contact = () => {
                   background: isDark ? 'rgba(0, 245, 255, 0.2)' : 'rgba(0, 245, 255, 0.3)',
                 }}
               >
-                <IconAt size={20} />
+                <IconAt size={20} color={isDark ? "white" : "#008B9B"} />
               </ThemeIcon>
-              <Text>hassanshahzad.dev@gmail.com</Text>
+              <Text color={isDark ? "white" : "dark"}>hassanshahzad.dev@gmail.com</Text>
             </Group>
           </Paper>
           
-          <Paper withBorder p="md" radius="md" mt="md" style={{ backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(255, 255, 255, 0.7)' }}>
+          <Paper 
+            withBorder 
+            p="md" 
+            radius="md" 
+            mt="md" 
+            style={{ 
+              backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)'
+            }}
+          >
             <Group wrap="nowrap">
               <ThemeIcon 
                 size={34} 
@@ -94,9 +111,9 @@ const Contact = () => {
                   background: isDark ? 'rgba(155, 0, 255, 0.2)' : 'rgba(155, 0, 255, 0.3)',
                 }}
               >
-                <IconMapPin size={20} />
+                <IconMapPin size={20} color={isDark ? "white" : "#6200EE"} />
               </ThemeIcon>
-              <Text>Location, City, Country</Text>
+              <Text color={isDark ? "white" : "dark"}>Location, City, Country</Text>
             </Group>
           </Paper>
           
@@ -106,10 +123,11 @@ const Contact = () => {
               href="https://github.com/HxnDev"
               target="_blank"
               leftSection={<IconBrandGithub size={18} />}
-              variant="outline"
+              variant={isDark ? "outline" : "filled"}
               style={{
-                borderColor: isDark ? 'rgba(155, 0, 255, 0.5)' : 'rgba(98, 0, 238, 0.5)',
-                color: isDark ? '#9B00FF' : '#6200EE',
+                borderColor: isDark ? 'rgba(155, 0, 255, 0.5)' : undefined,
+                color: isDark ? '#9B00FF' : 'white',
+                backgroundColor: isDark ? 'transparent' : '#333'
               }}
             >
               GitHub
@@ -135,11 +153,18 @@ const Contact = () => {
           </Group>
         </div>
         
-        <Paper withBorder p="xl" radius="md" style={{ backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(255, 255, 255, 0.7)' }}>
+        <Paper 
+          withBorder 
+          p="xl" 
+          radius="md" 
+          style={{ 
+            backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)'
+          }}
+        >
           {submitted ? (
             <div>
               <Title order={3} color="teal" mb="md">Message Sent!</Title>
-              <Text>
+              <Text color={isDark ? "white" : "dark"}>
                 Thank you for reaching out. I'll get back to you as soon as possible.
               </Text>
               <Button 
@@ -153,7 +178,7 @@ const Contact = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <Title order={3} mb="xl">Send a Message</Title>
+              <Title order={3} mb="xl" color={isDark ? "white" : "dark"}>Send a Message</Title>
               
               <TextInput
                 label="Name"
@@ -166,7 +191,11 @@ const Contact = () => {
                 styles={{
                   input: {
                     backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                    color: isDark ? 'white' : 'black'
+                  },
+                  label: {
+                    color: isDark ? 'white' : 'black'
                   }
                 }}
               />
@@ -182,7 +211,11 @@ const Contact = () => {
                 styles={{
                   input: {
                     backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                    color: isDark ? 'white' : 'black'
+                  },
+                  label: {
+                    color: isDark ? 'white' : 'black'
                   }
                 }}
               />
@@ -198,7 +231,11 @@ const Contact = () => {
                 styles={{
                   input: {
                     backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                    color: isDark ? 'white' : 'black'
+                  },
+                  label: {
+                    color: isDark ? 'white' : 'black'
                   }
                 }}
               />
@@ -215,7 +252,11 @@ const Contact = () => {
                 styles={{
                   input: {
                     backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                    color: isDark ? 'white' : 'black'
+                  },
+                  label: {
+                    color: isDark ? 'white' : 'black'
                   }
                 }}
               />
@@ -235,6 +276,11 @@ const Contact = () => {
           )}
         </Paper>
       </SimpleGrid>
+      
+      {/* Support My Work Section */}
+      <Box mt={100} mb={50}>
+        <SponsorshipSection />
+      </Box>
     </Container>
   );
 };

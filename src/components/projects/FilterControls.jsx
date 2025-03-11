@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Group, Button, TextInput, Box, Transition, Paper } from '@mantine/core';
 import { IconSearch, IconFilter, IconX } from '@tabler/icons-react';
+import { useColorScheme } from '../../theme/ThemeProvider';
 
 const FilterControls = ({ 
   categories = [], 
@@ -11,6 +12,8 @@ const FilterControls = ({
   onReset
 }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   // Handle search input clearing
   const handleClearSearch = () => {
@@ -41,9 +44,9 @@ const FilterControls = ({
       p="md" 
       mb="xl"
       style={{
-        background: 'rgba(28, 29, 34, 0.8)',
+        background: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(245, 245, 250, 0.8)',
         backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(155, 0, 255, 0.15)'
+        border: isDark ? '1px solid rgba(155, 0, 255, 0.15)' : '1px solid rgba(155, 0, 255, 0.3)'
       }}
     >
       {/* Filter toggle button */}
@@ -95,8 +98,9 @@ const FilterControls = ({
                 width: '100%',
                 transition: 'all 0.3s ease',
                 input: {
-                  backgroundColor: 'rgba(40, 40, 45, 0.8)',
-                  borderRadius: '30px' // Ensure input field is also rounded
+                  backgroundColor: isDark ? 'rgba(40, 40, 45, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                  borderRadius: '30px', // Ensure input field is also rounded
+                  color: isDark ? 'white' : 'black'
                 }
               }}
             />

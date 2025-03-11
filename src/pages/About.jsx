@@ -9,6 +9,7 @@ import AnimatedSection from '../components/common/AnimatedSection';
 import { useAnimationContext } from '../context/AnimationContext';
 import { gsap } from 'gsap';
 import { useColorScheme } from '../theme/ThemeProvider';
+import ConnectSection from '../components/ConnectSection';
 
 const About = () => {
   const pageRef = useRef(null);
@@ -94,7 +95,19 @@ const About = () => {
   
   return (
     <Container size="lg" ref={pageRef}>
-      <Title order={1} className="page-title" mb="xl">About Me</Title>
+      <Title 
+        order={1} 
+        className="page-title" 
+        mb="xl"
+        style={{
+          backgroundImage: 'linear-gradient(45deg, #6200EE, #03DAC5)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}
+      >
+        About Me
+      </Title>
       
       <Grid gutter={50} mb="xl">
         <Grid.Col md={12}>
@@ -112,136 +125,13 @@ const About = () => {
         <Timeline experiences={experiences} />
       </AnimatedSection>
       
-      {/* Connect with me section - Reverted to the original style with clickable cards */}
-      <Paper withBorder p="xl" radius="md" mb="xl" style={{ backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(255, 255, 255, 0.7)' }}>
-        <Title order={2} mb="xl">Connect With Me</Title>
-        
-        <SimpleGrid cols={3} spacing="lg" breakpoints={[{ maxWidth: 768, cols: 1 }]}>
-          {/* GitHub Card */}
-          <Anchor 
-            href="https://github.com/HxnDev" 
-            target="_blank"
-            style={{ textDecoration: 'none' }}
-          >
-            <Box 
-              p="lg" 
-              style={{
-                border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                borderRadius: '8px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                backgroundColor: isDark ? 'rgba(22, 23, 26, 0.4)' : 'rgba(245, 245, 245, 0.6)',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                  boxShadow: '0 5px 15px rgba(155, 0, 255, 0.2)'
-                }
-              }}
-            >
-              <ThemeIcon
-                size={80}
-                radius="xl"
-                style={{
-                  backgroundColor: '#9B00FF',
-                  color: 'white',
-                  marginBottom: '16px'
-                }}
-              >
-                <IconBrandGithub size={40} />
-              </ThemeIcon>
-              <Title order={4} align="center" style={{ color: '#9B00FF', marginBottom: '8px' }}>GitHub</Title>
-              <Text align="center" color="dimmed">
-                Check out my projects and contributions
-              </Text>
-            </Box>
-          </Anchor>
-          
-          {/* LinkedIn Card */}
-          <Anchor 
-            href="https://www.linkedin.com/in/hassan-shahzad-2a6617212/" 
-            target="_blank"
-            style={{ textDecoration: 'none' }}
-          >
-            <Box 
-              p="lg" 
-              style={{
-                border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                borderRadius: '8px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                backgroundColor: isDark ? 'rgba(22, 23, 26, 0.4)' : 'rgba(245, 245, 245, 0.6)',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                  boxShadow: '0 5px 15px rgba(0, 119, 181, 0.2)'
-                }
-              }}
-            >
-              <ThemeIcon
-                size={80}
-                radius="xl"
-                style={{
-                  backgroundColor: '#0077B5',
-                  color: 'white',
-                  marginBottom: '16px'
-                }}
-              >
-                <IconBrandLinkedin size={40} />
-              </ThemeIcon>
-              <Title order={4} align="center" style={{ color: '#0077B5', marginBottom: '8px' }}>LinkedIn</Title>
-              <Text align="center" color="dimmed">
-                Connect with me professionally
-              </Text>
-            </Box>
-          </Anchor>
-          
-          {/* Email Card */}
-          <Anchor 
-            href="mailto:hassanshahzad.dev@gmail.com"
-            style={{ textDecoration: 'none' }}
-          >
-            <Box 
-              p="lg" 
-              style={{
-                border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                borderRadius: '8px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                backgroundColor: isDark ? 'rgba(22, 23, 26, 0.4)' : 'rgba(245, 245, 245, 0.6)',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                  boxShadow: '0 5px 15px rgba(0, 245, 255, 0.2)'
-                }
-              }}
-            >
-              <ThemeIcon
-                size={80}
-                radius="xl"
-                style={{
-                  backgroundColor: '#00F5FF',
-                  color: 'white',
-                  marginBottom: '16px'
-                }}
-              >
-                <IconMail size={40} />
-              </ThemeIcon>
-              <Title order={4} align="center" style={{ color: '#00F5FF', marginBottom: '8px' }}>Email</Title>
-              <Text align="center" color="dimmed">
-                Send me a direct message
-              </Text>
-            </Box>
-          </Anchor>
-        </SimpleGrid>
-      </Paper>
+      {/* Connect with me section */}
+      <AnimatedSection animation="fadeInUp" duration={0.8} delay={0.6} mb="xl">
+        <ConnectSection />
+      </AnimatedSection>
       
-      <AnimatedSection animation="fadeInUp" duration={0.8} delay={0.8}>
+      {/* Support My Work section */}
+      <AnimatedSection animation="fadeInUp" duration={0.8} delay={0.8} mb="xl">
         <SponsorshipSection />
       </AnimatedSection>
     </Container>

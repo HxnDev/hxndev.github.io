@@ -1,16 +1,22 @@
 import React from 'react';
-import { Text, Stack, Group, Button, Paper } from '@mantine/core';
+import { Text, Stack, Group, Button, Paper, Title } from '@mantine/core';
 import { IconHeart, IconCoffee } from '@tabler/icons-react';
+import { useColorScheme } from '../theme/ThemeProvider';
 
 const SponsorshipSection = () => {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   return (
     <Paper 
       p="xl" 
       radius="xl" 
       withBorder
       style={{
-        background: 'linear-gradient(145deg, rgba(28, 29, 34, 0.7), rgba(20, 21, 25, 0.9))',
-        borderColor: 'rgba(155, 0, 255, 0.3)',
+        background: isDark
+          ? 'linear-gradient(145deg, rgba(28, 29, 34, 0.7), rgba(20, 21, 25, 0.9))'
+          : 'linear-gradient(145deg, rgba(245, 245, 250, 0.7), rgba(235, 235, 240, 0.9))',
+        borderColor: isDark ? 'rgba(155, 0, 255, 0.3)' : 'rgba(155, 0, 255, 0.2)',
         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(155, 0, 255, 0.2)',
         overflow: 'hidden',
         position: 'relative'
@@ -33,19 +39,20 @@ const SponsorshipSection = () => {
       />
       
       <Stack align="center" style={{ position: 'relative', zIndex: 1 }}>
-        <Text 
-          size="xl" 
-          fw={700}
+        <Title 
+          order={3}
           style={{
             background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'transparent',
+            marginBottom: '1rem',
+            fontWeight: 700
           }}
         >
           Support My Work
-        </Text>
+        </Title>
         
-        <Text ta="center" c="dimmed" maw={600} mx="auto">
+        <Text ta="center" c={isDark ? "dimmed" : "dark.6"} maw={600} mx="auto">
           If you find my projects helpful, consider supporting their continued development and maintenance.
         </Text>
         
