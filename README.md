@@ -124,7 +124,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 **Hassan Shahzad**  
-Email: [your-email@example.com](mailto:your-email@example.com)  
+Email: [hassanshahzad.dev@gmail.com](mailto:hassanshahzad.dev@gmail.com)  
 Portfolio: [https://hxndev.github.io/](https://hxndev.github.io/)
 ```
 
