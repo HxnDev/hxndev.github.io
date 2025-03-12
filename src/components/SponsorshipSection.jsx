@@ -80,7 +80,7 @@ const SponsorshipSection = () => {
 
           <Button
             component="a"
-            href="https://www.buymeacoffee.com/hassanshahzad"
+            href="https://www.buymeacoffee.com/hxndev"
             target="_blank"
             variant="filled"
             color="yellow"
