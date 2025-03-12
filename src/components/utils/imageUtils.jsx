@@ -1,7 +1,7 @@
 /**
  * Utility functions for handling image paths in portfolio
  */
-import { getBasePath as getBasePathUtil, resolveAssetPath } from '../../utils/paths';
+import { getBasePath as getBasePathUtil } from '../../utils/paths';
 
 /**
  * Gets the correct image path based on environment and image path format

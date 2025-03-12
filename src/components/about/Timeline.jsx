@@ -100,22 +100,18 @@ const TimelineItem = ({ title, company, date, description, bullets = [], isActiv
         <Text className="timeline-content" weight={500} size="md" mb="sm">
           {company}
         </Text>
-        
+
         {/* Description - can be string or JSX */}
-        <Box className="timeline-content" mb={bullets && bullets.length > 0 ? "sm" : "md"}>
-          {typeof description === 'string' ? (
-            <Text>{description}</Text>
-          ) : (
-            description
-          )}
+        <Box className="timeline-content" mb={bullets && bullets.length > 0 ? 'sm' : 'md'}>
+          {typeof description === 'string' ? <Text>{description}</Text> : description}
         </Box>
-        
+
         {/* Bullets list - if provided */}
         {bullets && bullets.length > 0 && (
           <Box className="timeline-content" mb="md">
-            <ul style={{ paddingLeft: "20px", margin: "0" }}>
+            <ul style={{ paddingLeft: '20px', margin: '0' }}>
               {bullets.map((bullet, index) => (
-                <li key={index} style={{ marginBottom: "8px" }}>
+                <li key={index} style={{ marginBottom: '8px' }}>
                   <Text component="span">{bullet}</Text>
                 </li>
               ))}

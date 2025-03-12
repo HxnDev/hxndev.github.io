@@ -51,14 +51,24 @@ const About = () => {
       date: 'Mar 2024 - Feb 2025',
       description: (
         <>
-          Designed and deployed scalable data infrastructure for <a href="https://gbdi.org" target="_blank" rel="noopener noreferrer" style={{ color: '#9B00FF', textDecoration: 'underline' }}>GBDI</a> (Global Building Data Initiative), improving data processing speed by 30% through optimized AWS pipelines.
+          Designed and deployed scalable data infrastructure for{' '}
+          <a
+            href="https://gbdi.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#9B00FF', textDecoration: 'underline' }}
+          >
+            GBDI
+          </a>{' '}
+          (Global Building Data Initiative), improving data processing speed by 30% through
+          optimized AWS pipelines.
         </>
       ),
       // Add a separate bullets array for list items
       bullets: [
         "Engineered ReactJS web applications and APIs to resolve 3 critical user pain points (e.g., fragmented data access, slow query response) for GBDI's global building materials database.",
-        "Built scalable architectures for cross-functional research projects, enhancing system efficiency by 20%."
-      ]
+        'Built scalable architectures for cross-functional research projects, enhancing system efficiency by 20%.',
+      ],
     },
     {
       title: 'Lead Full Stack Developer',
@@ -66,9 +76,9 @@ const About = () => {
       date: 'Jul 2022 - Nov 2023',
       description: '', // Empty description since we're only using bullet points
       bullets: [
-        "Led the development of microservices architecture, reducing deployment time by 75%.",
-        "Designed and executed CI/CD pipelines for containerized applications on AWS, resulting in a significant increase in delivery speed."
-      ]
+        'Led the development of microservices architecture, reducing deployment time by 75%.',
+        'Designed and executed CI/CD pipelines for containerized applications on AWS, resulting in a significant increase in delivery speed.',
+      ],
     },
     {
       title: 'Full Stack Developer',
@@ -76,9 +86,9 @@ const About = () => {
       date: 'Apr 2022 - Jul 2022',
       description: '', // Empty description since we're only using bullet points
       bullets: [
-        "Developed microservices-based applications, reducing response time by 40%.",
-        "Transformed server-side architecture with cutting-edge technologies including Spring Boot and MySQL."
-      ]
+        'Developed microservices-based applications, reducing response time by 40%.',
+        'Transformed server-side architecture with cutting-edge technologies including Spring Boot and MySQL.',
+      ],
     },
     {
       title: 'Full Stack Developer',
@@ -86,9 +96,9 @@ const About = () => {
       date: 'Sep 2020 - Mar 2022',
       description: '', // Empty description since we're only using bullet points
       bullets: [
-        "Designed and developed a ReactJS website integrated with a mobile app, achieving real-time notifications via a linked database.",
-        "Built and deployed a microservice on Kubernetes, improving monitoring and updates by 20%."
-      ]
+        'Designed and developed a ReactJS website integrated with a mobile app, achieving real-time notifications via a linked database.',
+        'Built and deployed a microservice on Kubernetes, improving monitoring and updates by 20%.',
+      ],
     },
   ];
 
@@ -128,9 +138,9 @@ const About = () => {
 
   // Bio paragraphs
   const bio = [
-    "I am a results-driven Full Stack Developer with 5 years of experience in designing and deploying scalable applications, optimizing system performance, and leading teams. My expertise spans frontend and backend development, cloud infrastructure, and DevOps, enabling me to build high-impact solutions for both Fortune 50 companies and cutting-edge research projects.",
-    "With a strong foundation in Python, Java, JavaScript, and Rust, I specialize in creating performant, secure, and maintainable applications. My work has included optimizing AWS-based pipelines to enhance data processing speeds, developing ReactJS applications that improve user experience, and architecting microservices to streamline deployment and scalability.",
-    "Passionate about tackling complex engineering challenges, I excel in end-to-end development, from system design to deployment and maintenance. My approach emphasizes both functionality and user experience, ensuring that the solutions I build drive efficiency and real-world impact.",
+    'I am a results-driven Full Stack Developer with 5 years of experience in designing and deploying scalable applications, optimizing system performance, and leading teams. My expertise spans frontend and backend development, cloud infrastructure, and DevOps, enabling me to build high-impact solutions for both Fortune 50 companies and cutting-edge research projects.',
+    'With a strong foundation in Python, Java, JavaScript, and Rust, I specialize in creating performant, secure, and maintainable applications. My work has included optimizing AWS-based pipelines to enhance data processing speeds, developing ReactJS applications that improve user experience, and architecting microservices to streamline deployment and scalability.',
+    'Passionate about tackling complex engineering challenges, I excel in end-to-end development, from system design to deployment and maintenance. My approach emphasizes both functionality and user experience, ensuring that the solutions I build drive efficiency and real-world impact.',
   ];
 
   return (

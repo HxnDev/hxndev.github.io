@@ -56,7 +56,7 @@ const Projects = () => {
     (projectId, action = 'page') => {
       if (action === 'reset') {
         resetFilters();
-        navigate('/hxndev.github.io/projects');
+        navigate('/projects');
         return;
       }
 
@@ -68,7 +68,7 @@ const Projects = () => {
         openProjectModal(projectId, projectsData);
       } else if (action === 'page') {
         // Update the URL
-        navigate(`/hxndev.github.io/projects?project=${projectId}`);
+        navigate(`/projects?project=${projectId}`);
         // View project details
         viewProjectDetails(projectId, projectsData);
       }

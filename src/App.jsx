@@ -10,7 +10,6 @@ import { preloadCriticalAssets } from './components/utils/assetPreloader';
 import { applyPerformanceOptimizations } from './components/utils/animationOptimizer';
 import { resolvePath } from './components/utils/paths';
 
-
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';

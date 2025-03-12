@@ -112,9 +112,7 @@ export const getCriticalImages = () => {
   ];
 
   // Resolve all paths
-  return imagePaths.map(path => 
-    path.startsWith('http') ? path : resolveAssetPath(path)
-  );
+  return imagePaths.map(path => (path.startsWith('http') ? path : resolveAssetPath(path)));
 };
 
 /**

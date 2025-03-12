@@ -145,7 +145,7 @@ const BiographySection = ({ bio, image }) => {
               }}
             >
               <Image
-                src={image || '/hxndev.github.io/images/profile.jpg'}
+                src={image || '/images/profile.jpg'}
                 alt="Hassan Shahzad"
                 radius="md"
                 height={300}

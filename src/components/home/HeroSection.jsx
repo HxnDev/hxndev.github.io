@@ -5,7 +5,6 @@ import { gsap } from 'gsap';
 import { useColorScheme } from '../../theme/ThemeProvider';
 import { resolveAssetPath } from '../utils/paths';
 
-
 const HeroSection = () => {
   const containerRef = useRef(null);
   const textRef = useRef(null);

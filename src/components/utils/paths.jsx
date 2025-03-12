@@ -1,5 +1,5 @@
 // Detect if we're in production or development
-const isProd = import.meta.env.PROD;
+const _isProd = import.meta.env.PROD;
 
 // Base path should be empty for username.github.io repos
 export const BASE_PATH = '';
@@ -12,10 +12,10 @@ export function resolvePath(path) {
   if (path.startsWith('http')) {
     return path;
   }
-  
+
   // Ensure path starts with slash
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  
+
   // In production (GitHub Pages), use the base path
   // In development, use paths as is
   return `${BASE_PATH}${normalizedPath}`;
@@ -29,10 +29,10 @@ export function resolveAssetPath(path) {
   if (path.startsWith('http')) {
     return path;
   }
-  
+
   // Remove leading slash if present
   const normalizedPath = path.startsWith('/') ? path.substring(1) : path;
-  
+
   // In production, assets are at the root
   return `${BASE_PATH}/${normalizedPath}`;
 }
