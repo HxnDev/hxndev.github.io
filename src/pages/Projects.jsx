@@ -51,7 +51,7 @@ const Projects = () => {
     returnToGallery,
   } = useProjectDetail();
 
-  // Handle view project details with proper navigation - DEFINE THIS BEFORE useEffect
+  // Handle view project details with proper navigation
   const handleViewDetails = useCallback(
     (projectId, action = 'page') => {
       if (action === 'reset') {
@@ -67,18 +67,19 @@ const Projects = () => {
       if (action === 'modal') {
         openProjectModal(projectId, projectsData);
       } else if (action === 'page') {
-        // Update the URL
-        navigate(`/projects?project=${projectId}`);
-        // View project details
+        const expectedSearch = `?project=${projectId}`;
+        // Only update the URL if it is different than what we expect
+        if (location.search !== expectedSearch) {
+          navigate(`/projects${expectedSearch}`);
+        }
         viewProjectDetails(projectId, projectsData);
       }
     },
-    [navigate, resetFilters, openProjectModal, projectsData, viewProjectDetails]
+    [navigate, location.search, resetFilters, openProjectModal, projectsData, viewProjectDetails]
   );
 
-  // Initialize project data and hooks - NOW handleViewDetails EXISTS when this runs
+  // Initialize project data and hooks
   useEffect(() => {
-    // Simplified loading logic to avoid extra state updates
     if (!projectsLoading) {
       setIsLoading(false);
     }
@@ -94,7 +95,7 @@ const Projects = () => {
   // Handle back to gallery
   const handleBackToGallery = () => {
     // Update URL to remove project parameter
-    navigate('/hxndev.github.io/projects');
+    navigate('/projects');
     returnToGallery();
   };
 
@@ -106,23 +107,15 @@ const Projects = () => {
             Projects
           </Title>
 
-          {/* Error message if needed */}
           {(error || projectsError) && (
             <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red" mb="lg">
               {error || projectsError}
-              <Button
-                variant="outline"
-                color="red"
-                size="xs"
-                mt="sm"
-                onClick={() => setError(null)}
-              >
+              <Button variant="outline" color="red" size="xs" mt="sm" onClick={() => setError(null)}>
                 Dismiss
               </Button>
             </Alert>
           )}
 
-          {/* Filter controls */}
           <FilterControls
             categories={categories}
             activeCategory={activeCategory}
@@ -132,7 +125,6 @@ const Projects = () => {
             onReset={resetFilters}
           />
 
-          {/* Project gallery */}
           <Box mt={30}>
             {isLoading || projectsLoading ? (
               <Box
@@ -150,7 +142,6 @@ const Projects = () => {
               </Box>
             ) : (
               <>
-                {/* Project Gallery */}
                 {filteredProjects.length > 0 ? (
                   <SimpleGrid
                     cols={3}
@@ -170,10 +161,7 @@ const Projects = () => {
                       >
                         <EnhancedProjectCard
                           {...project}
-                          // Fix potential image path issues
-                          image={
-                            project.image ? project.image.replace(/^\/|^\/public\//, '') : null
-                          }
+                          image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
                           onViewDetails={handleViewDetails}
                           projectId={project.id}
                         />
@@ -198,11 +186,7 @@ const Projects = () => {
                     <Text align="center" size="lg">
                       No projects found with the current filters
                     </Text>
-                    <Button
-                      onClick={resetFilters}
-                      variant="gradient"
-                      gradient={{ from: '#9B00FF', to: '#00F5FF' }}
-                    >
+                    <Button onClick={resetFilters} variant="gradient" gradient={{ from: '#9B00FF', to: '#00F5FF' }}>
                       Reset Filters
                     </Button>
                   </Box>
@@ -211,19 +195,12 @@ const Projects = () => {
             )}
           </Box>
 
-          {/* Project modal */}
-          <ProjectModal
-            project={selectedProject}
-            isOpen={isModalOpen}
-            onClose={closeProjectModal}
-          />
+          <ProjectModal project={selectedProject} isOpen={isModalOpen} onClose={closeProjectModal} />
         </>
       ) : (
-        // Detail view
         <ProjectDetail project={selectedProject} onBack={handleBackToGallery} />
       )}
 
-      {/* Featured projects call to action - only show in gallery view with no filters */}
       {viewMode === 'gallery' && activeCategory === 'all' && !searchQuery && (
         <Box
           mt={50}
@@ -242,13 +219,12 @@ const Projects = () => {
                 Interested in a collaboration?
               </Title>
               <Text>
-                I'm always open to discussing new projects and opportunities. Feel free to reach out
-                if you'd like to work together!
+                I'm always open to discussing new projects and opportunities. Feel free to reach out if you'd like to work together!
               </Text>
             </div>
             <Button
               component="a"
-              href="/hxndev.github.io/contact"
+              href="/contact"
               variant="gradient"
               gradient={{ from: '#9B00FF', to: '#00F5FF' }}
               ml="auto"
@@ -267,7 +243,6 @@ const Projects = () => {
         </Box>
       )}
 
-      {/* Animation keyframes */}
       <style jsx="true">{`
         @keyframes fadeInUp {
           from {
