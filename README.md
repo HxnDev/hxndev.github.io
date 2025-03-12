@@ -126,6 +126,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 **Hassan Shahzad**  
 Email: [hassanshahzad.dev@gmail.com](mailto:hassanshahzad.dev@gmail.com)  
 Portfolio: [https://hxndev.github.io/](https://hxndev.github.io/)
-```
-
-Simply download or create a new file named `README.md`, paste the above content into it, and save it in your repository. This will give you an amazing README file for your portfolio website.
