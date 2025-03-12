@@ -1,6 +1,3 @@
-Below is the complete raw content for your README.md file. Simply copy and paste this content into a file named `README.md` in your repository.
-
-```markdown
 # Hassan Shahzad | Portfolio Website
 
 Welcome to my portfolio website repository! This project showcases my work, skills, and experiences with a modern, responsive design built using React, Vite, and Mantine UI. The website is automatically deployed on GitHub Pages at [https://hxndev.github.io/](https://hxndev.github.io/).
