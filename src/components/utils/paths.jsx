@@ -1,43 +1,31 @@
-/**
- * Central path utility for consistent path management throughout the app
- */
+// Detect if we're in production or development
+const isProd = import.meta.env.PROD;
 
-// Base path configuration - edit this value to change path prefix globally
-const BASE_PATH = '/hxndev.github.io';
-
-/**
- * Get the application base path
- * @returns {string} The base path for the application
- */
-export const getBasePath = () => {
-  return BASE_PATH;
-};
+// Base path should be empty for username.github.io repos
+export const BASE_PATH = '';
 
 /**
- * Resolve a path using the application base path
- * @param {string} path - The path to resolve (should start with '/')
- * @returns {string} - The resolved path
+ * Resolves a path based on environment
  */
-export const resolvePath = (path) => {
+export function resolvePath(path) {
   // If already has the base path or is an external URL, return as is
-  if (path.startsWith(BASE_PATH) || path.startsWith('http')) {
+  if (path.startsWith('http')) {
     return path;
   }
   
   // Ensure path starts with slash
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   
-  // Combine base path with provided path
+  // In production (GitHub Pages), use the base path
+  // In development, use paths as is
   return `${BASE_PATH}${normalizedPath}`;
-};
+}
 
 /**
- * Resolve an asset path
- * @param {string} path - The asset path
- * @returns {string} - The resolved asset path
+ * Resolves an asset path
  */
-export const resolveAssetPath = (path) => {
-  // Handle external URLs and absolute URLs differently
+export function resolveAssetPath(path) {
+  // Handle external URLs
   if (path.startsWith('http')) {
     return path;
   }
@@ -45,6 +33,6 @@ export const resolveAssetPath = (path) => {
   // Remove leading slash if present
   const normalizedPath = path.startsWith('/') ? path.substring(1) : path;
   
-  // Combine base path with asset path
+  // In production, assets are at the root
   return `${BASE_PATH}/${normalizedPath}`;
-};
+}

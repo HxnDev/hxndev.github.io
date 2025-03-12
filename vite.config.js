@@ -5,8 +5,8 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   
-  // Match the base path used in your path utility
-  base: '/hxndev.github.io/',
+  // For username.github.io repos, the base URL should be '/' in production
+  base: '/',
   
   build: {
     outDir: 'dist',
