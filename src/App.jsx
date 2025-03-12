@@ -8,6 +8,8 @@ import { Box, Container } from '@mantine/core';
 import browserDetection from './components/utils/browserDetection';
 import { preloadCriticalAssets } from './components/utils/assetPreloader';
 import { applyPerformanceOptimizations } from './components/utils/animationOptimizer';
+import { resolvePath } from './components/utils/paths';
+
 
 // Components
 import Header from './components/Header';
@@ -143,10 +145,10 @@ function App() {
                 >
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/hxndev.github.io/" element={<Home />} />
-                    <Route path="/hxndev.github.io/projects" element={<Projects />} />
-                    <Route path="/hxndev.github.io/about" element={<About />} />
-                    <Route path="/hxndev.github.io/contact" element={<Contact />} />
+                    <Route path={resolvePath('/')} element={<Home />} />
+                    <Route path={resolvePath('/projects')} element={<Projects />} />
+                    <Route path={resolvePath('/about')} element={<About />} />
+                    <Route path={resolvePath('/contact')} element={<Contact />} />
                   </Routes>
                 </Suspense>
               </PageTransition>

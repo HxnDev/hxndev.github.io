@@ -4,6 +4,7 @@ import { IconMenu2, IconHome, IconCode, IconUser, IconMail } from '@tabler/icons
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAnimationContext } from '../../context/AnimationContext';
 import { gsap } from 'gsap';
+import { resolvePath } from '../utils/paths';
 
 const NavigationPulsar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -14,10 +15,10 @@ const NavigationPulsar = () => {
   const { scrollVelocity, reducedMotion } = useAnimationContext();
 
   const navigationItems = [
-    { path: '/hxndev.github.io/', label: 'Home', icon: <IconHome size={20} /> },
-    { path: '/hxndev.github.io/projects', label: 'Projects', icon: <IconCode size={20} /> },
-    { path: '/hxndev.github.io/about', label: 'About', icon: <IconUser size={20} /> },
-    { path: '/hxndev.github.io/contact', label: 'Contact', icon: <IconMail size={20} /> },
+    { path: resolvePath('/'), label: 'Home', icon: <IconHome size={20} /> },
+    { path: resolvePath('/projects'), label: 'Projects', icon: <IconCode size={20} /> },
+    { path: resolvePath('/about'), label: 'About', icon: <IconUser size={20} /> },
+    { path: resolvePath('/contact'), label: 'Contact', icon: <IconMail size={20} /> },
   ];
 
   // Handle navigation click

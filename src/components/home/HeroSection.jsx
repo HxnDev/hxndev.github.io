@@ -3,6 +3,8 @@ import { Title, Text, Container, Button, Group, Grid, Box } from '@mantine/core'
 import { IconDownload, IconBrandGithub, IconArrowRight } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 import { useColorScheme } from '../../theme/ThemeProvider';
+import { resolveAssetPath } from '../utils/paths';
+
 
 const HeroSection = () => {
   const containerRef = useRef(null);
@@ -198,7 +200,7 @@ const HeroSection = () => {
             <div className="profile-container" ref={imageRef}>
               <div className="profile-image-wrapper">
                 <img
-                  src="/hxndev.github.io/images/profile.jpg"
+                  src={resolveAssetPath('images/profile.jpg')}
                   alt="Hassan Shahzad"
                   className="profile-image"
                 />

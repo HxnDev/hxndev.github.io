@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { IconSun, IconMoon } from '@tabler/icons-react';
 import { useColorScheme } from '../theme/ThemeProvider';
 import { useEffect, useRef } from 'react';
+import { resolvePath } from './utils/paths';
 
 const Header = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const Header = () => {
       }}
     >
       <Group justify="space-between" align="center">
-        <Link to="/hxndev.github.io/" style={{ textDecoration: 'none' }}>
+        <Link to={resolvePath('/')} style={{ textDecoration: 'none' }}>
           <Title
             ref={titleRef}
             order={2}
@@ -69,10 +70,10 @@ const Header = () => {
 
         <Group>
           {[
-            { path: '/hxndev.github.io/', label: 'Home' },
-            { path: '/hxndev.github.io/projects', label: 'Projects' },
-            { path: '/hxndev.github.io/about', label: 'About' },
-            { path: '/hxndev.github.io/contact', label: 'Contact' },
+            { path: resolvePath('/'), label: 'Home' },
+            { path: resolvePath('/projects'), label: 'Projects' },
+            { path: resolvePath('/about'), label: 'About' },
+            { path: resolvePath('/contact'), label: 'Contact' },
           ].map((item, index) => (
             <Link key={item.path} to={item.path} style={{ textDecoration: 'none' }}>
               <Button

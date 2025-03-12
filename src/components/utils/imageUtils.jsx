@@ -1,6 +1,7 @@
 /**
  * Utility functions for handling image paths in portfolio
  */
+import { getBasePath as getBasePathUtil, resolveAssetPath } from '../../utils/paths';
 
 /**
  * Gets the correct image path based on environment and image path format
@@ -111,20 +112,7 @@ export const findWorkingImagePath = (imagePath, fallbackPath) => {
  * @returns {string} - The base path for assets
  */
 export const getBasePath = () => {
-  const { hostname, pathname } = window.location;
-
-  // GitHub Pages with custom domain
-  if (!hostname.includes('github.io')) {
-    return '/';
-  }
-
-  // GitHub Pages with username.github.io/repo-name
-  if (pathname.includes('/hxndev.github.io/')) {
-    return '/hxndev.github.io/';
-  }
-
-  // Local development
-  return '/';
+  return getBasePathUtil();
 };
 
 export default {

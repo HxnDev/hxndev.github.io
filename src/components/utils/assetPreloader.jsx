@@ -1,6 +1,7 @@
 /**
  * Utility for preloading assets to improve performance
  */
+import { resolveAssetPath } from '../utils/paths';
 
 /**
  * Preload an image
@@ -76,38 +77,44 @@ export const preloadFont = (fontFamily, src) => {
  * @returns {Array} Array of critical image URLs
  */
 export const getCriticalImages = () => {
-  return [
+  // Define paths without prefix
+  const imagePaths = [
     // Profile image
-    '/hxndev.github.io/images/profile.jpg',
+    'images/profile.jpg',
 
     // Project images for featured projects
-    '/hxndev.github.io/images/projects/3d-solar-system.jpg',
-    '/hxndev.github.io/images/projects/ai-chess.jpg',
-    '/hxndev.github.io/images/projects/brilliant-pro.jpg',
-    '/hxndev.github.io/images/projects/event-management.jpg',
-    '/hxndev.github.io/images/projects/exam-scheduler.jpg',
-    '/hxndev.github.io/images/projects/face-mesh.jpg',
-    '/hxndev.github.io/images/projects/graphical-password.jpg',
-    '/hxndev.github.io/images/projects/hawkseye.jpg',
-    '/hxndev.github.io/images/projects/image-to-sketch.jpg',
-    '/hxndev.github.io/images/projects/insta-profile.jpg',
-    '/hxndev.github.io/images/projects/job-fit.jpg',
-    '/hxndev.github.io/images/projects/password-cracker.jpg',
-    '/hxndev.github.io/images/projects/phy-app.jpg',
-    '/hxndev.github.io/images/projects/portfolio.jpg',
-    '/hxndev.github.io/images/projects/pose-detection.jpg',
-    '/hxndev.github.io/images/projects/qr-code.jpg',
-    '/hxndev.github.io/images/projects/ripple-effect.jpg',
-    '/hxndev.github.io/images/projects/rock-paper-scissors.jpg',
-    '/hxndev.github.io/images/projects/simple-translator.jpg',
-    '/hxndev.github.io/images/projects/vehicle-buy-sell.jpg',
-    '/hxndev.github.io/images/projects/video-to-gif.jpg',
-    '/hxndev.github.io/images/projects/virtual-drag-and-drop.jpg',
-    '/hxndev.github.io/images/projects/virtual-mouse.jpg',
+    'images/projects/3d-solar-system.jpg',
+    'images/projects/ai-chess.jpg',
+    'images/projects/brilliant-pro.jpg',
+    'images/projects/event-management.jpg',
+    'images/projects/exam-scheduler.jpg',
+    'images/projects/face-mesh.jpg',
+    'images/projects/graphical-password.jpg',
+    'images/projects/hawkseye.jpg',
+    'images/projects/image-to-sketch.jpg',
+    'images/projects/insta-profile.jpg',
+    'images/projects/job-fit.jpg',
+    'images/projects/password-cracker.jpg',
+    'images/projects/phy-app.jpg',
+    'images/projects/portfolio.jpg',
+    'images/projects/pose-detection.jpg',
+    'images/projects/qr-code.jpg',
+    'images/projects/ripple-effect.jpg',
+    'images/projects/rock-paper-scissors.jpg',
+    'images/projects/simple-translator.jpg',
+    'images/projects/vehicle-buy-sell.jpg',
+    'images/projects/video-to-gif.jpg',
+    'images/projects/virtual-drag-and-drop.jpg',
+    'images/projects/virtual-mouse.jpg',
 
     // Fallback images
     'https://placehold.co/600x400/9B00FF/FFFFFF?text=Image+Not+Found',
   ];
+
+  // Resolve all paths
+  return imagePaths.map(path => 
+    path.startsWith('http') ? path : resolveAssetPath(path)
+  );
 };
 
 /**

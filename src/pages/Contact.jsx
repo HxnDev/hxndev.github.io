@@ -133,7 +133,7 @@ const Contact = () => {
               >
                 <IconMapPin size={20} color={isDark ? 'white' : '#6200EE'} />
               </ThemeIcon>
-              <Text color={isDark ? 'white' : 'dark'}>Location, City, Country</Text>
+              <Text color={isDark ? 'white' : 'dark'}>Geneva, Switzerland</Text>
             </Group>
           </Paper>
 
