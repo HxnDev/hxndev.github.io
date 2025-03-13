@@ -18,6 +18,8 @@ import {
   IconBrandGithub,
   IconArrowLeft,
   IconCircleCheck,
+  IconRocket,
+  IconInfoCircle,
 } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 import { useColorScheme } from '../../theme/ThemeProvider';
@@ -28,6 +30,10 @@ const ProjectDetail = ({ project, onBack }) => {
   const { colorScheme } = useColorScheme();
   const { reducedMotion } = useAnimationContext();
   const isDark = colorScheme === 'dark';
+
+  // Check if this is the JobFit project
+  const isJobFit =
+    project?.id === 'jobfit' || (project?.title && project?.title.toLowerCase().includes('jobfit'));
 
   // Animate entrance
   useEffect(() => {
@@ -135,6 +141,21 @@ const ProjectDetail = ({ project, onBack }) => {
                 {project.date}
               </Badge>
             )}
+
+            {/* Live demo badge for JobFit */}
+            {isJobFit && project.liveUrl && (
+              <Badge
+                color="teal"
+                variant="filled"
+                size="lg"
+                sx={{
+                  background: 'linear-gradient(45deg, #00F5FF, #00B5AD)',
+                  boxShadow: '0 2px 8px rgba(0, 245, 255, 0.3)',
+                }}
+              >
+                Live Demo Available
+              </Badge>
+            )}
           </Group>
         </Box>
       </Box>
@@ -184,9 +205,61 @@ const ProjectDetail = ({ project, onBack }) => {
             </>
           )}
 
+          {/* API Key note for JobFit */}
+          {isJobFit && (
+            <Box
+              className="animate-in"
+              sx={{
+                padding: '15px',
+                borderRadius: '8px',
+                border: '1px solid #00F5FF',
+                backgroundColor: 'rgba(0, 245, 255, 0.05)',
+                marginBottom: '20px',
+              }}
+            >
+              <Text size="sm" weight={500}>
+                <IconInfoCircle size={16} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+                The live demo requires a Google Gemini API key to function. You can obtain a free
+                API key from{' '}
+                <a
+                  href="https://aistudio.google.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#00F5FF', textDecoration: 'underline' }}
+                >
+                  Google AI Studio
+                </a>
+                .
+              </Text>
+            </Box>
+          )}
+
           {/* Action Buttons */}
           <Group className="animate-in" mt="xl">
-            {project.liveUrl && (
+            {/* Special button for JobFit */}
+            {isJobFit && project.liveUrl && (
+              <Button
+                component="a"
+                href={project.liveUrl}
+                target="_blank"
+                leftSection={<IconRocket size={16} />}
+                size="lg"
+                sx={{
+                  background: 'linear-gradient(45deg, #00F5FF, #00B5AD)',
+                  boxShadow: '0 4px 10px rgba(0, 245, 255, 0.3)',
+                  '&:hover': {
+                    boxShadow: '0 6px 15px rgba(0, 245, 255, 0.4)',
+                    transform: 'translateY(-2px)',
+                  },
+                  transition: 'all 0.3s ease',
+                  marginRight: '10px',
+                }}
+              >
+                Try JobFit Live Demo
+              </Button>
+            )}
+
+            {!isJobFit && project.liveUrl && (
               <Button
                 component="a"
                 href={project.liveUrl}

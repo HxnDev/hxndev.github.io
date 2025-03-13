@@ -110,7 +110,13 @@ const Projects = () => {
           {(error || projectsError) && (
             <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red" mb="lg">
               {error || projectsError}
-              <Button variant="outline" color="red" size="xs" mt="sm" onClick={() => setError(null)}>
+              <Button
+                variant="outline"
+                color="red"
+                size="xs"
+                mt="sm"
+                onClick={() => setError(null)}
+              >
                 Dismiss
               </Button>
             </Alert>
@@ -161,7 +167,9 @@ const Projects = () => {
                       >
                         <EnhancedProjectCard
                           {...project}
-                          image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
+                          image={
+                            project.image ? project.image.replace(/^\/|^\/public\//, '') : null
+                          }
                           onViewDetails={handleViewDetails}
                           projectId={project.id}
                         />
@@ -186,7 +194,11 @@ const Projects = () => {
                     <Text align="center" size="lg">
                       No projects found with the current filters
                     </Text>
-                    <Button onClick={resetFilters} variant="gradient" gradient={{ from: '#9B00FF', to: '#00F5FF' }}>
+                    <Button
+                      onClick={resetFilters}
+                      variant="gradient"
+                      gradient={{ from: '#9B00FF', to: '#00F5FF' }}
+                    >
                       Reset Filters
                     </Button>
                   </Box>
@@ -195,7 +207,11 @@ const Projects = () => {
             )}
           </Box>
 
-          <ProjectModal project={selectedProject} isOpen={isModalOpen} onClose={closeProjectModal} />
+          <ProjectModal
+            project={selectedProject}
+            isOpen={isModalOpen}
+            onClose={closeProjectModal}
+          />
         </>
       ) : (
         <ProjectDetail project={selectedProject} onBack={handleBackToGallery} />
@@ -219,7 +235,8 @@ const Projects = () => {
                 Interested in a collaboration?
               </Title>
               <Text>
-                I'm always open to discussing new projects and opportunities. Feel free to reach out if you'd like to work together!
+                I'm always open to discussing new projects and opportunities. Feel free to reach out
+                if you'd like to work together!
               </Text>
             </div>
             <Button

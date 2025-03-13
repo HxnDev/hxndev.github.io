@@ -24,7 +24,7 @@ const Home = () => {
   }, [allProjects]);
 
   const handleViewDetails = projectId => {
-    window.location.href = `/hxndev.github.io/projects?project=${projectId}`;
+    window.location.href = `/projects?project=${projectId}`;
   };
 
   return (

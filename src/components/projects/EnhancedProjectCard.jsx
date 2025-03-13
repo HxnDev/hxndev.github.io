@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Paper, Text, Title, Group, Badge, Box } from '@mantine/core';
-import { IconBrandGithub, IconExternalLink, IconInfoCircle } from '@tabler/icons-react';
+import { IconBrandGithub, IconExternalLink, IconInfoCircle, IconRocket } from '@tabler/icons-react';
 import { useColorScheme } from '../../theme/ThemeProvider';
 
 const EnhancedProjectCard = ({
@@ -21,6 +21,12 @@ const EnhancedProjectCard = ({
   const cardRef = useRef(null);
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+
+  // Check if this is the JobFit project to highlight the live demo
+  const isJobFit = projectId === 'jobfit' || (title && title.toLowerCase().includes('jobfit'));
+  const isPortfolio =
+    projectId === 'portfolio' || (title && title.toLowerCase().includes('portfolio'));
+  const isLiveDemo = isJobFit || isPortfolio;
 
   // Determine image source
   const imgSrc = imageError
@@ -65,6 +71,13 @@ const EnhancedProjectCard = ({
     if (onViewDetails && projectId) {
       onViewDetails(projectId);
     }
+  };
+
+  // Handle direct link to live demo
+  const handleLiveDemo = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(liveUrl, '_blank');
   };
 
   return (
@@ -174,6 +187,27 @@ const EnhancedProjectCard = ({
             </Badge>
           </Box>
         )}
+
+        {/* Live demo badge for JobFit */}
+        {isLiveDemo && liveUrl && (
+          <Box
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              zIndex: 2,
+            }}
+          >
+            <Badge
+              color="green"
+              radius="xl"
+              variant="filled"
+              gradient={{ from: '#00F5FF', to: '#00B5AD' }}
+            >
+              Live Demo
+            </Badge>
+          </Box>
+        )}
       </Box>
 
       {/* Content */}
@@ -251,12 +285,14 @@ const EnhancedProjectCard = ({
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={e => e.stopPropagation()}
+              onClick={isLiveDemo ? handleLiveDemo : e => e.stopPropagation()}
               style={{
                 padding: '8px 12px',
                 borderRadius: '25px',
                 color: 'white',
-                background: 'linear-gradient(45deg, #9B00FF, #00F5FF)',
+                background: isLiveDemo
+                  ? 'linear-gradient(45deg, #00F5FF, #00B5AD)'
+                  : 'linear-gradient(45deg, #9B00FF, #00F5FF)',
                 textDecoration: 'none',
                 fontSize: '14px',
                 display: 'flex',
@@ -264,10 +300,12 @@ const EnhancedProjectCard = ({
                 gap: '6px',
                 transition: 'all 0.3s ease',
                 transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                boxShadow: isLiveDemo && isHovered ? '0 4px 12px rgba(0, 245, 255, 0.3)' : 'none',
+                fontWeight: isLiveDemo ? 600 : 400,
               }}
             >
-              <IconExternalLink size={16} />
-              Live Demo
+              {isLiveDemo ? <IconRocket size={16} /> : <IconExternalLink size={16} />}
+              {isLiveDemo ? 'Try Demo' : 'Live Demo'}
             </a>
           )}
 

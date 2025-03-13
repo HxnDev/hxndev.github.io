@@ -9,7 +9,7 @@
       "fallbackImage": "https://placehold.co/600x400/9B00FF/FFFFFF?text=JobFit",
       "technologies": ["Python", "Machine Learning", "NLP", "Flask", "React"],
       "githubUrl": "https://github.com/HxnDev/JobFit",
-      "liveUrl": null,
+      "liveUrl": "https://hxndev.github.io/JobFit/",
       "featured": true,
       "category": "ai",
       "date": "2023",
@@ -18,7 +18,9 @@
         "Resume parsing and analysis",
         "Personalized job recommendations",
         "Skill gap analysis",
-        "User-friendly interface"
+        "ATS compatibility checking",
+        "Cover letter generation",
+        "Interview preparation tools"
       ]
     },
     {

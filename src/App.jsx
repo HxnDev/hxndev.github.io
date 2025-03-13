@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { AnimationProvider } from './context/AnimationContext';
 import { Box, Container } from '@mantine/core';
@@ -148,6 +148,16 @@ function App() {
                     <Route path={resolvePath('/projects')} element={<Projects />} />
                     <Route path={resolvePath('/about')} element={<About />} />
                     <Route path={resolvePath('/contact')} element={<Contact />} />
+
+                    {/* Redirect to JobFit application */}
+                    <Route
+                      path={resolvePath('/JobFit')}
+                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
+                    />
+                    <Route
+                      path={resolvePath('/JobFit/*')}
+                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
+                    />
                   </Routes>
                 </Suspense>
               </PageTransition>
