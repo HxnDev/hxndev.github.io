@@ -143,13 +143,27 @@ function App() {
                   }
                 >
                   <Routes>
+                    {/* Base routes */}
                     <Route path="/" element={<Home />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+
+                    {/* Support for both base routes and resolved paths */}
                     <Route path={resolvePath('/')} element={<Home />} />
                     <Route path={resolvePath('/projects')} element={<Projects />} />
                     <Route path={resolvePath('/about')} element={<About />} />
                     <Route path={resolvePath('/contact')} element={<Contact />} />
 
                     {/* Redirect to JobFit application */}
+                    <Route
+                      path="/JobFit"
+                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
+                    />
+                    <Route
+                      path="/JobFit/*"
+                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
+                    />
                     <Route
                       path={resolvePath('/JobFit')}
                       element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
@@ -158,6 +172,9 @@ function App() {
                       path={resolvePath('/JobFit/*')}
                       element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
                     />
+
+                    {/* Catch-all route */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </Suspense>
               </PageTransition>

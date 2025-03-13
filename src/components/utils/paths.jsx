@@ -1,11 +1,13 @@
 // Detect if we're in production or development
 const _isProd = import.meta.env.PROD;
 
-// Base path should be empty for username.github.io repos
+// For GitHub Pages repository project sites, this should be the repo name
+// For username.github.io personal sites, this should be empty
 export const BASE_PATH = '';
 
 /**
  * Resolves a path based on environment
+ * This handles routing correctly for GitHub Pages
  */
 export function resolvePath(path) {
   // If already has the base path or is an external URL, return as is

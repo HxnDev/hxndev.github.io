@@ -1,5 +1,7 @@
 import React from 'react';
 import { Title, Text, Container, Button, Grid, Loader, Box, SimpleGrid } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import { resolvePath } from '../components/utils/paths';
 import HeroSection from '../components/home/HeroSection';
 import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
 import SponsorshipSection from '../components/SponsorshipSection';
@@ -8,6 +10,7 @@ import AnimatedSection from '../components/common/AnimatedSection';
 import { useColorScheme } from '../theme/ThemeProvider';
 
 const Home = () => {
+  const navigate = useNavigate();
   const {
     projects: allProjects,
     loading: projectsLoading,
@@ -24,7 +27,11 @@ const Home = () => {
   }, [allProjects]);
 
   const handleViewDetails = projectId => {
-    window.location.href = `/projects?project=${projectId}`;
+    // Pass the projectId and action to our handler
+    navigate({
+      pathname: resolvePath('/projects'),
+      search: `?project=${projectId}`,
+    });
   };
 
   return (

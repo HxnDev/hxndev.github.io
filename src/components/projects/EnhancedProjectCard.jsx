@@ -60,7 +60,7 @@ const EnhancedProjectCard = ({
   const handleCardClick = e => {
     e.preventDefault();
     if (onViewDetails && projectId) {
-      onViewDetails(projectId);
+      onViewDetails(projectId, 'page');
     }
   };
 
@@ -69,7 +69,7 @@ const EnhancedProjectCard = ({
     e.preventDefault();
     e.stopPropagation();
     if (onViewDetails && projectId) {
-      onViewDetails(projectId);
+      onViewDetails(projectId, 'page');
     }
   };
 

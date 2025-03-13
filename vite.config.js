@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   
-  // For username.github.io repos, the base URL should be '/' in production
+  // For username.github.io personal sites, the base URL should be '/'
   base: '/',
   
   build: {
