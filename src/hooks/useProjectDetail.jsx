@@ -47,13 +47,7 @@ export const useProjectDetail = () => {
   const returnToGallery = () => {
     setViewMode('gallery');
 
-    // Delay clearing the selected project to allow for transition
-    setTimeout(() => {
-      setSelectedProject(null);
-    }, 300);
-
-    // Scroll to top when returning to gallery
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setSelectedProject(null);
   };
 
   return {

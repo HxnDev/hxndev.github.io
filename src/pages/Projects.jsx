@@ -16,7 +16,7 @@ import ProjectDetail from '../components/projects/ProjectDetail';
 import ProjectModal from '../components/projects/ProjectModal';
 
 const Projects = () => {
-  const { _reducedMotion } = useAnimationContext();
+  const { reducedMotion } = useAnimationContext();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Projects = () => {
     (projectId, action = 'page') => {
       if (action === 'reset') {
         resetFilters();
-        navigate('/projects');
+        navigate('/projects', { replace: true });
         return;
       }
 
@@ -78,25 +78,38 @@ const Projects = () => {
     [navigate, location.search, resetFilters, openProjectModal, projectsData, viewProjectDetails]
   );
 
-  // Initialize project data and hooks
+  // Check for direct project link in URL or reset view mode
   useEffect(() => {
-    if (!projectsLoading) {
-      setIsLoading(false);
+    // If we're not on a specific project page, ensure we're in gallery mode
+    if (!location.search && viewMode !== 'gallery') {
+      returnToGallery();
     }
-
+    
     // Check for direct project link in URL
     const urlParams = new URLSearchParams(location.search);
     const projectId = urlParams.get('project');
+    
     if (projectId && projectsData && projectsData.length > 0) {
+      // If we have a project ID in the URL and data is loaded, show the project
       handleViewDetails(projectId);
     }
-  }, [projectsLoading, projectsData, location.search, handleViewDetails]);
+    
+    // Set loading state based on projects data
+    if (!projectsLoading) {
+      setIsLoading(false);
+    }
+  }, [projectsLoading, projectsData, location.search, handleViewDetails, viewMode, returnToGallery]);
 
-  // Handle back to gallery
+  // Handle back to gallery with proper state management
   const handleBackToGallery = () => {
-    // Update URL to remove project parameter
-    navigate('/projects');
+    // First reset state - this is important to do BEFORE navigation
     returnToGallery();
+    
+    // Then update URL (after state is reset)
+    // This prevents the temporary blank page
+    setTimeout(() => {
+      navigate('/projects', { replace: true });
+    }, 0);
   };
 
   return (

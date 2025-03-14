@@ -52,8 +52,11 @@ export function AnimationProvider({ children }) {
     let lastScrollTop = window.pageYOffset;
     let lastScrollTime = performance.now();
     let frameId = null;
+    let scrolling = false;
 
     const updateScroll = () => {
+      if (!scrolling) return;
+      
       const currentScrollTop = window.pageYOffset;
       const currentTime = performance.now();
       const timeDelta = currentTime - lastScrollTime;
@@ -77,15 +80,21 @@ export function AnimationProvider({ children }) {
 
       lastScrollTop = currentScrollTop;
       lastScrollTime = currentTime;
+      
+      // Reset the frame ID and scrolling flag
+      frameId = null;
+      scrolling = false;
     };
 
     const handleScroll = () => {
-      // Use requestAnimationFrame for performance
-      if (frameId) {
-        cancelAnimationFrame(frameId);
+      // Mark that we're scrolling but don't do anything else to prevent
+      // interfering with the native scroll
+      scrolling = true;
+      
+      // Use requestAnimationFrame for performance, but only if we don't have one pending
+      if (!frameId) {
+        frameId = requestAnimationFrame(updateScroll);
       }
-
-      frameId = requestAnimationFrame(updateScroll);
     };
 
     // Initial call

@@ -38,14 +38,15 @@ const ProjectDetail = ({ project, onBack }) => {
   // Animate entrance
   useEffect(() => {
     if (!containerRef.current || reducedMotion) return;
-
+  
     const elements = containerRef.current.querySelectorAll('.animate-in');
-
+    
     gsap.fromTo(
       elements,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
+      { opacity: 0 },
+      { opacity: 1, stagger: 0.1, duration: 0.5, ease: 'power3.out' }
     );
+    
   }, [project, reducedMotion]);
 
   if (!project) return null;
