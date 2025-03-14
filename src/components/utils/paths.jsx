@@ -26,6 +26,10 @@ export function resolvePath(path) {
 /**
  * Resolves an asset path
  */
+/**
+ * Resolves an asset path
+ * Works for both development and GitHub Pages environments
+ */
 export function resolveAssetPath(path) {
   // Handle external URLs
   if (path.startsWith('http')) {
@@ -35,6 +39,7 @@ export function resolveAssetPath(path) {
   // Remove leading slash if present
   const normalizedPath = path.startsWith('/') ? path.substring(1) : path;
 
-  // In production, assets are at the root
-  return `${BASE_PATH}/${normalizedPath}`;
+  // Keep it simple - for both GitHub Pages personal site (username.github.io)
+  // and local development, assets are served from the root
+  return `/${normalizedPath}`;
 }
