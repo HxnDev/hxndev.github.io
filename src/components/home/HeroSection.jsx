@@ -147,7 +147,7 @@ const HeroSection = () => {
             <Group position="left" spacing="md" className="animate-item" ref={ctaRef}>
               <Button
                 component="a"
-                href="/hxndev.github.io/assets/hassan_resume.pdf"
+                href="/hxndev.github.io/assets/resume/hassan_resume.pdf"
                 size="lg"
                 leftSection={<IconDownload size={20} />}
                 radius="xl"
