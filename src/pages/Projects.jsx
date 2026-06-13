@@ -1,291 +1,224 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Title, Text, Container, Box, Alert, Button, Loader, SimpleGrid } from '@mantine/core';
-import { IconAlertCircle, IconRocket } from '@tabler/icons-react';
-import { useNavigate, useLocation } from 'react-router-dom';
-
-// Custom hooks
-import { useProjectFilter } from '../hooks/useProjectFilter';
-import { useProjectDetail } from '../hooks/useProjectDetail';
-import { useGetProjects } from '../hooks/useGetProjects';
-import { useAnimationContext } from '../context/AnimationContext';
-
-// Components
-import FilterControls from '../components/projects/FilterControls';
-import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
-import ProjectDetail from '../components/projects/ProjectDetail';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { IconSearch } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
+import ProjectCard from '../components/projects/ProjectCard';
 import ProjectModal from '../components/projects/ProjectModal';
+import { useGetProjects } from '../hooks/useGetProjects';
+
+const CATEGORY_LABELS = {
+  all: 'All',
+  web: 'Web',
+  ai: 'AI / ML',
+  mobile: 'Mobile',
+  game: 'Games',
+  tool: 'Tools',
+};
 
 const Projects = () => {
-  const { reducedMotion } = useAnimationContext();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { projects } = useGetProjects();
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('all');
+  const [active, setActive] = useState(null);
+  const [params, setParams] = useSearchParams();
 
-  // Fetch projects data
-  const {
-    projects: projectsData,
-    loading: projectsLoading,
-    error: projectsError,
-  } = useGetProjects();
+  const categories = useMemo(() => {
+    const set = new Set(projects.map(p => p.category).filter(Boolean));
+    return ['all', ...Array.from(set)];
+  }, [projects]);
 
-  // Project filtering hook
-  const {
-    filteredProjects,
-    categories,
-    activeCategory,
-    setActiveCategory,
-    searchQuery,
-    setSearchQuery,
-    resetFilters,
-  } = useProjectFilter(projectsData);
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return projects.filter(p => {
+      const matchCat = category === 'all' || p.category === category;
+      const matchSearch =
+        !q ||
+        p.title.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        (p.technologies || []).some(t => t.toLowerCase().includes(q));
+      return matchCat && matchSearch;
+    });
+  }, [projects, category, search]);
 
-  // Project detail view hook
-  const {
-    selectedProject,
-    isModalOpen,
-    viewMode,
-    openProjectModal,
-    closeProjectModal,
-    viewProjectDetails,
-    returnToGallery,
-  } = useProjectDetail();
-
-  // Handle view project details with proper navigation
-  const handleViewDetails = useCallback(
-    (projectId, action = 'page') => {
-      if (action === 'reset') {
-        resetFilters();
-        navigate('/projects', { replace: true });
-        return;
-      }
-
-      if (!projectId) {
-        return;
-      }
-
-      if (action === 'modal') {
-        openProjectModal(projectId, projectsData);
-      } else if (action === 'page') {
-        const expectedSearch = `?project=${projectId}`;
-        // Only update the URL if it is different than what we expect
-        if (location.search !== expectedSearch) {
-          navigate(`/projects${expectedSearch}`);
-        }
-        viewProjectDetails(projectId, projectsData);
-      }
-    },
-    [navigate, location.search, resetFilters, openProjectModal, projectsData, viewProjectDetails]
-  );
-
-  // Check for direct project link in URL or reset view mode
+  // Deep-link support: ?project=id opens the modal.
   useEffect(() => {
-    // If we're not on a specific project page, ensure we're in gallery mode
-    if (!location.search && viewMode !== 'gallery') {
-      returnToGallery();
+    const id = params.get('project');
+    if (id && projects.length) {
+      const found = projects.find(p => p.id === id);
+      if (found) setActive(found);
     }
-    
-    // Check for direct project link in URL
-    const urlParams = new URLSearchParams(location.search);
-    const projectId = urlParams.get('project');
-    
-    if (projectId && projectsData && projectsData.length > 0) {
-      // If we have a project ID in the URL and data is loaded, show the project
-      handleViewDetails(projectId);
-    }
-    
-    // Set loading state based on projects data
-    if (!projectsLoading) {
-      setIsLoading(false);
-    }
-  }, [projectsLoading, projectsData, location.search, handleViewDetails, viewMode, returnToGallery]);
+  }, [params, projects]);
 
-  // Handle back to gallery with proper state management
-  const handleBackToGallery = () => {
-    // First reset state - this is important to do BEFORE navigation
-    returnToGallery();
-    
-    // Then update URL (after state is reset)
-    // This prevents the temporary blank page
-    setTimeout(() => {
-      navigate('/projects', { replace: true });
-    }, 0);
+  const openProject = project => {
+    setActive(project);
+    setParams({ project: project.id }, { replace: true });
+  };
+
+  const closeProject = () => {
+    setActive(null);
+    setParams({}, { replace: true });
   };
 
   return (
-    <Container size="lg">
-      {viewMode === 'gallery' ? (
-        <>
-          <Title order={1} className="page-title" mb="xl">
-            Projects
-          </Title>
+    <>
+      <div className="aurora" aria-hidden="true" />
 
-          {(error || projectsError) && (
-            <Alert icon={<IconAlertCircle size={16} />} title="Error" color="red" mb="lg">
-              {error || projectsError}
-              <Button
-                variant="outline"
-                color="red"
-                size="xs"
-                mt="sm"
-                onClick={() => setError(null)}
+      <section className="section container page-top">
+        <div className="page-head">
+          <span className="eyebrow" data-reveal>
+            Portfolio — {projects.length} projects
+          </span>
+          <h1 className="page-title display" data-reveal data-reveal-delay={80}>
+            Selected <span className="gradient-text">work</span>
+          </h1>
+          <p className="page-lead" data-reveal data-reveal-delay={140}>
+            A collection of things I&rsquo;ve designed, engineered, and shipped — spanning AI,
+            full-stack web, computer vision, and playful experiments.
+          </p>
+        </div>
+
+        <div className="filters" data-reveal>
+          <div className="filters__cats">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                className={`chip ${category === cat ? 'is-active' : ''}`}
+                onClick={() => setCategory(cat)}
               >
-                Dismiss
-              </Button>
-            </Alert>
-          )}
+                {CATEGORY_LABELS[cat] || cat}
+              </button>
+            ))}
+          </div>
+          <div className="filters__search">
+            <IconSearch size={18} />
+            <input
+              type="text"
+              placeholder="Search projects…"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
+        </div>
 
-          <FilterControls
-            categories={categories}
-            activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            onReset={resetFilters}
-          />
-
-          <Box mt={30}>
-            {isLoading || projectsLoading ? (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '200px',
-                  flexDirection: 'column',
-                  gap: '1rem',
-                }}
-              >
-                <Loader color="grape" size="lg" />
-                <Text align="center">Loading projects...</Text>
-              </Box>
-            ) : (
-              <>
-                {filteredProjects.length > 0 ? (
-                  <SimpleGrid
-                    cols={3}
-                    spacing="lg"
-                    breakpoints={[
-                      { maxWidth: 992, cols: 2, spacing: 'md' },
-                      { maxWidth: 768, cols: 1, spacing: 'sm' },
-                    ]}
-                  >
-                    {filteredProjects.map((project, index) => (
-                      <div
-                        key={project.id || index}
-                        style={{
-                          animation: `fadeInUp 0.5s ease forwards ${0.1 + (index % 9) * 0.05}s`,
-                          opacity: 0,
-                        }}
-                      >
-                        <EnhancedProjectCard
-                          {...project}
-                          image={
-                            project.image ? project.image.replace(/^\/|^\/public\//, '') : null
-                          }
-                          onViewDetails={handleViewDetails}
-                          projectId={project.id}
-                        />
-                      </div>
-                    ))}
-                  </SimpleGrid>
-                ) : (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: '300px',
-                      flexDirection: 'column',
-                      gap: '1rem',
-                      background: 'rgba(155, 0, 255, 0.05)',
-                      borderRadius: '8px',
-                      border: '1px dashed rgba(155, 0, 255, 0.3)',
-                    }}
-                  >
-                    <IconAlertCircle size={48} style={{ opacity: 0.5 }} />
-                    <Text align="center" size="lg">
-                      No projects found with the current filters
-                    </Text>
-                    <Button
-                      onClick={resetFilters}
-                      variant="gradient"
-                      gradient={{ from: '#9B00FF', to: '#00F5FF' }}
-                    >
-                      Reset Filters
-                    </Button>
-                  </Box>
-                )}
-              </>
-            )}
-          </Box>
-
-          <ProjectModal
-            project={selectedProject}
-            isOpen={isModalOpen}
-            onClose={closeProjectModal}
-          />
-        </>
-      ) : (
-        <ProjectDetail project={selectedProject} onBack={handleBackToGallery} />
-      )}
-
-      {viewMode === 'gallery' && activeCategory === 'all' && !searchQuery && (
-        <Box
-          mt={50}
-          mb={30}
-          p="xl"
-          sx={theme => ({
-            borderRadius: theme.radius.md,
-            background: 'linear-gradient(135deg, rgba(155, 0, 255, 0.1), rgba(0, 245, 255, 0.1))',
-            border: '1px dashed rgba(155, 0, 255, 0.3)',
-          })}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <IconRocket size={32} style={{ color: '#9B00FF' }} />
-            <div>
-              <Title order={4} mb="xs">
-                Interested in a collaboration?
-              </Title>
-              <Text>
-                I'm always open to discussing new projects and opportunities. Feel free to reach out
-                if you'd like to work together!
-              </Text>
-            </div>
-            <Button
-              component="a"
-              href="/contact"
-              variant="gradient"
-              gradient={{ from: '#9B00FF', to: '#00F5FF' }}
-              ml="auto"
-              sx={{
-                boxShadow: '0 4px 15px rgba(155, 0, 255, 0.3)',
-                '&:hover': {
-                  transform: 'translateY(-3px)',
-                  boxShadow: '0 8px 20px rgba(155, 0, 255, 0.4)',
-                },
-                transition: 'all 0.3s ease',
+        {filtered.length > 0 ? (
+          <motion.div layout className="grid-3">
+            {filtered.map((project, i) => (
+              <ProjectCard key={project.id} project={project} index={i} onOpen={openProject} />
+            ))}
+          </motion.div>
+        ) : (
+          <div className="empty">
+            <p>No projects match your filters.</p>
+            <button
+              className="btn btn--ghost"
+              onClick={() => {
+                setSearch('');
+                setCategory('all');
               }}
             >
-              Contact Me
-            </Button>
-          </Box>
-        </Box>
-      )}
+              <span>Reset filters</span>
+            </button>
+          </div>
+        )}
+      </section>
 
-      <style jsx="true">{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+      <ProjectModal project={active} onClose={closeProject} />
+
+      <style>{`
+        .page-top {
+          padding-top: clamp(7rem, 14vh, 11rem);
+        }
+        .page-head {
+          max-width: 720px;
+          margin-bottom: 3rem;
+        }
+        .page-title {
+          font-size: clamp(3rem, 11vw, 7rem);
+          letter-spacing: -0.04em;
+          margin-block: 1rem 1.4rem;
+          line-height: 0.95;
+        }
+        .page-lead {
+          color: var(--ink-dim);
+          font-size: clamp(1rem, 2.2vw, 1.2rem);
+          max-width: 56ch;
+        }
+        .filters {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1.5rem;
+          flex-wrap: wrap;
+          margin-bottom: 2.5rem;
+        }
+        .filters__cats {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+        .chip {
+          padding: 0.55rem 1.1rem;
+          border-radius: 99px;
+          border: 1px solid var(--line);
+          color: var(--ink-dim);
+          font-size: 0.88rem;
+          font-weight: 500;
+          transition: all 0.25s ease;
+        }
+        .chip:hover {
+          color: var(--ink);
+          border-color: var(--line-strong);
+        }
+        .chip.is-active {
+          background: var(--ink);
+          color: #07080d;
+          border-color: var(--ink);
+        }
+        .filters__search {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 0.6rem 1rem;
+          border-radius: 99px;
+          border: 1px solid var(--line);
+          color: var(--ink-mute);
+          min-width: 240px;
+        }
+        .filters__search:focus-within {
+          border-color: var(--cyan);
+          color: var(--cyan);
+        }
+        .filters__search input {
+          background: none;
+          border: none;
+          outline: none;
+          color: var(--ink);
+          font-family: var(--font-body);
+          font-size: 0.92rem;
+          width: 100%;
+        }
+        .grid-3 {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.6rem;
+        }
+        .empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.2rem;
+          padding: 5rem 0;
+          color: var(--ink-mute);
+        }
+        @media (max-width: 980px) {
+          .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .grid-3 { grid-template-columns: 1fr; }
+          .filters__search { width: 100%; }
         }
       `}</style>
-    </Container>
+    </>
   );
 };
 

@@ -1,0 +1,240 @@
+/* ============================================================
+   Hassan Shahzad — Portfolio Design System
+   Immersive dark theme, icy-cosmic palette, kinetic type.
+   ============================================================ */
+
+:root {
+  /* ---- Core surfaces ---- */
+  --bg: #06070b;
+  --bg-soft: #0a0c13;
+  --bg-elev: #0f121c;
+  --bg-glass: rgba(18, 22, 34, 0.55);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+
+  /* ---- Ink ---- */
+  --ink: #f3f6ff;
+  --ink-dim: #aab2c8;
+  --ink-mute: #6b7287;
+
+  /* ---- Accents (icy cyan + cosmic violet + plasma pink) ---- */
+  --cyan: #4af0ff;
+  --cyan-deep: #00c8e0;
+  --violet: #9b6bff;
+  --violet-deep: #6a2bff;
+  --pink: #ff5d9e;
+  --mint: #7dffd6;
+
+  /* ---- Gradients ---- */
+  --grad-primary: linear-gradient(120deg, #4af0ff 0%, #9b6bff 55%, #ff5d9e 100%);
+  --grad-ice: linear-gradient(135deg, #4af0ff, #9b6bff);
+  --grad-soft: linear-gradient(135deg, rgba(74, 240, 255, 0.16), rgba(155, 107, 255, 0.16));
+
+  /* ---- Glow ---- */
+  --glow-cyan: 0 0 40px rgba(74, 240, 255, 0.35);
+  --glow-violet: 0 0 50px rgba(155, 107, 255, 0.4);
+
+  /* ---- Type ---- */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Mono', 'SFMono-Regular', monospace;
+
+  /* ---- Layout ---- */
+  --maxw: 1280px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --radius: 18px;
+  --radius-lg: 28px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis controls scroll — disable native smooth */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Hide native cursor on devices that support custom cursor */
+@media (hover: hover) and (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ---- Typography helpers ---- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.gradient-text {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---- Layout ---- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(5rem, 12vh, 9rem);
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: rgba(155, 107, 255, 0.4);
+  color: #fff;
+}
+
+/* ---- Scrollbar (when visible) ---- */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--violet-deep), var(--cyan-deep));
+  border-radius: 99px;
+}
+
+/* ---- Film grain overlay ---- */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: grain-shift 0.6s steps(2) infinite;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-3%, 2%);
+  }
+  100% {
+    transform: translate(2%, -3%);
+  }
+}
+
+/* ---- Glass surface ---- */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--line);
+}
+
+/* ---- Reveal (intersection driven) ---- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Accessibility: reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain {
+    animation: none;
+  }
+}
+
+/* ---- Focus ring ---- */
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}

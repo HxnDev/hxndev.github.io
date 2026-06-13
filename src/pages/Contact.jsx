@@ -1,306 +1,321 @@
-import React, { useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Title,
-  Text,
-  Container,
-  Button,
-  Group,
-  Paper,
-  SimpleGrid,
-  Box,
-  ThemeIcon,
-  TextInput,
-  Textarea,
-} from '@mantine/core';
-import {
-  IconAt,
+  IconMail,
   IconMapPin,
   IconBrandGithub,
   IconBrandLinkedin,
-  IconSend,
+  IconArrowUpRight,
+  IconCheck,
+  IconLoader2,
 } from '@tabler/icons-react';
-import { gsap } from 'gsap';
-import { useAnimationContext } from '../context/AnimationContext';
-import { useColorScheme } from '../theme/ThemeProvider';
-import SponsorshipSection from '../components/SponsorshipSection';
+import Magnetic from '../components/core/Magnetic';
+
+const DETAILS = [
+  { icon: IconMail, label: 'Email', value: 'hassanshahzad.dev@gmail.com', href: 'mailto:hassanshahzad.dev@gmail.com' },
+  { icon: IconMapPin, label: 'Based in', value: 'Geneva, Switzerland' },
+];
+
+const SOCIALS = [
+  { icon: IconBrandGithub, label: 'GitHub', href: 'https://github.com/HxnDev' },
+  {
+    icon: IconBrandLinkedin,
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/hassan-shahzad-2a6617212/',
+  },
+];
 
 const Contact = () => {
-  const pageRef = useRef(null);
-  const { reducedMotion } = useAnimationContext();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus] = useState('idle'); // idle | sending | sent
 
-  // Page entrance animation
-  useEffect(() => {
-    if (reducedMotion || !pageRef.current) return;
+  const update = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
-    // Animate title
-    const title = pageRef.current.querySelector('.page-title');
-    gsap.fromTo(
-      title,
-      { opacity: 0, y: -30 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
-    );
-  }, [reducedMotion]);
-
-  // Form state
-  const [formValues, setFormValues] = React.useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-
-  const [loading, setLoading] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormValues(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = e => {
+  const submit = e => {
     e.preventDefault();
-    setLoading(true);
-
-    // In a real application, you'd send this to a backend
-    // For this example, we'll just simulate a submission
+    setStatus('sending');
+    // No backend — hand off to the user's mail client and show confirmation.
+    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
+    const subject = encodeURIComponent(form.subject || `Portfolio enquiry from ${form.name}`);
     setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-      setFormValues({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
-    }, 1500);
+      window.location.href = `mailto:hassanshahzad.dev@gmail.com?subject=${subject}&body=${body}`;
+      setStatus('sent');
+      setForm({ name: '', email: '', subject: '', message: '' });
+    }, 900);
   };
 
   return (
-    <Container size="lg" ref={pageRef}>
-      <Title order={1} className="page-title" mb="xl">
-        Contact Me
-      </Title>
+    <>
+      <div className="aurora" aria-hidden="true" />
 
-      <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]} spacing={50}>
-        <div>
-          <Text size="lg" mb="md" color={isDark ? 'white' : 'dark'}>
-            Have a question or want to work together? Feel free to reach out!
-          </Text>
+      <section className="section container page-top">
+        <div className="contact">
+          <div className="contact__intro">
+            <span className="eyebrow" data-reveal>
+              Contact
+            </span>
+            <h1 className="page-title display" data-reveal data-reveal-delay={80}>
+              Let&rsquo;s make
+              <br />
+              <span className="gradient-text">something great.</span>
+            </h1>
+            <p className="contact__lead" data-reveal data-reveal-delay={140}>
+              Got a project, a role, or a wild idea? I&rsquo;m always up for a good conversation.
+            </p>
 
-          <Paper
-            withBorder
-            p="md"
-            radius="md"
-            mt="xl"
-            style={{
-              backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)',
-            }}
-          >
-            <Group wrap="nowrap">
-              <ThemeIcon
-                size={34}
-                radius="xl"
-                color="cyan"
-                style={{
-                  background: isDark ? 'rgba(0, 245, 255, 0.2)' : 'rgba(0, 245, 255, 0.3)',
-                }}
-              >
-                <IconAt size={20} color={isDark ? 'white' : '#008B9B'} />
-              </ThemeIcon>
-              <Text color={isDark ? 'white' : 'dark'}>hassanshahzad.dev@gmail.com</Text>
-            </Group>
-          </Paper>
-
-          <Paper
-            withBorder
-            p="md"
-            radius="md"
-            mt="md"
-            style={{
-              backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)',
-            }}
-          >
-            <Group wrap="nowrap">
-              <ThemeIcon
-                size={34}
-                radius="xl"
-                color="grape"
-                style={{
-                  background: isDark ? 'rgba(155, 0, 255, 0.2)' : 'rgba(155, 0, 255, 0.3)',
-                }}
-              >
-                <IconMapPin size={20} color={isDark ? 'white' : '#6200EE'} />
-              </ThemeIcon>
-              <Text color={isDark ? 'white' : 'dark'}>Geneva, Switzerland</Text>
-            </Group>
-          </Paper>
-
-          <Group mt="xl" spacing="md">
-            <Button
-              component="a"
-              href="https://github.com/HxnDev"
-              target="_blank"
-              leftSection={<IconBrandGithub size={18} />}
-              variant={isDark ? 'outline' : 'filled'}
-              style={{
-                borderColor: isDark ? 'rgba(155, 0, 255, 0.5)' : undefined,
-                color: isDark ? '#9B00FF' : 'white',
-                backgroundColor: isDark ? 'transparent' : '#333',
-              }}
-            >
-              GitHub
-            </Button>
-            <Button
-              component="a"
-              href="https://www.linkedin.com/in/hassan-shahzad-2a6617212/"
-              target="_blank"
-              leftSection={<IconBrandLinkedin size={18} />}
-              color="blue"
-            >
-              LinkedIn
-            </Button>
-            <Button
-              component="a"
-              href="mailto:hassanshahzad.dev@gmail.com"
-              leftSection={<IconSend size={18} />}
-              variant="gradient"
-              gradient={{ from: '#9B00FF', to: '#00F5FF' }}
-            >
-              Email Me
-            </Button>
-          </Group>
-        </div>
-
-        <Paper
-          withBorder
-          p="xl"
-          radius="md"
-          style={{
-            backgroundColor: isDark ? 'rgba(28, 29, 34, 0.7)' : 'rgba(245, 245, 250, 0.7)',
-          }}
-        >
-          {submitted ? (
-            <div>
-              <Title order={3} color="teal" mb="md">
-                Message Sent!
-              </Title>
-              <Text color={isDark ? 'white' : 'dark'}>
-                Thank you for reaching out. I'll get back to you as soon as possible.
-              </Text>
-              <Button onClick={() => setSubmitted(false)} variant="light" mt="md" color="grape">
-                Send Another Message
-              </Button>
+            <div className="contact__details">
+              {DETAILS.map(({ icon: Icon, label, value, href }) => (
+                <div className="contact__detail" key={label} data-reveal>
+                  <span className="contact__detail-icon">
+                    <Icon size={20} />
+                  </span>
+                  <div>
+                    <span className="contact__detail-label">{label}</span>
+                    {href ? (
+                      <a href={href} className="contact__detail-value">
+                        {value}
+                      </a>
+                    ) : (
+                      <span className="contact__detail-value">{value}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <Title order={3} mb="xl" color={isDark ? 'white' : 'dark'}>
-                Send a Message
-              </Title>
 
-              <TextInput
-                label="Name"
-                placeholder="Your name"
-                name="name"
-                value={formValues.name}
-                onChange={handleChange}
-                required
-                mb="md"
-                styles={{
-                  input: {
-                    backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                    color: isDark ? 'white' : 'black',
-                  },
-                  label: {
-                    color: isDark ? 'white' : 'black',
-                  },
-                }}
-              />
+            <div className="contact__socials">
+              {SOCIALS.map(({ icon: Icon, label, href }) => (
+                <Magnetic key={label} strength={0.3}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact__social"
+                  >
+                    <Icon size={20} />
+                    <span>{label}</span>
+                    <IconArrowUpRight size={15} />
+                  </a>
+                </Magnetic>
+              ))}
+            </div>
+          </div>
 
-              <TextInput
-                label="Email"
-                placeholder="your.email@example.com"
-                name="email"
-                value={formValues.email}
-                onChange={handleChange}
-                required
-                mb="md"
-                styles={{
-                  input: {
-                    backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                    color: isDark ? 'white' : 'black',
-                  },
-                  label: {
-                    color: isDark ? 'white' : 'black',
-                  },
-                }}
-              />
+          <div className="contact__form-wrap glass" data-reveal data-reveal-delay={120}>
+            <AnimatePresence mode="wait">
+              {status === 'sent' ? (
+                <motion.div
+                  key="sent"
+                  className="contact__success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  <span className="contact__success-icon">
+                    <IconCheck size={34} />
+                  </span>
+                  <h3>Message ready!</h3>
+                  <p>Your mail client should be open. Thanks for reaching out — talk soon.</p>
+                  <button className="btn btn--ghost" onClick={() => setStatus('idle')}>
+                    <span>Send another</span>
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  onSubmit={submit}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <h3 className="contact__form-title">Send a message</h3>
+                  <div className="field">
+                    <label htmlFor="name">Name</label>
+                    <input id="name" name="name" value={form.name} onChange={update} required />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={form.email}
+                      onChange={update}
+                      required
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="subject">Subject</label>
+                    <input
+                      id="subject"
+                      name="subject"
+                      value={form.subject}
+                      onChange={update}
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="message">Message</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={form.message}
+                      onChange={update}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn--primary btn--lg contact__submit"
+                    disabled={status === 'sending'}
+                  >
+                    {status === 'sending' ? (
+                      <>
+                        <IconLoader2 size={18} className="spin" />
+                        <span>Sending…</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send message</span>
+                        <IconArrowUpRight size={18} />
+                      </>
+                    )}
+                  </button>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
 
-              <TextInput
-                label="Subject"
-                placeholder="Subject of your message"
-                name="subject"
-                value={formValues.subject}
-                onChange={handleChange}
-                required
-                mb="md"
-                styles={{
-                  input: {
-                    backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                    color: isDark ? 'white' : 'black',
-                  },
-                  label: {
-                    color: isDark ? 'white' : 'black',
-                  },
-                }}
-              />
-
-              <Textarea
-                label="Message"
-                placeholder="Your message here..."
-                name="message"
-                value={formValues.message}
-                onChange={handleChange}
-                required
-                minRows={4}
-                mb="md"
-                styles={{
-                  input: {
-                    backgroundColor: isDark ? 'rgba(28, 29, 34, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                    borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                    color: isDark ? 'white' : 'black',
-                  },
-                  label: {
-                    color: isDark ? 'white' : 'black',
-                  },
-                }}
-              />
-
-              <Button
-                type="submit"
-                style={{
-                  background: `linear-gradient(45deg, ${isDark ? '#9B00FF' : '#6200EE'}, ${isDark ? '#00F5FF' : '#03DAC5'})`,
-                  boxShadow: '0 4px 10px rgba(155, 0, 255, 0.2)',
-                }}
-                fullWidth
-                loading={loading}
-              >
-                Send Message
-              </Button>
-            </form>
-          )}
-        </Paper>
-      </SimpleGrid>
-
-      {/* Support My Work Section */}
-      <Box mt={100} mb={50}>
-        <SponsorshipSection />
-      </Box>
-    </Container>
+      <style>{`
+        .contact {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: clamp(2rem, 6vw, 5rem);
+          align-items: start;
+        }
+        .page-title {
+          font-size: clamp(2.6rem, 8vw, 5.5rem);
+          letter-spacing: -0.04em;
+          line-height: 0.98;
+          margin-block: 1rem 1.4rem;
+        }
+        .contact__lead {
+          color: var(--ink-dim);
+          font-size: 1.1rem;
+          max-width: 42ch;
+          margin-bottom: 2.5rem;
+        }
+        .contact__details {
+          display: flex;
+          flex-direction: column;
+          gap: 1.3rem;
+          margin-bottom: 2.2rem;
+        }
+        .contact__detail {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .contact__detail-icon {
+          display: grid;
+          place-items: center;
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          border: 1px solid var(--line);
+          color: var(--cyan);
+          flex-shrink: 0;
+        }
+        .contact__detail-label {
+          display: block;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--ink-mute);
+        }
+        .contact__detail-value {
+          font-size: 1.02rem;
+          font-weight: 500;
+        }
+        a.contact__detail-value:hover {
+          color: var(--cyan);
+        }
+        .contact__socials {
+          display: flex;
+          gap: 0.8rem;
+          flex-wrap: wrap;
+        }
+        .contact__social {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.7rem 1.1rem;
+          border-radius: 99px;
+          border: 1px solid var(--line);
+          font-size: 0.9rem;
+          font-weight: 500;
+          transition: all 0.25s ease;
+        }
+        .contact__social:hover {
+          border-color: var(--cyan);
+          color: var(--cyan);
+        }
+        .contact__form-wrap {
+          border-radius: var(--radius-lg);
+          padding: clamp(1.6rem, 4vw, 2.6rem);
+        }
+        .contact__form-title {
+          font-family: var(--font-display);
+          font-size: 1.6rem;
+          margin-bottom: 1.6rem;
+        }
+        .contact__submit {
+          width: 100%;
+          justify-content: center;
+          margin-top: 0.5rem;
+        }
+        .contact__submit:disabled {
+          opacity: 0.7;
+          cursor: wait;
+        }
+        .spin {
+          animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        .contact__success {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 1rem;
+          padding: 2rem 0;
+        }
+        .contact__success-icon {
+          display: grid;
+          place-items: center;
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          background: var(--grad-ice);
+          color: #07080d;
+          box-shadow: var(--glow-cyan);
+        }
+        .contact__success h3 {
+          font-family: var(--font-display);
+          font-size: 1.6rem;
+        }
+        .contact__success p {
+          color: var(--ink-dim);
+          max-width: 36ch;
+        }
+        @media (max-width: 880px) {
+          .contact { grid-template-columns: 1fr; }
+        }
+      `}</style>
+    </>
   );
 };
 

@@ -1,145 +1,170 @@
-import React from 'react';
-import { Title, Text, Container, Button, Grid, Loader, Box, SimpleGrid } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import { resolvePath } from '../components/utils/paths';
-import HeroSection from '../components/home/HeroSection';
-import EnhancedProjectCard from '../components/projects/EnhancedProjectCard';
-import SponsorshipSection from '../components/SponsorshipSection';
+import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { IconArrowUpRight } from '@tabler/icons-react';
+import Hero from '../components/home/Hero';
+import ProjectCard from '../components/projects/ProjectCard';
+import Marquee from '../components/common/Marquee';
 import { useGetProjects } from '../hooks/useGetProjects';
-import AnimatedSection from '../components/common/AnimatedSection';
-import { useColorScheme } from '../theme/ThemeProvider';
+
+const STATS = [
+  { value: '5+', label: 'Years building' },
+  { value: '20+', label: 'Shipped projects' },
+  { value: '4', label: 'Continents worked across' },
+  { value: '∞', label: 'Cups of coffee' },
+];
+
+const MARQUEE = [
+  'React',
+  'TypeScript',
+  'Python',
+  'Three.js',
+  'Node.js',
+  'GraphQL',
+  'TensorFlow',
+  'AWS',
+  'Docker',
+  'Rust',
+  'PostgreSQL',
+];
 
 const Home = () => {
   const navigate = useNavigate();
-  const {
-    projects: allProjects,
-    loading: projectsLoading,
-    error: projectsError,
-  } = useGetProjects();
+  const { projects } = useGetProjects();
 
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const featured = useMemo(
+    () => projects.filter(p => p.featured).slice(0, 6),
+    [projects]
+  );
 
-  // Get featured projects
-  const featuredProjects = React.useMemo(() => {
-    if (!allProjects || allProjects.length === 0) return [];
-    return allProjects.filter(project => project.featured === true);
-  }, [allProjects]);
-
-  const handleViewDetails = projectId => {
-    // Pass the projectId and action to our handler
-    navigate({
-      pathname: resolvePath('/projects'),
-      search: `?project=${projectId}`,
-    });
+  const openProject = project => {
+    navigate(`/projects?project=${project.id}`);
   };
 
   return (
-    <div>
-      {/* Hero Section */}
-      <HeroSection />
+    <>
+      <Hero />
 
-      {/* Featured Projects Section */}
-      <Container size="lg" style={{ padding: '60px 0' }}>
-        <AnimatedSection animation="fadeInUp" duration={0.8}>
-          <Title
-            order={2}
-            mb={50}
-            style={{
-              fontSize: '2.5rem',
-              fontWeight: 700,
-              textAlign: 'center',
-              position: 'relative',
-              backgroundImage: 'linear-gradient(45deg, #6200EE, #03DAC5)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Featured Projects
-          </Title>
-        </AnimatedSection>
+      <Marquee items={MARQUEE} />
 
-        {projectsLoading ? (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '200px',
-              flexDirection: 'column',
-              gap: '1rem',
-            }}
-          >
-            <Loader color="grape" size="lg" />
-            <Text align="center">Loading projects...</Text>
-          </Box>
-        ) : projectsError ? (
-          <Box sx={{ textAlign: 'center', padding: '40px 0' }}>
-            <Text color="red" mb="lg">
-              There was an error loading projects. Please try again later.
-            </Text>
-            <Button variant="outline" color="grape" onClick={() => window.location.reload()}>
-              Retry
-            </Button>
-          </Box>
-        ) : (
-          <SimpleGrid
-            cols={3}
-            spacing="lg"
-            breakpoints={[
-              { maxWidth: 992, cols: 2, spacing: 'md' },
-              { maxWidth: 768, cols: 1, spacing: 'sm' },
-            ]}
-          >
-            {featuredProjects && featuredProjects.length > 0 ? (
-              featuredProjects.map((project, index) => (
-                <div
-                  key={project.id || index}
-                  style={{
-                    animation: `fadeInUp 0.5s ease forwards ${0.1 + (index % 9) * 0.05}s`,
-                    opacity: 0,
-                  }}
-                >
-                  <EnhancedProjectCard
-                    {...project}
-                    // Fix potential image path issues
-                    image={project.image ? project.image.replace(/^\/|^\/public\//, '') : null}
-                    onViewDetails={handleViewDetails}
-                    projectId={project.id}
-                  />
-                </div>
-              ))
-            ) : (
-              <Grid.Col span={12}>
-                <Text align="center" c={isDark ? 'dimmed' : 'dark.6'}>
-                  No featured projects found. Total projects: {allProjects ? allProjects.length : 0}
-                </Text>
-              </Grid.Col>
-            )}
-          </SimpleGrid>
-        )}
-      </Container>
+      {/* Intro / stats */}
+      <section className="section container">
+        <div className="intro">
+          <div className="intro__lead" data-reveal>
+            <span className="eyebrow">About</span>
+            <p className="intro__text">
+              I&rsquo;m a results-driven engineer with a passion for the space where
+              <span className="gradient-text"> clean architecture meets beautiful interfaces</span>.
+              From Fortune-50 microservices to research-grade data platforms, I build things that
+              are fast, thoughtful, and a little bit magical.
+            </p>
+            <Link to="/about" className="intro__more">
+              More about me <IconArrowUpRight size={18} />
+            </Link>
+          </div>
 
-      {/* Sponsorship Section */}
-      <Container size="lg" style={{ padding: '20px 0 80px 0' }}>
-        <SponsorshipSection />
-      </Container>
+          <div className="intro__stats">
+            {STATS.map((s, i) => (
+              <div className="stat" key={s.label} data-reveal data-reveal-delay={i * 80}>
+                <span className="stat__value display gradient-text">{s.value}</span>
+                <span className="stat__label">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Animation keyframes */}
-      <style jsx="true">{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
+      {/* Featured work */}
+      <section className="section container">
+        <div className="section-head">
+          <div>
+            <span className="section-index" data-reveal>
+              02 — Selected Work
+            </span>
+            <h2 className="section-title" data-reveal data-reveal-delay={80}>
+              Featured projects
+            </h2>
+          </div>
+          <Link to="/projects" className="btn btn--ghost" data-reveal data-reveal-delay={120}>
+            <span>All projects</span>
+            <IconArrowUpRight size={17} />
+          </Link>
+        </div>
+
+        <div className="grid-3">
+          {featured.map((project, i) => (
+            <ProjectCard key={project.id} project={project} index={i} onOpen={openProject} />
+          ))}
+        </div>
+      </section>
+
+      <style>{`
+        .intro {
+          display: grid;
+          grid-template-columns: 1.3fr 1fr;
+          gap: clamp(2rem, 6vw, 5rem);
+          align-items: center;
+        }
+        .intro__text {
+          font-family: var(--font-display);
+          font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+          line-height: 1.2;
+          letter-spacing: -0.02em;
+          margin-block: 1.4rem 2rem;
+        }
+        .intro__more {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: var(--cyan);
+          font-weight: 500;
+        }
+        .intro__more:hover {
+          gap: 0.8rem;
+        }
+        .intro__stats {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1px;
+          background: var(--line);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+        }
+        .stat {
+          background: var(--bg-soft);
+          padding: clamp(1.4rem, 3vw, 2.2rem);
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+        .stat__value {
+          font-size: clamp(2.2rem, 5vw, 3.4rem);
+          line-height: 1;
+        }
+        .stat__label {
+          color: var(--ink-mute);
+          font-size: 0.88rem;
+        }
+        .grid-3 {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.6rem;
+        }
+        @media (max-width: 980px) {
+          .intro {
+            grid-template-columns: 1fr;
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          .grid-3 {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 640px) {
+          .grid-3 {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 

@@ -1,192 +1,74 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider } from './theme/ThemeProvider';
-import { AnimationProvider } from './context/AnimationContext';
-import { Box, Container } from '@mantine/core';
+import { Suspense, lazy, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 
-// Utilities
-import browserDetection from './components/utils/browserDetection';
-import { preloadCriticalAssets } from './components/utils/assetPreloader';
-import { applyPerformanceOptimizations } from './components/utils/animationOptimizer';
-import { resolvePath } from './components/utils/paths';
+import SmoothScroll from './components/core/SmoothScroll';
+import CustomCursor from './components/core/CustomCursor';
+import Grain from './components/core/Grain';
+import Preloader from './components/core/Preloader';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import useScrollReveal from './hooks/useScrollReveal';
 
-// Components
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ParticleBackground from './components/common/ParticleBackground';
-import NavigationPulsar from './components/common/NavigationPulsar';
-import LoadingScreen from './components/common/LoadingScreen';
-import PageTransition from './components/common/PageTransition';
-
-// Lazy-loaded pages for better performance
 const Home = lazy(() => import('./pages/Home'));
 const Projects = lazy(() => import('./pages/Projects'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 
-// Create style elements directly in the App component
-const inlineStyles = `
-/* Basic animation keyframes */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+const pageVariants = {
+  initial: { opacity: 0, y: 24 },
+  enter: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+  exit: { opacity: 0, y: -16, transition: { duration: 0.35, ease: [0.65, 0, 0.35, 1] } },
+};
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+const Page = ({ children }) => (
+  <motion.div variants={pageVariants} initial="initial" animate="enter" exit="exit">
+    {children}
+  </motion.div>
+);
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Loading indicator animation */
-.loading-dots::after {
-  content: '...';
-  display: inline-block;
-  animation: ellipsis 1.5s infinite;
-  width: 1.5em;
-  text-align: left;
-}
-
-@keyframes ellipsis {
-  0% { content: '.'; }
-  33% { content: '..'; }
-  66% { content: '...'; }
-}
-`;
-
-function App() {
-  // Loading state
-  const [loading, setLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-
-  // Initialize browser detection and feature detection
-  useEffect(() => {
-    // Apply browser and feature detection
-    browserDetection.applyDetectionClasses();
-
-    // Preload project data and critical assets
-    Promise.all([
-      // Preload project data
-      import('./data/projects.json'),
-
-      // Preload critical assets
-      preloadCriticalAssets(progress => {
-        setLoadingProgress(progress);
-      }),
-    ])
-      .then(() => {
-        // Slight delay to ensure smooth transition
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
-      })
-      .catch(() => {
-        // Continue anyway after a timeout
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-      });
-
-    // Performance optimizations based on device capabilities
-    const performanceMetrics = {
-      devicePerformance:
-        browserDetection.detectFeatures().hardwareConcurrency > 4 ? 'high' : 'medium',
-    };
-    applyPerformanceOptimizations(performanceMetrics);
-  }, []);
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  useScrollReveal();
 
   return (
-    <ThemeProvider>
-      <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
-      <AnimationProvider>
-        {/* Loading Screen */}
-        {loading && (
-          <LoadingScreen progress={loadingProgress} isComplete={loadingProgress >= 100} />
-        )}
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Page><Home /></Page>} />
+          <Route path="/projects" element={<Page><Projects /></Page>} />
+          <Route path="/about" element={<Page><About /></Page>} />
+          <Route path="/contact" element={<Page><Contact /></Page>} />
 
-        <BrowserRouter>
-          <ParticleBackground particleCount={50} />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-            }}
-          >
-            <Header />
+          <Route path="/JobFit" element={<Navigate to="https://hxndev.github.io/JobFit/" replace />} />
+          <Route
+            path="/JobFit/*"
+            element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
+  );
+};
 
-            <main style={{ flex: 1 }}>
-              <PageTransition>
-                <Suspense
-                  fallback={
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        minHeight: '50vh',
-                      }}
-                    >
-                      <div className="loading-dots">Loading page</div>
-                    </Box>
-                  }
-                >
-                  <Routes>
-                    {/* Base routes */}
-                    <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
+function App() {
+  const [loaded, setLoaded] = useState(false);
 
-                    {/* Support for both base routes and resolved paths */}
-                    <Route path={resolvePath('/')} element={<Home />} />
-                    <Route path={resolvePath('/projects')} element={<Projects />} />
-                    <Route path={resolvePath('/about')} element={<About />} />
-                    <Route path={resolvePath('/contact')} element={<Contact />} />
+  return (
+    <BrowserRouter>
+      <Preloader onDone={() => setLoaded(true)} />
+      <CustomCursor />
+      <Grain />
 
-                    {/* Redirect to JobFit application */}
-                    <Route
-                      path="/JobFit"
-                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
-                    />
-                    <Route
-                      path="/JobFit/*"
-                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
-                    />
-                    <Route
-                      path={resolvePath('/JobFit')}
-                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
-                    />
-                    <Route
-                      path={resolvePath('/JobFit/*')}
-                      element={<Navigate to="https://hxndev.github.io/JobFit/" replace />}
-                    />
-
-                    {/* Catch-all route */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Routes>
-                </Suspense>
-              </PageTransition>
-            </main>
-
-            <Footer />
-          </div>
-
-          <NavigationPulsar />
-        </BrowserRouter>
-      </AnimationProvider>
-    </ThemeProvider>
+      <SmoothScroll>
+        <Navbar />
+        <main style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.6s ease' }}>
+          <AnimatedRoutes />
+        </main>
+        <Footer />
+      </SmoothScroll>
+    </BrowserRouter>
   );
 }
 
