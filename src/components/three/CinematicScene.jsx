@@ -154,9 +154,27 @@ const isCompact = typeof window !== 'undefined' && window.innerWidth < 768;
 const CinematicScene = ({ progress }) => {
   const pointer = useRef({ x: 0, y: 0 });
   const wrapRef = useRef(null);
+  const glRef = useRef(null);
   const [visible, setVisible] = useState(true);
   const [tier] = useState(getQuality);
   const q = QUALITY[tier];
+
+  // Release the GPU context explicitly when the scene unmounts (e.g. navigating
+  // away from Home). Without this the renderer can be torn down mid-flight,
+  // surfacing as "THREE.WebGLRenderer: Context Lost" and a frozen page.
+  useEffect(() => {
+    return () => {
+      const gl = glRef.current;
+      if (!gl) return;
+      try {
+        gl.dispose();
+        gl.forceContextLoss?.();
+      } catch {
+        /* context already gone — nothing to do */
+      }
+      glRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const handlePointer = e => {
@@ -184,7 +202,17 @@ const CinematicScene = ({ progress }) => {
         frameloop={visible ? 'always' : 'never'}
         camera={{ position: [0, 0, 6], fov: 38 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
+        onCreated={({ gl }) => {
+          glRef.current = gl;
+          gl.setClearColor(0x000000, 0);
+          // Preventing the default on context-loss lets the browser restore the
+          // context instead of leaving a dead canvas behind.
+          gl.domElement.addEventListener(
+            'webglcontextlost',
+            e => e.preventDefault(),
+            false
+          );
+        }}
         fallback={null}
       >
         <Suspense fallback={null}>

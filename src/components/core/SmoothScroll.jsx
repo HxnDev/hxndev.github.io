@@ -42,14 +42,31 @@ const SmoothScroll = ({ children }) => {
     };
   }, []);
 
-  // Reset scroll on route change
+  // Reset scroll on route change. The new page may be far shorter than the one
+  // we left (e.g. the very tall cinematic Home), so we jump to the top and then
+  // recalculate Lenis dimensions + ScrollTrigger once the new page has settled,
+  // otherwise scrolling can appear "stuck".
   useEffect(() => {
     if (lenisInstance) {
       lenisInstance.scrollTo(0, { immediate: true });
     } else {
       window.scrollTo(0, 0);
     }
-    ScrollTrigger.refresh();
+
+    const raf = requestAnimationFrame(() => {
+      lenisInstance?.resize?.();
+      ScrollTrigger.refresh();
+    });
+    // Second pass after the page-transition (framer-motion) has finished.
+    const timer = setTimeout(() => {
+      lenisInstance?.resize?.();
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+    };
   }, [location.pathname]);
 
   return children;
