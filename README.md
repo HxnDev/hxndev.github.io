@@ -1,185 +1,106 @@
-# Hassan Shahzad | Portfolio Website
+# Hassan Shahzad — Portfolio
 
-Welcome to my portfolio website repository! This project showcases my work, skills, and experiences with a modern, responsive design built using React, Vite, and Mantine UI. The website is automatically deployed on GitHub Pages at [https://hxndev.github.io/](https://hxndev.github.io/).
+A cinematic, scroll-driven portfolio built to prove a point: that an engineer can also design and ship an award-grade interface. The homepage isn't a stack of sections — it's a single pinned 3D world you scroll *through*, rendered with a hand-written GLSL shader and React Three Fiber.
 
-## Table of Contents
+Live: **[https://hxndev.github.io/](https://hxndev.github.io/)**
 
-- [Demo](#demo)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Deployment](#deployment)
-- [Project Structure](#project-structure)
-- [Performance Optimizations](#performance-optimizations)
-- [Accessibility](#accessibility)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+## Highlights
 
-## Demo
+- **Scroll-driven 3D hero.** One persistent crystal whose camera dolly, drift, scale, rotation, and surface morph are all driven directly by scroll progress (GSAP ScrollTrigger → R3F render loop). Text "acts" reveal *inside* the same world.
+- **Hand-written GLSL.** A custom aurora backdrop shader (domain-warped fractal noise) — no Spline, no shader libraries — that reacts to the cursor and refracts through the glass.
+- **"Aurora Noir" design system.** Deep near-black canvas with an electric-cyan primary and a warm-amber accent. Cyan + amber sit on the blue–yellow axis, the most colorblind-safe high-contrast pairing, so hierarchy reads through luminance *and* hue.
+- **Buttery motion.** Lenis momentum scrolling synced to GSAP, a magnetic custom cursor, and Framer Motion reveals.
+- **Performance-conscious.** Device-tiered 3D quality, clamped DPR, off-screen render pausing, lazy-loaded routes, and full `prefers-reduced-motion` support.
 
-Visit the live website: [https://hxndev.github.io/](https://hxndev.github.io/)
+## Tech Stack
 
-Notable projects:
-- [JobFit - AI Job Matching Platform](https://hxndev.github.io/JobFit/) - Live demo available!
+- **React 18** + **Vite** — fast SPA tooling and HMR.
+- **React Router 7** — client-side routing with lazy-loaded pages.
+- **Three.js** + **@react-three/fiber** + **@react-three/drei** — declarative 3D.
+- **@react-three/postprocessing** — bloom and post effects.
+- **Custom GLSL** — the aurora backdrop fragment shader.
+- **GSAP (ScrollTrigger)** + **Lenis** — scroll choreography and smooth scrolling.
+- **Framer Motion** — UI transitions and staggered reveals.
+- **Tabler Icons** — iconography.
+- **ESLint** + **Prettier** — code quality and formatting.
+- **GitHub Actions** + **GitHub Pages** — CI/CD and hosting.
 
-## Features
-
-- **Responsive Design:** Adapts seamlessly to mobile, tablet, and desktop screens.
-- **Project Showcase:** Explore detailed project pages with filtering options by category.
-- **Smooth Animations:** Enjoy dynamic transitions powered by GSAP with performance optimization.
-- **Modern UI:** Crafted with Mantine UI and Tabler Icons for a sleek look.
-- **Dark/Light Theme:** Toggle between dark and light modes for comfortable viewing.
-- **Optimized Performance:** Built with Vite for lightning-fast builds and performance.
-- **Automated Deployment:** GitHub Actions ensure your changes are live as soon as you push to the main branch.
-- **Quantum-Inspired Design:** Custom color system based on dynamic interactions.
-
-## Technologies
-
-- **React 18:** For building interactive user interfaces.
-- **Vite:** A modern build tool for fast development.
-- **React Router 7:** For seamless client-side routing.
-- **Mantine UI 7:** For a robust and stylish component library.
-- **GSAP:** For creating smooth, high-performance animations.
-- **GitHub Actions:** Automating CI/CD and deployments.
-- **GitHub Pages:** Hosting the live website.
-- **ESLint/Prettier:** For code quality and consistent formatting.
-
-## Installation
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/HxnDev/hxndev.github.io.git
-   cd hxndev.github.io
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-## Usage
-
-### Development
-
-Start the development server with hot reloading:
+## Getting Started
 
 ```bash
+# Clone
+git clone https://github.com/HxnDev/hxndev.github.io.git
+cd hxndev.github.io
+
+# Install
+npm install
+
+# Develop (http://localhost:3000)
 npm run dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the website.
-
-### Production Build
-
-Generate an optimized production build:
-
-```bash
+# Production build → ./dist
 npm run build
-```
 
-The build output will be located in the `dist` directory.
-
-### Preview the Production Build
-
-To preview the production build locally:
-
-```bash
+# Preview the production build
 npm run preview
 ```
 
-### Linting and Formatting
+### Quality checks
 
 ```bash
-# Check formatting
-npm run format:check
-
-# Fix formatting issues
-npm run format
-
-# Check for linting issues
-npm run lint
-
-# Run all checks
-npm run check
+npm run lint          # ESLint
+npm run format        # Prettier (write)
+npm run format:check  # Prettier (check)
+npm run check         # lint + format check
 ```
-
-## Deployment
-
-This project is configured for automated deployment using GitHub Actions. Every push to the `main` branch triggers a build and deploys the `dist` folder to the `gh-pages` branch.
-
-**Live Website:** [https://hxndev.github.io/](https://hxndev.github.io/)
-
-The deployment workflow is defined in `.github/workflows/deploy.yml`.
 
 ## Project Structure
 
 ```
 hxndev.github.io/
-├── .github/workflows/    # GitHub Actions workflow for deployment
-├── public/               # Public assets and static files
+├── .github/workflows/        # CI/CD (build + deploy to gh-pages)
+├── public/                   # Static assets (images, resume, project media)
 ├── src/
-│   ├── animations/       # Animation configurations and utilities
-│   ├── components/       # Reusable React components
-│   │   ├── about/        # About page components
-│   │   ├── common/       # Shared components
-│   │   ├── contact/      # Contact page components
-│   │   ├── home/         # Home page components
-│   │   ├── projects/     # Project components
-│   │   └── utils/        # Component utilities
-│   ├── context/          # React context providers
-│   ├── data/             # Static data (projects.json)
-│   ├── hooks/            # Custom React hooks
-│   ├── pages/            # Page components
-│   ├── styles/           # Global styles and effects
-│   ├── theme/            # Theme configuration
-│   ├── App.jsx           # Main application component
-│   └── main.jsx          # Entry point for React
-├── index.html            # HTML template
-├── package.json          # Project configuration
-├── vite.config.js        # Vite configuration
-├── .eslintrc.cjs         # ESLint configuration
-├── .prettierrc           # Prettier configuration
-└── README.md             # This file
+│   ├── components/
+│   │   ├── common/           # Marquee and shared bits
+│   │   ├── core/             # Cursor, SmoothScroll, Preloader, Grain, Magnetic
+│   │   ├── home/             # CinematicStage (the scroll-driven hero)
+│   │   ├── layout/           # Navbar, Footer
+│   │   ├── projects/         # ProjectCard, ProjectModal
+│   │   ├── three/            # CinematicScene, AuroraBackdrop (GLSL)
+│   │   └── utils/            # Asset path helpers
+│   ├── data/                 # profile, skills, experience, certifications,
+│   │                         #   recommendations, projects.json
+│   ├── hooks/                # useGetProjects, useScrollReveal
+│   ├── pages/                # Home, Projects, About, Certifications,
+│   │                         #   Recommendations, Contact
+│   ├── styles/               # global.css (design tokens), ui.css
+│   ├── App.jsx               # Routing + global layout
+│   └── main.jsx              # Entry point
+├── index.html
+├── vite.config.js
+└── README.md
 ```
 
-## Performance Optimizations
+## Architecture Notes
 
-This portfolio includes several performance optimizations:
+- **Cinematic flow.** `CinematicStage.jsx` owns a tall scroll region with a `position: sticky` viewport. A single `ScrollTrigger` writes scroll progress (0→1) into a ref that `CinematicScene.jsx` reads every frame to animate the camera and crystal, and derives the active text act from. This keeps per-frame work off the React render path.
+- **Data-driven content.** All résumé content (experience, skills, certifications, recommendations, stats) lives in small modules under `src/data/`, so updating the site is a content edit, not a code change.
+- **Accessibility.** Honors reduced-motion (disables smooth scroll, freezes shader time, drops heavy 3D), keyboard-navigable, and built on a colorblind-safe palette.
 
-- **Code Splitting:** Lazy loading of page components.
-- **Asset Preloading:** Critical assets are preloaded for faster initial rendering.
-- **Reduced Motion Support:** Respects user preferences for reduced motion.
-- **Responsive Images:** Optimized images with fallbacks.
-- **GSAP Animations:** Optimized animations with hardware acceleration.
-- **Adaptive Features:** Adjusts features based on device capabilities.
+## Deployment
 
-## Accessibility
-
-The portfolio is built with accessibility in mind:
-
-- **Semantic HTML:** Proper HTML structure for better screen reader support.
-- **Keyboard Navigation:** All interactive elements are keyboard-accessible.
-- **Color Contrast:** Meets WCAG 2.1 guidelines for color contrast.
-- **Reduced Motion:** Respects user preferences for reduced motion.
-- **Focus Management:** Proper focus handling for navigation.
-
-## Contributing
-
-Contributions, issues, and feature requests are welcome!  
-Please check the [issues page](https://github.com/HxnDev/hxndev.github.io/issues) for ideas or open a new issue if you have a suggestion.
+Every push to `main` triggers a GitHub Actions workflow that builds the app and publishes `dist/` to the `gh-pages` branch. See `.github/workflows/`.
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for details.
 
 ## Contact
 
-**Hassan Shahzad**  
-Email: [hassanshahzad.dev@gmail.com](mailto:hassanshahzad.dev@gmail.com)  
-LinkedIn: [hassan-shahzad-2a6617212](https://www.linkedin.com/in/hassan-shahzad-2a6617212/)  
-GitHub: [HxnDev](https://github.com/HxnDev)  
-Portfolio: [https://hxndev.github.io/](https://hxndev.github.io/)
+**Hassan Shahzad** — Senior Full-Stack Engineer (Geneva, CH)
+
+- Email: [hassanshahzad.dev@gmail.com](mailto:hassanshahzad.dev@gmail.com)
+- LinkedIn: [hassan-shahzad-2a6617212](https://www.linkedin.com/in/hassan-shahzad-2a6617212/)
+- GitHub: [HxnDev](https://github.com/HxnDev)
+- Portfolio: [https://hxndev.github.io/](https://hxndev.github.io/)

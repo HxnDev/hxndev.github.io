@@ -17,9 +17,11 @@
   --ink-dim: #aab2c8;
   --ink-mute: #6b7287;
 
-  /* ---- Accents (single cold family: icy cyan → sky blue → frost) ----
-     Variable names kept for stability; hues retuned to a colorblind-safe,
-     monochromatic glacier scale that reads through luminance, not hue. */
+  /* ---- Accents — "Aurora Noir" ----
+     Electric cyan (primary) + warm amber (energy). Cyan & amber sit on the
+     blue–yellow axis, the single most colorblind-safe high-contrast pairing,
+     so hierarchy reads through luminance + hue even with red-green deficiency.
+     Cool variable names kept for stability across existing components. */
   --cyan: #5be9ff;
   --cyan-deep: #14c7e6;
   --violet: #6fa8ff;
@@ -27,14 +29,22 @@
   --pink: #9fb4ff;
   --mint: #86f7d8;
 
+  /* Signature warm accent */
+  --amber: #ffb84d;
+  --amber-deep: #ff9d2e;
+  --amber-soft: rgba(255, 184, 77, 0.14);
+
   /* ---- Gradients ---- */
   --grad-primary: linear-gradient(120deg, #6ff0ff 0%, #4fb8ff 52%, #9fb4ff 100%);
   --grad-ice: linear-gradient(135deg, #6ff0ff, #5b9dff);
   --grad-soft: linear-gradient(135deg, rgba(91, 233, 255, 0.16), rgba(111, 168, 255, 0.16));
+  --grad-warm: linear-gradient(120deg, #ffd27a 0%, #ffb84d 50%, #ff9d2e 100%);
+  --grad-aurora: linear-gradient(120deg, #6ff0ff 0%, #9fb4ff 45%, #ffb84d 100%);
 
   /* ---- Glow ---- */
   --glow-cyan: 0 0 40px rgba(91, 233, 255, 0.35);
   --glow-violet: 0 0 50px rgba(111, 168, 255, 0.4);
+  --glow-amber: 0 0 44px rgba(255, 184, 77, 0.4);
 
   /* ---- Type ---- */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -140,6 +150,20 @@ ul {
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
+.gradient-text--warm {
+  background: var(--grad-warm);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.gradient-text--aurora {
+  background: var(--grad-aurora);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
 
 /* ---- Layout ---- */
 .container {
@@ -168,7 +192,7 @@ ul {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--violet-deep), var(--cyan-deep));
+  background: linear-gradient(var(--cyan-deep), var(--amber-deep));
   border-radius: 99px;
 }
 

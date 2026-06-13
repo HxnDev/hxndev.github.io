@@ -40,6 +40,11 @@ const Footer = () => {
 
         <hr className="hr-glow" />
 
+        <p className="footer__colophon" data-reveal>
+          Designed <span className="amber">&amp;</span> engineered from scratch — hand-written GLSL
+          shaders, custom motion, 60fps, accessible by design. No templates, no page builders.
+        </p>
+
         <div className="footer__bottom">
           <div className="footer__brand">
             <span className="nav__mark" aria-hidden="true">
@@ -47,7 +52,7 @@ const Footer = () => {
             </span>
             <div>
               <p className="footer__name">Hassan Shahzad</p>
-              <p className="footer__role">Senior Full Stack Developer</p>
+              <p className="footer__role">Senior Full-Stack Engineer</p>
             </div>
           </div>
 
@@ -66,7 +71,7 @@ const Footer = () => {
             ))}
           </div>
 
-          <p className="footer__copy">© {year} — Built with React, Three.js &amp; caffeine.</p>
+          <p className="footer__copy">© {year} — React · Three.js · GLSL · GSAP</p>
         </div>
       </div>
 
@@ -90,6 +95,15 @@ const Footer = () => {
           font-size: clamp(2.4rem, 8vw, 5.5rem);
           line-height: 0.98;
         }
+        .footer__colophon {
+          max-width: 64ch;
+          margin: 2rem auto 0;
+          text-align: center;
+          color: var(--ink-mute);
+          font-size: 0.9rem;
+          line-height: 1.6;
+        }
+        .footer__colophon .amber { color: var(--amber); font-weight: 700; }
         .footer__bottom {
           display: flex;
           align-items: center;

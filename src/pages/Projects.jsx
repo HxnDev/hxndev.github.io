@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { IconSearch } from '@tabler/icons-react';
+import { IconSearch, IconBrandGithub, IconArrowUpRight } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import ProjectCard from '../components/projects/ProjectCard';
 import ProjectModal from '../components/projects/ProjectModal';
+import Magnetic from '../components/core/Magnetic';
 import { useGetProjects } from '../hooks/useGetProjects';
 
 const CATEGORY_LABELS = {
@@ -120,6 +121,31 @@ const Projects = () => {
             </button>
           </div>
         )}
+
+        <div className="gh-cta" data-reveal>
+          <div className="gh-cta__text">
+            <IconBrandGithub size={26} className="gh-cta__icon" />
+            <div>
+              <h3 className="gh-cta__title">This is just a slice.</h3>
+              <p className="gh-cta__sub">
+                40+ shipped projects and counting — explore the full archive, source code, and
+                experiments on GitHub.
+              </p>
+            </div>
+          </div>
+          <Magnetic strength={0.35}>
+            <a
+              href="https://github.com/HxnDev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn--primary btn--lg"
+              data-cursor-label="GitHub"
+            >
+              <span>See more on GitHub</span>
+              <IconArrowUpRight size={19} />
+            </a>
+          </Magnetic>
+        </div>
       </section>
 
       <ProjectModal project={active} onClose={closeProject} />
@@ -209,6 +235,38 @@ const Projects = () => {
           gap: 1.2rem;
           padding: 5rem 0;
           color: var(--ink-mute);
+        }
+        .gh-cta {
+          margin-top: clamp(3rem, 7vw, 5rem);
+          padding: clamp(1.6rem, 4vw, 2.6rem);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-lg);
+          background:
+            radial-gradient(120% 140% at 0% 0%, rgba(91, 233, 255, 0.08), transparent 55%),
+            radial-gradient(120% 140% at 100% 100%, rgba(255, 184, 77, 0.08), transparent 55%),
+            var(--bg-elev);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1.8rem;
+          flex-wrap: wrap;
+        }
+        .gh-cta__text {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          max-width: 60ch;
+        }
+        .gh-cta__icon { color: var(--cyan); flex-shrink: 0; margin-top: 0.2rem; }
+        .gh-cta__title {
+          font-family: var(--font-display);
+          font-size: clamp(1.3rem, 3vw, 1.8rem);
+          letter-spacing: -0.01em;
+          margin-bottom: 0.35rem;
+        }
+        .gh-cta__sub { color: var(--ink-dim); line-height: 1.55; }
+        @media (max-width: 640px) {
+          .gh-cta { flex-direction: column; align-items: flex-start; }
         }
         @media (max-width: 980px) {
           .grid-3 { grid-template-columns: repeat(2, 1fr); }

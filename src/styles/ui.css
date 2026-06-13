@@ -38,7 +38,7 @@
   box-shadow: 0 10px 30px -8px rgba(91, 233, 255, 0.5);
 }
 .btn--primary:hover {
-  box-shadow: 0 16px 44px -8px rgba(111, 168, 255, 0.6);
+  box-shadow: 0 16px 46px -8px rgba(255, 184, 77, 0.6);
 }
 
 .btn--ghost {
@@ -94,7 +94,7 @@
 }
 .section-index {
   font-family: var(--font-mono);
-  color: var(--ink-mute);
+  color: var(--amber);
   font-size: 0.8rem;
   letter-spacing: 0.2em;
 }
@@ -127,7 +127,7 @@
 .aurora::after {
   bottom: -15%;
   right: -10%;
-  background: radial-gradient(circle, rgba(91, 233, 255, 0.45), transparent 65%);
+  background: radial-gradient(circle, rgba(255, 184, 77, 0.4), transparent 65%);
   animation: aurora-b 28s ease-in-out infinite;
 }
 @keyframes aurora-a {
@@ -180,7 +180,7 @@
 }
 .marquee__item::after {
   content: '✦';
-  color: var(--cyan);
+  color: var(--amber);
   font-size: 0.6em;
 }
 @keyframes marquee {
