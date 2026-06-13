@@ -8,8 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 let lenisInstance = null;
 
-export const getLenis = () => lenisInstance;
-
 /**
  * Buttery momentum scrolling via Lenis, synced with GSAP ScrollTrigger.
  * Honors prefers-reduced-motion by skipping the smooth layer.
