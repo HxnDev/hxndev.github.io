@@ -204,14 +204,15 @@ const Navbar = () => {
           flex-direction: column;
           gap: 0.5rem;
           padding: var(--gutter);
+          width: 100%;
         }
         .mobile-menu__link {
           display: flex;
           align-items: baseline;
-          gap: 1rem;
+          gap: 0.8rem;
           font-family: var(--font-display);
           font-weight: 700;
-          font-size: clamp(2.2rem, 11vw, 3.6rem);
+          font-size: clamp(1.7rem, 8vw, 2.8rem);
           color: var(--ink);
           opacity: 0;
           transform: translateY(30px);

@@ -306,8 +306,16 @@ const CinematicStage = () => {
 
         @media (max-width: 860px) {
           .stage { height: 400vh; }
-          .c-act--right, .c-act--right .container { text-align: left; align-items: flex-start; justify-content: flex-start; }
+          /* Keep vertical centering (align-items lives on the row flex parent);
+             only flip the horizontal alignment of right/center acts to the left. */
+          .c-act { justify-content: flex-start; text-align: left; }
+          .c-act--right { justify-content: flex-start; text-align: left; }
+          .c-act--right .container,
+          .c-act--center .container { align-items: flex-start; }
+          .c-act--center { justify-content: flex-start; text-align: left; }
+          .c-sub--center { margin-inline: 0; }
           .c-stats { grid-template-columns: repeat(2, 1fr); }
+          .c-next { align-items: flex-start; }
           .stage__rail { display: none; }
         }
         @media (prefers-reduced-motion: reduce) {

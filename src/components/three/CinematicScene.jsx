@@ -15,7 +15,7 @@ const BG_COLOR = new THREE.Color('#05060d');
 const damp = (cur, target, lambda, dt) => cur + (target - cur) * (1 - Math.exp(-lambda * dt));
 
 /* The hero object — its transform is fully driven by scroll progress (0..1). */
-function Crystal({ quality, progress }) {
+function Crystal({ quality, progress, compact }) {
   const ref = useRef();
   const matRef = useRef();
 
@@ -29,9 +29,12 @@ function Crystal({ quality, progress }) {
     ref.current.rotation.z = p * Math.PI * 1.5;
 
     // Drift the object across the stage so it plays against each text act.
-    const targetX = Math.sin(p * Math.PI * 2) * 2.5;
-    const targetY = Math.cos(p * Math.PI) * 0.6;
-    const targetScale = 1 + Math.sin(p * Math.PI) * 0.35;
+    // On narrow (portrait) screens we keep it near-centered so it never flies
+    // out of frame, and shrink it so text overlaid on top stays legible.
+    const targetX = Math.sin(p * Math.PI * 2) * (compact ? 0.55 : 2.5);
+    const targetY = (compact ? 1.0 : 0) + Math.cos(p * Math.PI) * (compact ? 0.3 : 0.6);
+    const targetScale =
+      (compact ? 0.78 : 1) + Math.sin(p * Math.PI) * (compact ? 0.14 : 0.35);
     ref.current.position.x = damp(ref.current.position.x, targetX, 4, delta);
     ref.current.position.y = damp(ref.current.position.y, targetY, 4, delta);
     const s = damp(ref.current.scale.x, targetScale, 4, delta);
@@ -110,11 +113,12 @@ function Particles({ count = 300 }) {
 }
 
 /* Dollies the camera through the scene as you scroll + parallax to the cursor. */
-function Rig({ pointer, progress }) {
+function Rig({ pointer, progress, compact }) {
   const { camera } = useThree();
   useFrame((_, delta) => {
     const p = progress.current;
-    const targetZ = 6 - Math.sin(p * Math.PI) * 2.2; // dolly in through the middle act
+    // Pull back a touch on phones so the (centered) crystal stays fully framed.
+    const targetZ = (compact ? 6.6 : 6) - Math.sin(p * Math.PI) * (compact ? 1 : 2.2);
     const px = pointer.current.x * 0.5;
     const py = pointer.current.y * 0.35;
     camera.position.z = damp(camera.position.z, targetZ, 3, delta);
@@ -143,6 +147,8 @@ const QUALITY = {
 const prefersReduced =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const isCompact = typeof window !== 'undefined' && window.innerWidth < 768;
 
 /* The persistent canvas. `progress` is a ref (0..1) driven by the page scroll. */
 const CinematicScene = ({ progress }) => {
@@ -188,9 +194,9 @@ const CinematicScene = ({ progress }) => {
           <pointLight position={[0, -4, -4]} intensity={28} color="#ffb84d" />
 
           {q.shader && <AuroraBackdrop pointer={pointer} reduced={prefersReduced} />}
-          <Crystal quality={q} progress={progress} />
+          <Crystal quality={q} progress={progress} compact={isCompact} />
           <Particles count={q.particles} />
-          <Rig pointer={pointer} progress={progress} />
+          <Rig pointer={pointer} progress={progress} compact={isCompact} />
 
           <Environment resolution={256}>
             <group>
