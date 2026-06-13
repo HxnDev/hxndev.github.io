@@ -4,11 +4,11 @@
    ============================================================ */
 
 :root {
-  /* ---- Core surfaces ---- */
-  --bg: #06070b;
-  --bg-soft: #0a0c13;
-  --bg-elev: #0f121c;
-  --bg-glass: rgba(18, 22, 34, 0.55);
+  /* ---- Core surfaces (cold blue-black, glacial depth) ---- */
+  --bg: #05060d;
+  --bg-soft: #090b14;
+  --bg-elev: #0e1120;
+  --bg-glass: rgba(16, 20, 32, 0.55);
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.16);
 
@@ -17,22 +17,24 @@
   --ink-dim: #aab2c8;
   --ink-mute: #6b7287;
 
-  /* ---- Accents (icy cyan + cosmic violet + plasma pink) ---- */
-  --cyan: #4af0ff;
-  --cyan-deep: #00c8e0;
-  --violet: #9b6bff;
-  --violet-deep: #6a2bff;
-  --pink: #ff5d9e;
-  --mint: #7dffd6;
+  /* ---- Accents (single cold family: icy cyan → sky blue → frost) ----
+     Variable names kept for stability; hues retuned to a colorblind-safe,
+     monochromatic glacier scale that reads through luminance, not hue. */
+  --cyan: #5be9ff;
+  --cyan-deep: #14c7e6;
+  --violet: #6fa8ff;
+  --violet-deep: #4f86ff;
+  --pink: #9fb4ff;
+  --mint: #86f7d8;
 
   /* ---- Gradients ---- */
-  --grad-primary: linear-gradient(120deg, #4af0ff 0%, #9b6bff 55%, #ff5d9e 100%);
-  --grad-ice: linear-gradient(135deg, #4af0ff, #9b6bff);
-  --grad-soft: linear-gradient(135deg, rgba(74, 240, 255, 0.16), rgba(155, 107, 255, 0.16));
+  --grad-primary: linear-gradient(120deg, #6ff0ff 0%, #4fb8ff 52%, #9fb4ff 100%);
+  --grad-ice: linear-gradient(135deg, #6ff0ff, #5b9dff);
+  --grad-soft: linear-gradient(135deg, rgba(91, 233, 255, 0.16), rgba(111, 168, 255, 0.16));
 
   /* ---- Glow ---- */
-  --glow-cyan: 0 0 40px rgba(74, 240, 255, 0.35);
-  --glow-violet: 0 0 50px rgba(155, 107, 255, 0.4);
+  --glow-cyan: 0 0 40px rgba(91, 233, 255, 0.35);
+  --glow-violet: 0 0 50px rgba(111, 168, 255, 0.4);
 
   /* ---- Type ---- */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -154,7 +156,7 @@ ul {
 
 /* ---- Selection ---- */
 ::selection {
-  background: rgba(155, 107, 255, 0.4);
+  background: rgba(111, 168, 255, 0.4);
   color: #fff;
 }
 

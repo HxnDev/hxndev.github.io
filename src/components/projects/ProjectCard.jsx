@@ -7,7 +7,7 @@ const ProjectCard = ({ project, index = 0, onOpen }) => {
   const [err, setErr] = useState(false);
 
   const img = err
-    ? project.fallbackImage || 'https://placehold.co/800x600/0f121c/4af0ff?text=Project'
+    ? project.fallbackImage || 'https://placehold.co/800x600/0f121c/5be9ff?text=Project'
     : project.image
       ? resolveAssetPath(project.image)
       : project.fallbackImage;
@@ -125,7 +125,7 @@ const ProjectCard = ({ project, index = 0, onOpen }) => {
         }
         .pcard:hover .pcard__inner {
           border-color: var(--line-strong);
-          box-shadow: 0 30px 60px -25px rgba(74, 240, 255, 0.25);
+          box-shadow: 0 30px 60px -25px rgba(91, 233, 255, 0.25);
         }
         .pcard__media {
           position: relative;
@@ -146,7 +146,7 @@ const ProjectCard = ({ project, index = 0, onOpen }) => {
           inset: 0;
           background: radial-gradient(
             circle at var(--mx) var(--my),
-            rgba(74, 240, 255, 0.22),
+            rgba(91, 233, 255, 0.22),
             transparent 45%
           );
           opacity: 0;

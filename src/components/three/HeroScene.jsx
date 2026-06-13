@@ -41,7 +41,7 @@ function Crystal({ quality }) {
           temporalDistortion={0.18}
           transmission={1}
           color="#bfe9ff"
-          attenuationColor="#9b6bff"
+          attenuationColor="#6fa8ff"
           attenuationDistance={1.4}
           background={BG_COLOR}
         />
@@ -80,7 +80,7 @@ function Particles({ count = 380 }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.025}
-        color="#7dffd6"
+        color="#86f7d8"
         transparent
         opacity={0.7}
         sizeAttenuation
@@ -156,9 +156,9 @@ const HeroScene = () => {
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.35} />
-          <pointLight position={[5, 5, 5]} intensity={40} color="#4af0ff" />
-          <pointLight position={[-5, -3, 2]} intensity={35} color="#9b6bff" />
-          <pointLight position={[0, -4, -4]} intensity={25} color="#ff5d9e" />
+          <pointLight position={[5, 5, 5]} intensity={40} color="#5be9ff" />
+          <pointLight position={[-5, -3, 2]} intensity={35} color="#6fa8ff" />
+          <pointLight position={[0, -4, -4]} intensity={25} color="#9fb4ff" />
 
           <Crystal quality={q} />
           <Particles count={q.particles} />
@@ -171,21 +171,21 @@ const HeroScene = () => {
                 intensity={3}
                 position={[3, 3, 2]}
                 scale={[4, 4, 1]}
-                color="#4af0ff"
+                color="#5be9ff"
               />
               <Lightformer
                 form="rect"
                 intensity={2.5}
                 position={[-4, -2, 1]}
                 scale={[4, 4, 1]}
-                color="#9b6bff"
+                color="#6fa8ff"
               />
               <Lightformer
                 form="circle"
                 intensity={2}
                 position={[0, 4, -3]}
                 scale={[3, 3, 1]}
-                color="#ff5d9e"
+                color="#9fb4ff"
               />
             </group>
           </Environment>

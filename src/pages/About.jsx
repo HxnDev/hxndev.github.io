@@ -218,7 +218,7 @@ const About = () => {
         .about-portrait__glow {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, transparent 55%, rgba(155, 107, 255, 0.4));
+          background: linear-gradient(180deg, transparent 55%, rgba(111, 168, 255, 0.4));
           mix-blend-mode: screen;
         }
         .about-bio {
@@ -369,7 +369,7 @@ const About = () => {
         .cred:hover {
           border-color: var(--line-strong);
           transform: translateY(-4px);
-          background: rgba(74, 240, 255, 0.04);
+          background: rgba(91, 233, 255, 0.04);
         }
         .cred__icon {
           display: grid;

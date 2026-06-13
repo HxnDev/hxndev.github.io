@@ -136,7 +136,7 @@ const CustomCursor = () => {
           border-color: var(--cyan);
         }
         .cursor-ring.is-down {
-          background: rgba(74, 240, 255, 0.15);
+          background: rgba(91, 233, 255, 0.15);
         }
         .cursor-ring.is-label {
           width: 84px;

@@ -167,7 +167,7 @@ const Certifications = () => {
         .cert:hover {
           border-color: var(--line-strong);
           transform: translateY(-3px);
-          background: rgba(74, 240, 255, 0.04);
+          background: rgba(91, 233, 255, 0.04);
         }
         .cert--static { cursor: default; }
         .cert__icon {

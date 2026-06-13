@@ -76,7 +76,7 @@ const Footer = () => {
           padding-block: clamp(4rem, 10vw, 7rem) 2.5rem;
           margin-top: 4rem;
           border-top: 1px solid var(--line);
-          background: linear-gradient(180deg, transparent, rgba(155, 107, 255, 0.05));
+          background: linear-gradient(180deg, transparent, rgba(111, 168, 255, 0.05));
         }
         .footer__cta {
           text-align: center;

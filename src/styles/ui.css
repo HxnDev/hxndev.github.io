@@ -35,10 +35,10 @@
 .btn--primary {
   color: #07080d;
   background: var(--grad-ice);
-  box-shadow: 0 10px 30px -8px rgba(74, 240, 255, 0.5);
+  box-shadow: 0 10px 30px -8px rgba(91, 233, 255, 0.5);
 }
 .btn--primary:hover {
-  box-shadow: 0 16px 44px -8px rgba(155, 107, 255, 0.6);
+  box-shadow: 0 16px 44px -8px rgba(111, 168, 255, 0.6);
 }
 
 .btn--ghost {
@@ -72,8 +72,8 @@
 }
 .tag--accent {
   color: var(--cyan);
-  border-color: rgba(74, 240, 255, 0.3);
-  background: rgba(74, 240, 255, 0.06);
+  border-color: rgba(91, 233, 255, 0.3);
+  background: rgba(91, 233, 255, 0.06);
 }
 
 /* ---- Section heading ---- */
@@ -121,13 +121,13 @@
 .aurora::before {
   top: -10%;
   left: -10%;
-  background: radial-gradient(circle, rgba(155, 107, 255, 0.55), transparent 65%);
+  background: radial-gradient(circle, rgba(111, 168, 255, 0.55), transparent 65%);
   animation: aurora-a 22s ease-in-out infinite;
 }
 .aurora::after {
   bottom: -15%;
   right: -10%;
-  background: radial-gradient(circle, rgba(74, 240, 255, 0.45), transparent 65%);
+  background: radial-gradient(circle, rgba(91, 233, 255, 0.45), transparent 65%);
   animation: aurora-b 28s ease-in-out infinite;
 }
 @keyframes aurora-a {
@@ -219,7 +219,7 @@
 .field textarea:focus {
   outline: none;
   border-color: var(--cyan);
-  background: rgba(74, 240, 255, 0.04);
+  background: rgba(91, 233, 255, 0.04);
 }
 .field textarea {
   resize: vertical;
