@@ -1,71 +1,17 @@
+import { Link } from 'react-router-dom';
+import {
+  IconSchool,
+  IconMapPin,
+  IconCertificate,
+  IconQuote,
+  IconArrowUpRight,
+} from '@tabler/icons-react';
 import { resolveAssetPath } from '../components/utils/paths';
-
-const BIO = [
-  'I am a results-driven Full Stack Developer with 6 years of experience designing and deploying scalable applications, optimizing system performance, and leading teams. My expertise spans frontend, backend, cloud infrastructure, and DevOps — letting me build high-impact solutions for Fortune-50 companies and cutting-edge research alike.',
-  'With a strong foundation in Python, Java, JavaScript, and Rust, I specialize in performant, secure, and maintainable software: AWS pipelines that move faster, React apps that feel effortless, and microservices that scale cleanly.',
-  'I love the hard problems — end-to-end ownership from system design to deployment, always balancing engineering rigor with delightful user experience.',
-];
-
-const SKILLS = [
-  { name: 'JavaScript / TypeScript / ReactJS', level: 95 },
-  { name: 'Python', level: 95 },
-  { name: 'React / Next.js', level: 95 },
-  { name: 'Node.js / GraphQL', level: 88 },
-  { name: 'Java', level: 90 },
-  { name: 'Rust / C++', level: 70 },
-  { name: 'TensorFlow / PyTorch', level: 75 },
-  { name: 'AWS / Docker', level: 80 },
-  { name: 'SQL / NoSQL', level: 90 },
-];
-
-const EXPERIENCE = [
-  {
-    role: 'Frontend Engineer',
-    company: 'AICA',
-    date: 'Mar 2025 — Present',
-    points: [
-      'Built AICA’s frontend architecture and UI using ReactJS, TypeScript, and Flowbite, including new interfaces, animations, and reusablecomponents.',
-      'Contributed to backend APIs and Go middleware to support frontend integration and robotics-related workflows.',
-      'Reviewed pull requests and wrote test cases/test suites to improve code quality and application reliability.',
-    ],
-  },
-  {
-    role: 'Senior Full Stack Software Developer',
-    company: 'EPFL',
-    date: 'Mar 2024 — Feb 2025',
-    points: [
-      'Designed and deployed scalable data infrastructure for GBDI (Global Building Data Initiative), improving data processing speed by 30% via optimized AWS pipelines.',
-      'Engineered ReactJS apps and APIs resolving critical user pain points for a global building-materials database.',
-    ],
-  },
-  {
-    role: 'Lead Full Stack Developer',
-    company: 'IBM',
-    date: 'Jul 2022 — Nov 2023',
-    points: [
-      'Led development of a microservices architecture, reducing deployment time by 75%.',
-      'Designed CI/CD pipelines for containerized applications on AWS, dramatically increasing delivery speed.',
-    ],
-  },
-  {
-    role: 'Full Stack Developer',
-    company: 'Shanghai Zixel',
-    date: 'Apr 2022 — Jul 2022',
-    points: [
-      'Built microservices-based applications, reducing response time by 40%.',
-      'Modernized server-side architecture with Spring Boot and MySQL.',
-    ],
-  },
-  {
-    role: 'Full Stack Developer',
-    company: 'Think Vision',
-    date: 'Sep 2020 — Mar 2022',
-    points: [
-      'Built a ReactJS site integrated with a mobile app for real-time notifications via a linked database.',
-      'Deployed a Kubernetes microservice, improving monitoring and updates by 20%.',
-    ],
-  },
-];
+import { BIO } from '../data/profile';
+import { SKILLS } from '../data/skills';
+import { EXPERIENCE, EDUCATION } from '../data/experience';
+import { RECOMMENDATIONS } from '../data/recommendations';
+import { CERTIFICATIONS } from '../data/certifications';
 
 const About = () => {
   return (
@@ -85,7 +31,11 @@ const About = () => {
             </h1>
           </div>
           <div className="about-portrait" data-reveal data-reveal-delay={160}>
-            <img src={resolveAssetPath('images/profile.jpg')} alt="Hassan Shahzad" />
+            <img
+              src={resolveAssetPath('images/profile.jpg')}
+              alt="Hassan Shahzad"
+              decoding="async"
+            />
             <div className="about-portrait__glow" />
           </div>
         </div>
@@ -157,12 +107,81 @@ const About = () => {
                   <h3 className="tl-item__role">{exp.role}</h3>
                   <span className="tl-item__date">{exp.date}</span>
                 </div>
-                <p className="tl-item__company gradient-text">{exp.company}</p>
+                <p className="tl-item__company">
+                  <span className="gradient-text">{exp.company}</span>
+                  <span className="tl-item__loc">· {exp.location}</span>
+                </p>
                 <ul className="tl-item__points">
                   {exp.points.map((pt, j) => (
                     <li key={j}>{pt}</li>
                   ))}
                 </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Credentials CTA */}
+      <section className="section container">
+        <div className="creds">
+          <Link to="/recommendations" className="cred" data-reveal data-cursor-label="View">
+            <span className="cred__icon">
+              <IconQuote size={26} />
+            </span>
+            <span className="cred__body">
+              <span className="cred__count display gradient-text">{RECOMMENDATIONS.length}</span>
+              <span className="cred__label">Recommendations</span>
+              <span className="cred__sub">What people say about working with me</span>
+            </span>
+            <IconArrowUpRight size={22} className="cred__go" />
+          </Link>
+
+          <Link
+            to="/certifications"
+            className="cred"
+            data-reveal
+            data-reveal-delay={100}
+            data-cursor-label="View"
+          >
+            <span className="cred__icon">
+              <IconCertificate size={26} />
+            </span>
+            <span className="cred__body">
+              <span className="cred__count display gradient-text">{CERTIFICATIONS.length}</span>
+              <span className="cred__label">Certifications</span>
+              <span className="cred__sub">Verified courses &amp; specializations</span>
+            </span>
+            <IconArrowUpRight size={22} className="cred__go" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Education */}
+      <section className="section container">
+        <div className="section-head">
+          <div>
+            <span className="section-index" data-reveal>
+              Foundation
+            </span>
+            <h2 className="section-title" data-reveal data-reveal-delay={80}>
+              Education
+            </h2>
+          </div>
+        </div>
+
+        <div className="edu">
+          {EDUCATION.map(e => (
+            <div className="edu__item" key={e.school} data-reveal>
+              <span className="edu__icon">
+                <IconSchool size={24} />
+              </span>
+              <div className="edu__body">
+                <h3 className="edu__degree">{e.degree}</h3>
+                <p className="edu__school">{e.school}</p>
+                <p className="edu__meta">
+                  <IconMapPin size={14} /> {e.location} &nbsp;·&nbsp; {e.date}
+                </p>
               </div>
             </div>
           ))}
@@ -306,6 +325,12 @@ const About = () => {
           font-weight: 600;
           margin-block: 0.2rem 0.8rem;
         }
+        .tl-item__loc {
+          color: var(--ink-mute);
+          font-weight: 400;
+          font-size: 0.9rem;
+          margin-left: 0.45rem;
+        }
         .tl-item__points {
           display: flex;
           flex-direction: column;
@@ -324,11 +349,109 @@ const About = () => {
           left: 0;
           color: var(--cyan);
         }
+        .creds {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.6rem;
+        }
+        .cred {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 1.3rem;
+          padding: clamp(1.6rem, 3vw, 2.2rem);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--line);
+          background: var(--bg-elev);
+          overflow: hidden;
+          transition: border-color 0.3s ease, transform 0.3s var(--ease-out), background 0.3s ease;
+        }
+        .cred:hover {
+          border-color: var(--line-strong);
+          transform: translateY(-4px);
+          background: rgba(74, 240, 255, 0.04);
+        }
+        .cred__icon {
+          display: grid;
+          place-items: center;
+          width: 60px;
+          height: 60px;
+          border-radius: 16px;
+          background: var(--grad-soft);
+          color: var(--cyan);
+          flex-shrink: 0;
+        }
+        .cred__body {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+        .cred__count {
+          font-size: 2.4rem;
+          line-height: 1;
+        }
+        .cred__label {
+          font-family: var(--font-display);
+          font-weight: 600;
+          font-size: 1.1rem;
+          margin-top: 0.2rem;
+        }
+        .cred__sub {
+          font-size: 0.85rem;
+          color: var(--ink-mute);
+          margin-top: 0.15rem;
+        }
+        .cred__go {
+          color: var(--ink-mute);
+          flex-shrink: 0;
+          transition: color 0.25s ease, transform 0.25s ease;
+        }
+        .cred:hover .cred__go {
+          color: var(--cyan);
+          transform: translate(3px, -3px);
+        }
+        .edu__item {
+          display: flex;
+          gap: 1.2rem;
+          padding: 1.6rem;
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--line);
+          background: var(--bg-elev);
+          max-width: 720px;
+        }
+        .edu__icon {
+          display: grid;
+          place-items: center;
+          width: 52px;
+          height: 52px;
+          border-radius: 14px;
+          background: var(--grad-soft);
+          color: var(--violet);
+          flex-shrink: 0;
+        }
+        .edu__degree {
+          font-family: var(--font-display);
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+        .edu__school {
+          color: var(--ink-dim);
+          margin-block: 0.3rem;
+        }
+        .edu__meta {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-family: var(--font-mono);
+          font-size: 0.78rem;
+          color: var(--ink-mute);
+        }
         @media (max-width: 900px) {
           .about-head { grid-template-columns: 1fr; }
           .about-portrait { max-width: 320px; }
           .about-bio { grid-template-columns: 1fr; gap: 1.2rem; max-width: 640px; }
           .skills { grid-template-columns: 1fr; }
+          .creds { grid-template-columns: 1fr; }
         }
       `}</style>
     </>

@@ -7,6 +7,8 @@ const LINKS = [
   { to: '/', label: 'Home' },
   { to: '/projects', label: 'Work' },
   { to: '/about', label: 'About' },
+  { to: '/certifications', label: 'Certifications' },
+  { to: '/recommendations', label: 'Recommendations' },
   { to: '/contact', label: 'Contact' },
 ];
 
@@ -143,18 +145,19 @@ const Navbar = () => {
         }
         .nav__links {
           display: flex;
-          gap: 0.4rem;
-          padding: 0.35rem;
+          gap: 0.2rem;
+          padding: 0.3rem;
           border-radius: 99px;
           border: 1px solid var(--line);
           background: rgba(255, 255, 255, 0.02);
         }
         .nav__link {
           position: relative;
-          padding: 0.55rem 1.1rem;
+          padding: 0.5rem 0.9rem;
           border-radius: 99px;
-          font-size: 0.9rem;
+          font-size: 0.86rem;
           font-weight: 500;
+          white-space: nowrap;
           color: var(--ink-dim);
           transition: color 0.3s ease, background 0.3s ease;
         }
@@ -169,7 +172,7 @@ const Navbar = () => {
           display: none;
           color: var(--ink);
         }
-        @media (max-width: 880px) {
+        @media (max-width: 1080px) {
           .nav__links,
           .nav__cta {
             display: none;

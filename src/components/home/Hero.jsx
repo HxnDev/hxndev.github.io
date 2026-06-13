@@ -27,7 +27,7 @@ const Hero = () => {
       <div className="container hero__content">
         <motion.div variants={container} initial="hidden" animate="show">
           <motion.p variants={rise} className="eyebrow hero__eyebrow">
-            Full Stack Developer&nbsp;&nbsp;/&nbsp;&nbsp;ML Engineer
+            Senior Full Stack Developer&nbsp;&nbsp;/&nbsp;&nbsp;Geneva, CH
           </motion.p>
 
           <motion.h1 variants={rise} className="hero__title display">

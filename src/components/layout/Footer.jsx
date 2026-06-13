@@ -47,7 +47,7 @@ const Footer = () => {
             </span>
             <div>
               <p className="footer__name">Hassan Shahzad</p>
-              <p className="footer__role">Full Stack Developer &amp; ML Engineer</p>
+              <p className="footer__role">Senior Full Stack Developer</p>
             </div>
           </div>
 

@@ -37,13 +37,20 @@ const ProjectCard = ({ project, index = 0, onOpen }) => {
       className="pcard"
       data-reveal
       data-reveal-delay={(index % 3) * 90}
+      data-cursor-label="Open"
       onMouseMove={handleMove}
       onMouseLeave={reset}
       onClick={() => onOpen?.(project)}
     >
       <div className="pcard__inner">
         <div className="pcard__media">
-          <img src={img} alt={project.title} loading="lazy" onError={() => setErr(true)} />
+          <img
+            src={img}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            onError={() => setErr(true)}
+          />
           <div className="pcard__shine" />
           <div className="pcard__badges">
             {project.featured && <span className="tag tag--accent">Featured</span>}

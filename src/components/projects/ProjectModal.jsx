@@ -58,7 +58,7 @@ const ProjectModal = ({ project, onClose }) => {
             </button>
 
             <div className="pm__media">
-              <img src={img} alt={project.title} onError={() => setErr(true)} />
+              <img src={img} alt={project.title} decoding="async" onError={() => setErr(true)} />
             </div>
 
             <div className="pm__body">

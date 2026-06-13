@@ -14,6 +14,8 @@ const Home = lazy(() => import('./pages/Home'));
 const Projects = lazy(() => import('./pages/Projects'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
+const Certifications = lazy(() => import('./pages/Certifications'));
+const Recommendations = lazy(() => import('./pages/Recommendations'));
 
 const pageVariants = {
   initial: { opacity: 0, y: 24 },
@@ -38,6 +40,8 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Page><Home /></Page>} />
           <Route path="/projects" element={<Page><Projects /></Page>} />
           <Route path="/about" element={<Page><About /></Page>} />
+          <Route path="/certifications" element={<Page><Certifications /></Page>} />
+          <Route path="/recommendations" element={<Page><Recommendations /></Page>} />
           <Route path="/contact" element={<Page><Contact /></Page>} />
 
           <Route path="/JobFit" element={<Navigate to="https://hxndev.github.io/JobFit/" replace />} />

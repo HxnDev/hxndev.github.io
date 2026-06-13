@@ -5,27 +5,8 @@ import Hero from '../components/home/Hero';
 import ProjectCard from '../components/projects/ProjectCard';
 import Marquee from '../components/common/Marquee';
 import { useGetProjects } from '../hooks/useGetProjects';
-
-const STATS = [
-  { value: '5+', label: 'Years building' },
-  { value: '20+', label: 'Shipped projects' },
-  { value: '4', label: 'Continents worked across' },
-  { value: '∞', label: 'Cups of coffee' },
-];
-
-const MARQUEE = [
-  'React',
-  'TypeScript',
-  'Python',
-  'Three.js',
-  'Node.js',
-  'GraphQL',
-  'TensorFlow',
-  'AWS',
-  'Docker',
-  'Rust',
-  'PostgreSQL',
-];
+import { STATS } from '../data/profile';
+import { MARQUEE_TECH } from '../data/skills';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -44,7 +25,7 @@ const Home = () => {
     <>
       <Hero />
 
-      <Marquee items={MARQUEE} />
+      <Marquee items={MARQUEE_TECH} />
 
       {/* Intro / stats */}
       <section className="section container">

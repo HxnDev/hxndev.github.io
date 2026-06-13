@@ -40,9 +40,21 @@ export const useScrollReveal = () => {
       document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(el => io.observe(el));
     };
 
+    // Coalesce bursts of DOM mutations (route changes, layout animations) into
+    // a single scan per frame so we never thrash the main thread.
+    let scheduled = false;
+    const scheduleScan = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        scan();
+      });
+    };
+
     scan();
     // Catch elements mounted later (lazy pages, async data, etc.)
-    const mo = new MutationObserver(scan);
+    const mo = new MutationObserver(scheduleScan);
     mo.observe(document.body, { childList: true, subtree: true });
 
     // A couple of safety scans in case timing is unlucky.
