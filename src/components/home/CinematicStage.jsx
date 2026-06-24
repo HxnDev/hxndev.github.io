@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { IconArrowDown, IconArrowUpRight } from '@tabler/icons-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Magnetic from '../core/Magnetic';
-import { STATS } from '../../data/profile';
+import Magnetic from '@/components/core/Magnetic';
+import { STATS } from '@/data/profile';
 
 const CinematicScene = lazy(() => import('../three/CinematicScene'));
 

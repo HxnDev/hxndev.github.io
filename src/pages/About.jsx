@@ -6,12 +6,12 @@ import {
   IconQuote,
   IconArrowUpRight,
 } from '@tabler/icons-react';
-import { resolveAssetPath } from '../components/utils/paths';
-import { BIO } from '../data/profile';
-import { SKILLS } from '../data/skills';
-import { EXPERIENCE, EDUCATION } from '../data/experience';
-import { RECOMMENDATIONS } from '../data/recommendations';
-import { CERTIFICATIONS } from '../data/certifications';
+import { resolveAssetPath } from '@/components/utils/paths';
+import { BIO } from '@/data/profile';
+import { SKILLS } from '@/data/skills';
+import { EXPERIENCE, EDUCATION } from '@/data/experience';
+import { RECOMMENDATIONS } from '@/data/recommendations';
+import { CERTIFICATIONS } from '@/data/certifications';
 
 const About = () => {
   return (

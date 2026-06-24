@@ -5,7 +5,7 @@ import {
   IconMail,
   IconArrowUpRight,
 } from '@tabler/icons-react';
-import Magnetic from '../core/Magnetic';
+import Magnetic from '@/components/core/Magnetic';
 
 const SOCIALS = [
   { icon: IconBrandGithub, label: 'GitHub', href: 'https://github.com/HxnDev' },

@@ -9,7 +9,7 @@ import {
 } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
-import AuroraBackdrop from './AuroraBackdrop';
+import AuroraBackdrop from '@/components/three/AuroraBackdrop';
 
 const BG_COLOR = new THREE.Color('#05060d');
 const damp = (cur, target, lambda, dt) => cur + (target - cur) * (1 - Math.exp(-lambda * dt));

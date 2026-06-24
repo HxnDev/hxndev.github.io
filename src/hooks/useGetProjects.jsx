@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import projectsData from '../data/projects.json';
+import projectsData from '@/data/projects.json';
 
 /**
  * Custom hook to load project data from local JSON

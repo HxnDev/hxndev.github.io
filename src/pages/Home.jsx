@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconArrowUpRight, IconQuote } from '@tabler/icons-react';
-import CinematicStage from '../components/home/CinematicStage';
-import ProjectCard from '../components/projects/ProjectCard';
-import Marquee from '../components/common/Marquee';
-import { useGetProjects } from '../hooks/useGetProjects';
-import { MARQUEE_TECH } from '../data/skills';
-import { RECOMMENDATIONS } from '../data/recommendations';
+import CinematicStage from '@/components/home/CinematicStage';
+import ProjectCard from '@/components/projects/ProjectCard';
+import Marquee from '@/components/common/Marquee';
+import { useGetProjects } from '@/hooks/useGetProjects';
+import { MARQUEE_TECH } from '@/data/skills';
+import { RECOMMENDATIONS } from '@/data/recommendations';
 
 const Home = () => {
   const navigate = useNavigate();

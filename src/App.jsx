@@ -2,13 +2,15 @@ import { Suspense, lazy, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import SmoothScroll from './components/core/SmoothScroll';
-import CustomCursor from './components/core/CustomCursor';
-import Grain from './components/core/Grain';
-import Preloader from './components/core/Preloader';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import useScrollReveal from './hooks/useScrollReveal';
+import SmoothScroll from '@/components/core/SmoothScroll';
+import CustomCursor from '@/components/core/CustomCursor';
+import Grain from '@/components/core/Grain';
+import Preloader from '@/components/core/Preloader';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import GameProvider from '@/components/game/GameProvider';
+import PlayMode from '@/components/game/PlayMode';
+import useScrollReveal from '@/hooks/useScrollReveal';
 
 const Home = lazy(() => import('./pages/Home'));
 const Projects = lazy(() => import('./pages/Projects'));
@@ -61,17 +63,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Preloader onDone={() => setLoaded(true)} />
-      <CustomCursor />
-      <Grain />
+      <GameProvider>
+        <Preloader onDone={() => setLoaded(true)} />
+        <CustomCursor />
+        <Grain />
 
-      <SmoothScroll>
-        <Navbar />
-        <main style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.6s ease' }}>
-          <AnimatedRoutes />
-        </main>
-        <Footer />
-      </SmoothScroll>
+        <SmoothScroll>
+          <Navbar />
+          <PlayMode />
+          <main style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.6s ease' }}>
+            <AnimatedRoutes />
+          </main>
+          <Footer />
+        </SmoothScroll>
+      </GameProvider>
     </BrowserRouter>
   );
 }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { IconCertificate, IconArrowUpRight, IconSearch } from '@tabler/icons-react';
-import { CERTIFICATIONS } from '../data/certifications';
+import { CERTIFICATIONS } from '@/data/certifications';
 
 const issuerKey = issuer => issuer.split('·')[0].trim();
 

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { IconArrowUpRight, IconBrandGithub } from '@tabler/icons-react';
-import { resolveAssetPath } from '../utils/paths';
+import { resolveAssetPath } from '@/components/utils/paths';
 
 const ProjectCard = ({ project, index = 0, onOpen }) => {
   const ref = useRef(null);

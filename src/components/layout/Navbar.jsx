@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { IconArrowUpRight, IconMenu2, IconX } from '@tabler/icons-react';
-import Magnetic from '../core/Magnetic';
+import { IconArrowUpRight, IconMenu2, IconX, IconDeviceGamepad2 } from '@tabler/icons-react';
+import Magnetic from '@/components/core/Magnetic';
+import { useGame } from '@/components/game/gameContext';
 
 const LINKS = [
   { to: '/', label: 'Home' },
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { active: playing, toggle: togglePlay } = useGame();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -51,6 +53,16 @@ const Navbar = () => {
           </nav>
 
           <div className="nav__cta">
+            <button
+              className={`nav__game ${playing ? 'is-on' : ''}`}
+              onClick={togglePlay}
+              aria-pressed={playing}
+              aria-label={playing ? 'Exit play mode' : 'Enter play mode'}
+              title={playing ? 'Exit play mode' : 'Play mode — fly a rocket & collect orbs'}
+            >
+              {playing ? <IconX size={18} /> : <IconDeviceGamepad2 size={18} />}
+              <span>{playing ? 'Exit game' : 'Play'}</span>
+            </button>
             <Magnetic strength={0.4}>
               <a
                 href="/assets/resume/hassan_resume.pdf"
@@ -171,6 +183,39 @@ const Navbar = () => {
         .nav__burger {
           display: none;
           color: var(--ink);
+        }
+        .nav__cta {
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+        }
+        /* Play toggle: only meaningful with a real cursor, so it's hidden on
+           touch devices where there's nothing to fly. */
+        .nav__game {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          padding: 0.55rem 0.95rem;
+          border-radius: 99px;
+          border: 1px solid var(--line-strong);
+          color: var(--ink-dim);
+          font-family: var(--font-mono);
+          font-size: 0.76rem;
+          letter-spacing: 0.04em;
+          transition: all 0.3s var(--ease-out);
+        }
+        .nav__game:hover {
+          color: var(--amber);
+          border-color: var(--amber);
+          box-shadow: var(--glow-amber);
+        }
+        .nav__game.is-on {
+          color: #07080d;
+          background: var(--amber);
+          border-color: var(--amber);
+        }
+        @media (pointer: coarse) {
+          .nav__game { display: none; }
         }
         @media (max-width: 1080px) {
           .nav__links,

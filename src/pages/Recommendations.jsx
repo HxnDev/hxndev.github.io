@@ -1,5 +1,5 @@
 import { IconQuote, IconBrandLinkedin } from '@tabler/icons-react';
-import { RECOMMENDATIONS } from '../data/recommendations';
+import { RECOMMENDATIONS } from '@/data/recommendations';
 
 const initials = name =>
   name

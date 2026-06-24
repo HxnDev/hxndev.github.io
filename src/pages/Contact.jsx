@@ -9,7 +9,7 @@ import {
   IconCheck,
   IconLoader2,
 } from '@tabler/icons-react';
-import Magnetic from '../components/core/Magnetic';
+import Magnetic from '@/components/core/Magnetic';
 
 const DETAILS = [
   { icon: IconMail, label: 'Email', value: 'hassanshahzad.dev@gmail.com', href: 'mailto:hassanshahzad.dev@gmail.com' },

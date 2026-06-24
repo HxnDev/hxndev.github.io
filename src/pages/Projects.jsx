@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { IconSearch, IconBrandGithub, IconArrowUpRight } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
-import ProjectCard from '../components/projects/ProjectCard';
-import ProjectModal from '../components/projects/ProjectModal';
-import Magnetic from '../components/core/Magnetic';
-import { useGetProjects } from '../hooks/useGetProjects';
+import ProjectCard from '@/components/projects/ProjectCard';
+import ProjectModal from '@/components/projects/ProjectModal';
+import Magnetic from '@/components/core/Magnetic';
+import { useGetProjects } from '@/hooks/useGetProjects';
 
 const CATEGORY_LABELS = {
   all: 'All',

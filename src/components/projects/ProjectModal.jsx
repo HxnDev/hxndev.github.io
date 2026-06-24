@@ -6,7 +6,7 @@ import {
   IconArrowUpRight,
   IconCheck,
 } from '@tabler/icons-react';
-import { resolveAssetPath } from '../utils/paths';
+import { resolveAssetPath } from '@/components/utils/paths';
 
 const ProjectModal = ({ project, onClose }) => {
   const [err, setErr] = useState(false);
